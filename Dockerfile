@@ -1,42 +1,40 @@
-# Utiliser l'image de base PHP 8.2 (dernière version LTS)
+# Utiliser l'image officielle PHP avec Apache
 FROM php:8.2-apache
 
-# Installer les dépendances système requises pour Laravel
+# Installation des extensions nécessaires
 RUN apt-get update && apt-get install -y \
+    libpng-dev \
+    libjpeg-dev \
+    libfreetype6-dev \
+    locales \
+    zip \
+    jpegoptim optipng pngquant gifsicle \
+    unzip \
     git \
     curl \
-    libpng-dev \
     libonig-dev \
     libxml2-dev \
-    zip \
-    unzip \
-    libzip-dev \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+
+# Installation de Composer
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
+# Copie des fichiers de l'application
+COPY . /var/www/html
 
 # Définir le répertoire de travail
 WORKDIR /var/www/html
 
-# Copier le code source de l'application Laravel
-COPY . /var/www/html
+# Donner les droits à Apache et définir le DocumentRoot
+RUN chown -R www-data:www-data /var/www/html \
+    && chmod -R 755 /var/www/html \
+    && a2enmod rewrite \
+    && sed -i 's#/var/www/html#/var/www/html/public#' /etc/apache2/sites-available/000-default.conf \
+    && sed -i 's#/var/www/#/var/www/html/public#' /etc/apache2/apache2.conf
 
-# Installer les dépendances Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-RUN composer install --no-dev --optimize-autoloader
+# Installer les dépendances PHP
+RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Générer la clé de l'application Laravel
-RUN php artisan key:generate
-
-# Générer les fichiers de configuration de l'application Laravel
-RUN php artisan config:cache
-RUN php artisan route:cache
-RUN php artisan view:cache
-RUN php artisan event:caches
-
-# Configurer les autorisations
-RUN chown -R www-data:www-data /var/www/html
-
-# Exposer le port 80 pour le serveur web Apache
-EXPOSE 80
-
-# Démarrer le serveur Apache
-CMD ["apache2-foreground"]
+# Exécuter les migrations et les seeders
+CMD php artisan migrate --force && php artisan db:seed --force && apache2-foreground
