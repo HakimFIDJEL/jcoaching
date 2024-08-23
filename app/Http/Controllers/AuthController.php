@@ -1,0 +1,350 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+
+use App\Models\User;
+
+use App\Http\Requests\auth\LoginRequest;
+use App\Http\Requests\auth\RegisterRequest;
+use App\Http\Requests\auth\EmailVerificationRequest;
+use App\Http\Requests\auth\PasswordForgetRequest;
+use App\Http\Requests\auth\PasswordResetRequest;
+use App\Http\Requests\auth\PasswordChangeRequest;
+
+
+
+
+
+class AuthController extends Controller
+{
+    // Get Login
+    public function login()
+    {
+        // If user is already logged in, redirect to home
+        if(Auth::check()) {
+
+
+            // If the email is not verified
+            $user = Auth::user();
+            if(!$user->email_verified_at) {
+                $this->sendEmailVerification();
+                return redirect()->route('auth.email-verification');
+            }
+
+            // If the password expired
+            if($user->password_expires_at < now()) {
+                return redirect()->route('auth.password.change')->with(['error' => 'Votre mot de passe a expiré']);
+            }
+
+            return redirect()->route('main.account');
+            
+
+        }
+
+        // If user is not logged in,
+        return view('auth.login');
+    }
+
+    // Get Register
+    public function register()
+    {
+        return view('auth.register');
+    }
+
+    // Get Logout
+    public function logout()
+    {
+        $user = Auth::user();
+        if($user) {
+            Auth::logout();
+            return redirect()->route('auth.login')->with(['success' => 'Vous êtes maintenant déconnecté']);
+        } else {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+    }
+
+    // Get Email Verification
+    public function emailVerification()
+    {
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+
+        if($user->email_verified_at) {
+            return redirect()->route('main.index')->with(['success' => 'Votre email est déjà vérifié']);
+        }
+
+
+        return view('auth.email-verification');
+    }
+
+    // Get Email Verification Resend
+    public function emailVerificationResend()
+    {
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+
+        if($user->email_verified_at) {
+            return redirect()->route('main.index')->with(['success' => 'Votre email est déjà vérifié']);
+        }
+
+        $this->sendEmailVerification();
+
+        return redirect()->route('auth.email-verification')->with(['success' => 'Email de vérification envoyé']);
+    }
+
+
+    // Post Login
+    public function loginPost(LoginRequest $request)
+    {
+        $data = $request->all();
+
+        $remember = $request->has('remember');
+
+        if(Auth::attempt(['email' => $data['email'], 'password' => $data['password']], $remember)) {
+
+            $user = Auth::user();
+
+            if(!$user->email_verified_at) {
+                $this->sendEmailVerification();
+                return redirect()->route('auth.email-verification');
+            }
+
+            return redirect()->route('main.index')->with(['success' => 'Vous êtes maintenant connecté']);
+        } else{
+            return redirect()->route('auth.login')->with(['error' => 'Email ou mot de passe incorrect']);
+        }
+
+    }
+
+    // Post Register
+    public function registerPost(RegisterRequest $request)
+    {
+        $data = $request->all();
+
+        $user = User::create([
+            'role'                  => 'member',
+            'firstname'             => $data['firstname'],
+            'lastname'              => $data['lastname'],
+            'email'                 => $data['email'],
+            'password'              => Hash::make($data['password']),
+            'password_expires_at'   => now()->addYear(),
+            'phone'                 => $data['phone'],
+            'address'               => $data['address'],
+            'city'                  => $data['city'],
+            'postal_code'           => $data['postal_code'],
+            'address_complement'    => $data['address_complement'],
+            'country'               => $data['country'],
+        ]);
+
+        $user->save();
+
+        Auth::login($user);
+
+        // Send email welcome to the site
+
+        $this->sendEmailVerification();
+
+        return redirect()->route('auth.email-verification');
+    }
+
+    // Post Logout
+    public function logoutPost()
+    {
+        $user = Auth::user();
+        if($user) {
+            Auth::logout();
+            return redirect()->route('main.index')->with(['success' => 'Vous êtes maintenant déconnecté']);
+        } else {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+    }
+
+    // Post Email Verification
+    public function emailVerificationPost(EmailVerificationRequest $request)
+    {
+        $data = $request->all();
+        $email_token = $data['email_token'];
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+
+        if($user->email_verified_at) {
+            return redirect()->route('main.index')->with(['success' => 'Votre email est déjà vérifié']);
+        }
+
+        if($user->email_token !== $email_token) {
+            return redirect()->route('auth.email-verification')->with(['error' => 'Token invalide']);
+        }
+
+        if($user->email_token_expires_at < now()) {
+            return redirect()->route('auth.email-verification')->with(['error' => 'Token expiré']);
+        }
+
+        $user->email_verified_at = now();
+        $user->email_token = null;
+        $user->email_token_expires_at = null;
+
+        $user->save();
+
+        return redirect()->route('main.account')->with(['success' => 'Votre email a été vérifié']);
+    }
+
+    // Send Email Verification
+    public function sendEmailVerification()
+    {
+        $user = Auth::user();
+        
+        if(!$user) {
+            return false;
+        }
+
+        $email_token = Str::random(30);
+        $email_token_expires_at = now()->addHours(24);
+
+        $user->email_token = $email_token;
+        $user->email_token_expires_at = $email_token_expires_at;
+
+        $user->save();
+
+        // Send email with token
+
+        return true;
+    }
+
+
+    // Get Forgot Password
+    public function forget()
+    {
+        return view('auth.password.forget');
+    }
+
+    // Get Reset Password
+    public function reset(String $password_token)
+    {
+        if(!$password_token) {
+            return redirect()->route('auth.password.forget')->with(['error' => 'Token invalide']);
+        }
+
+        $user = User::where('password_token', $password_token)->first();
+
+        if(!$user) {
+            return redirect()->route('auth.password.forget')->with(['error' => 'Token invalide']);
+        }
+
+        if($user->password_token_expires_at < now()) {
+            return redirect()->route('auth.password.forget')->with(['error' => 'Token expiré']);
+        }
+
+        return view('auth.password.reset')->with(['password_token' => $password_token]);
+    }
+
+    // Get Change Password
+    public function change()
+    {
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+
+        if($user->password_expires_at > now()) {
+            return redirect()->route('main.account')->with(['error' => 'Votre mot de passe n\'a pas expiré']);
+        }
+
+        return view('auth.password.change');
+    }
+
+    // Post Forgot Password
+    public function forgetPost(PasswordForgetRequest $request)
+    {
+        $data = $request->all();
+        $email = $data['email'];
+
+        $user = User::where('email', $email)->first();
+
+        if($user) {
+
+            $password_token = Str::random(30);
+            $password_token_expires_at = now()->addHours(24);
+
+            $user->password_token = $password_token;
+            $user->password_token_expires_at = $password_token_expires_at;
+
+            $user->save();
+
+            // Send email with token
+
+        }
+        
+        return redirect()->route('auth.password.forget')->with(['success' => 'Si un compte existe avec cet email, un email de réinitialisation de mot de passe vous a été envoyé']);
+    }
+
+    // Post Reset Password
+    public function resetPost(PasswordResetRequest $request)
+    {
+        $data = $request->all();
+        $password_token = $data['password_token'];
+        $password = $data['password'];
+
+        $user = User::where('password_token', $password_token)->first();
+
+        if(!$user) {
+            return redirect()->route('auth.password.forget')->with(['error' => 'Token invalide']);
+        }
+
+        if($user->password_token_expires_at < now()) {
+            return redirect()->route('auth.password.forget')->with(['error' => 'Token expiré']);
+        }
+
+        $user->password = Hash::make($password);
+        $user->password_token = null;
+        $user->password_token_expires_at = null;
+
+        $user->save();
+
+        return redirect()->route('auth.login')->with(['success' => 'Mot de passe réinitialisé']);
+    }
+
+    // Post Change Password
+    public function changePost(PasswordChangeRequest $request)
+    {
+        $data = $request->all();
+        $password = $data['password'];
+
+        $user = Auth::user();
+
+        if(!$user) {
+            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+        }
+
+        if($user->password_expires_at > now()) {
+            return redirect()->route('main.account')->with(['error' => 'Votre mot de passe n\'a pas expiré']);
+        }
+
+        if(Hash::check($password, $user->password)) {
+            return redirect()->route('auth.password.change')->with(['error' => 'Le nouveau mot de passe doit être différent de l\'ancien']);
+        }
+
+        $user->password = Hash::make($password);
+        $user->password_expires_at = now()->addYear();
+
+        $user->save();
+
+        return redirect()->route('main.account')->with(['success' => 'Mot de passe changé']);
+    }
+}
