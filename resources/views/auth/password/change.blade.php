@@ -11,7 +11,7 @@
             Cela fait plus d'1 an que vous avez un compte et pour cela merci ! Mais pour des raisons de sécurité, vous devez modifier votre mot de passe.
         </div>
     </div>
-    <form action="{{ route('auth.password.change') }}" method="post">
+    <form action="{{ route('auth.password.toChange') }}" method="post">
         @csrf
 
         <div class="mb-3">

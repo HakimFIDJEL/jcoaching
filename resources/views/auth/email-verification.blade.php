@@ -11,7 +11,7 @@
             Un code de vérification a été envoyé à l'adresse e-mail renseignée, ce code est valable 24 heures.
         </div>
     </div>
-    <form action="{{ route('auth.email-verification') }}" method="post">
+    <form action="{{ route('auth.toVerifyEmail') }}" method="post">
         @csrf
 
         <div class="mb-3">
@@ -33,7 +33,7 @@
             <a href="{{ route('auth.logout') }}" class="btn btn-outline-primary w-100">Déconnexion</a>
         </div>
         <div class="mt-3 text-right">
-            <a href="{{ route('auth.email-verification.resend') }}" class="btn btn-link">Renvoyer le code de vérification</a>
+            <a href="{{ route('auth.email-verification.resend', ['user_token' => $user_token]) }}" class="btn btn-link">Renvoyer le code de vérification</a>
         </div>
     </form>
 </div>

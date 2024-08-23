@@ -18,7 +18,9 @@ use App\Http\Requests\auth\PasswordForgetRequest;
 use App\Http\Requests\auth\PasswordResetRequest;
 use App\Http\Requests\auth\PasswordChangeRequest;
 
-
+use App\Mail\auth\RegisterMail;
+use App\Mail\auth\EmailVerification;
+use App\Mail\auth\PasswordReset;
 
 
 
@@ -34,8 +36,13 @@ class AuthController extends Controller
             // If the email is not verified
             $user = Auth::user();
             if(!$user->email_verified_at) {
+
+                $user->user_token = Str::random(30);
+                $user->user_token_expires_at = now()->addHours(24);
+                $user->save();
+
                 $this->sendEmailVerification();
-                return redirect()->route('auth.email-verification');
+                return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
             }
 
             // If the password expired
@@ -45,7 +52,6 @@ class AuthController extends Controller
 
             return redirect()->route('main.account');
             
-
         }
 
         // If user is not logged in,
@@ -71,12 +77,17 @@ class AuthController extends Controller
     }
 
     // Get Email Verification
-    public function emailVerification()
+    public function emailVerification(String $user_token)
     {
-        $user = Auth::user();
+        $user = User::where('user_token', $user_token)->first();
 
         if(!$user) {
-            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+            Auth::logout();
+            return redirect()->route('auth.login')->with(['error' => 'Le token est invalide']);
+        }
+
+        if($user->user_token_expires_at < now()) {
+            return redirect()->route('main.index')->with(['success' => 'Le token a expiré']);
         }
 
         if($user->email_verified_at) {
@@ -84,25 +95,34 @@ class AuthController extends Controller
         }
 
 
-        return view('auth.email-verification');
+        return view('auth.email-verification')->with(['user_token' => $user_token]);
     }
 
     // Get Email Verification Resend
-    public function emailVerificationResend()
+    public function emailVerificationResend(String $user_token)
     {
-        $user = Auth::user();
+
+        $user = User::where('email_token', $user_token)->first();
 
         if(!$user) {
-            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+            return redirect()->route('auth.login')->with(['error' => 'Le token est invalide']);
+        }
+
+        if($user->user_token_expires_at < now()) {
+            return redirect()->route('main.index')->with(['success' => 'Le token a expiré']);
         }
 
         if($user->email_verified_at) {
             return redirect()->route('main.index')->with(['success' => 'Votre email est déjà vérifié']);
         }
 
+        $user->user_token = Str::random(30);
+        $user->user_token_expires_at = now()->addHours(24);
+        $user->save();
+
         $this->sendEmailVerification();
 
-        return redirect()->route('auth.email-verification')->with(['success' => 'Email de vérification envoyé']);
+        return redirect()->route('auth.email-verification', ['user_token' => $user_token])->with(['success' => 'Email de vérification envoyé']);
     }
 
 
@@ -118,8 +138,11 @@ class AuthController extends Controller
             $user = Auth::user();
 
             if(!$user->email_verified_at) {
+                $user->user_token = Str::random(30);
+                $user->user_token_expires_at = now()->addHours(24);
+
                 $this->sendEmailVerification();
-                return redirect()->route('auth.email-verification');
+                return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
             }
 
             return redirect()->route('main.index')->with(['success' => 'Vous êtes maintenant connecté']);
@@ -148,16 +171,22 @@ class AuthController extends Controller
             'address_complement'    => $data['address_complement'],
             'country'               => $data['country'],
         ]);
-
         $user->save();
+        
+        // Envoi du mail de bienvenue
+        Mail::send(new RegisterMail($user));
 
+        // Authentification de l'utilisateur
         Auth::login($user);
 
-        // Send email welcome to the site
+        // Envoi du mail de vérification
+        $user->user_token = Str::random(30);
+        $user->user_token_expires_at = now()->addHours(24);
+        $user->save();
 
         $this->sendEmailVerification();
 
-        return redirect()->route('auth.email-verification');
+        return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
     }
 
     // Post Logout
@@ -199,6 +228,9 @@ class AuthController extends Controller
         $user->email_token = null;
         $user->email_token_expires_at = null;
 
+        $user->user_token = null;
+        $user->user_token_expires_at = null;
+
         $user->save();
 
         return redirect()->route('main.account')->with(['success' => 'Votre email a été vérifié']);
@@ -214,14 +246,12 @@ class AuthController extends Controller
         }
 
         $email_token = Str::random(30);
-        $email_token_expires_at = now()->addHours(24);
-
-        $user->email_token = $email_token;
-        $user->email_token_expires_at = $email_token_expires_at;
+        $email_token_expires_at = now()->addHours(24);  
 
         $user->save();
 
         // Send email with token
+        Mail::send(new EmailVerification($user));
 
         return true;
     }
@@ -288,6 +318,7 @@ class AuthController extends Controller
             $user->save();
 
             // Send email with token
+            Mail::send(new PasswordReset($user));
 
         }
         

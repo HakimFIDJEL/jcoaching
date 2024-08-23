@@ -11,7 +11,7 @@
             Pas de panique, vous pouvez réinitialiser votre mot de passe en remplissant le formulaire ci-dessous.
         </div>
     </div>
-    <form action="{{ route('auth.password.reset', ['password_token' => $password_token]) }}" method="post">
+    <form action="{{ route('auth.password.toReset', ['password_token' => $password_token]) }}" method="post">
         @csrf
 
         <div class="mb-3">

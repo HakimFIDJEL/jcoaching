@@ -8,7 +8,7 @@
     <div class="mb-4">
         <h3 class="mt-3" style="font-family: 'Raleway'">Mot de passe oublié</h3>
     </div>
-    <form action="{{ route('auth.password.forget') }}" method="post">
+    <form action="{{ route('auth.password.toForget') }}" method="post">
         @csrf
 
         <div class="mb-3">
