@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Heebo:wght@100;200;300;400;500;600;700;800;900&family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
 :root {
   --blue: #007bff;
   --indigo: #6610f2;
@@ -1743,6 +1745,24 @@ textarea.form-control {
     .form-inline .custom-control-label {
       margin-bottom: 0; } }
 
+      .button {
+        padding: 12px 30px;
+        background: #edcc36;
+        color: #090909;
+        font-size: 13px;
+        letter-spacing: 1px;
+        border-radius: 0;
+        border: 0;
+        transition: 0.2s;
+        font-weight: 600;
+      }
+      
+      .button:hover {
+        background: #ffffff;
+        color: #090909;
+        border-color: transparent;
+      }
+
 .btn {
   display: inline-block;
   font-family: 'Raleway';
@@ -1777,17 +1797,17 @@ fieldset:disabled a.btn {
   pointer-events: none; }
 
 .btn-primary {
-  color: #212529;
+  color: #212529 !important;
   background-color: #edcc36;
   border-color: #edcc36; }
   .btn-primary:hover {
     color: #212529;
-    background-color: #e8c215;
-    border-color: #dcb814; }
+    background-color: #ffffff;
+    border-color: #ffffff; }
   .btn-primary:focus, .btn-primary.focus {
     color: #212529;
-    background-color: #e8c215;
-    border-color: #dcb814;
+    background-color: #ffffff;
+    border-color: #ffffff;
     box-shadow: 0 0 0 0.2rem rgba(206, 179, 52, 0.5); }
   .btn-primary.disabled, .btn-primary:disabled {
     color: #212529;
@@ -2245,6 +2265,14 @@ input[type="button"].btn-block {
   background-color: #090909;
   background-clip: padding-box;
   border: 1px solid #dddddd; }
+
+.dropdown-menu .dropdown-item.loading {
+    display: none;
+  }
+
+.dropdown-menu.loading .dropdown-item.loading {
+  display: block;
+}
 
 .dropdown-menu-left {
   right: auto;

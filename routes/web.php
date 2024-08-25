@@ -2,9 +2,23 @@
 
 use Illuminate\Support\Facades\Route;
 
+// Middlewares
+use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\AuthMiddleware;
+
+
+// Controllers
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 
+//      Admin Controllers
+use App\Http\Controllers\admin\MainController as AdminMainController;
+
+//      Member Controllers
+use App\Http\Controllers\member\MainController as MemberMainController;
+
+
+// MAIN ROUTES
 Route::get('/', [MainController::class, 'index'])->name('main.index');
 Route::get('/account', [MainController::class, 'account'])->name('main.account');
 
@@ -33,4 +47,15 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
         Route::post('/reset', 'resetPost')->name('toReset');
         Route::post('/change', 'changePost')->name('toChange');
     });
+});
+
+// ADMIN ROUTES
+Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->group(function(){
+    Route::get('/', [AdminMainController::class, 'index'])->name('index');
+});
+
+
+// MEMBER ROUTES
+Route::prefix("/member")->middleware([AuthMiddleware::class])->name("member.")->group(function(){
+    Route::get('/', [MemberMainController::class, 'index'])->name('index');
 });

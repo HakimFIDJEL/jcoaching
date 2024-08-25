@@ -145,7 +145,7 @@ class AuthController extends Controller
                 return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
             }
 
-            return redirect()->route('main.index')->with(['success' => 'Vous êtes maintenant connecté']);
+            return redirect()->route('main.account')->with(['success' => 'Vous êtes maintenant connecté']);
         } else{
             return redirect()->route('auth.login')->with(['error' => 'Email ou mot de passe incorrect']);
         }
@@ -206,10 +206,10 @@ class AuthController extends Controller
     {
         $data = $request->all();
         $email_token = $data['email_token'];
-        $user = Auth::user();
+        $user = User::where('email_token', $email_token)->first();
 
         if(!$user) {
-            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+            return redirect()->route('auth.login')->with(['error' => 'L\'utilisateur n\'existe pas']);
         }
 
         if($user->email_verified_at) {
@@ -217,11 +217,11 @@ class AuthController extends Controller
         }
 
         if($user->email_token !== $email_token) {
-            return redirect()->route('auth.email-verification')->with(['error' => 'Token invalide']);
+            return redirect()->route('auth.email-verification', ['user_token' => $user->user_token])->with(['error' => 'Token invalide']);
         }
 
         if($user->email_token_expires_at < now()) {
-            return redirect()->route('auth.email-verification')->with(['error' => 'Token expiré']);
+            return redirect()->route('auth.email-verification', ['user_token' => $user->user_token])->with(['error' => 'Token expiré']);
         }
 
         $user->email_verified_at = now();
@@ -245,8 +245,8 @@ class AuthController extends Controller
             return false;
         }
 
-        $email_token = Str::random(30);
-        $email_token_expires_at = now()->addHours(24);  
+        $user->email_token = Str::random(30);
+        $user->email_token_expires_at = now()->addHours(24);  
 
         $user->save();
 

@@ -5,28 +5,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>
-            JerHomeCoaching - @yield('title')
+            {{ env('APP_NAME') }} - @yield('title')
         </title>
-        @yield('styles')
-
+        
         {{-- Import CSS --}}
         @vite('resources/css/bootstrap.css')
         @vite('resources/css/line-awesome.min.css')
         @vite('resources/css/swiper.min.css')
         @vite('resources/css/magnific-popup.css')
         @vite('resources/css/style.css')
+        @yield('styles')
 
     </head>
-    <body>
+    <body class="min-vh-100 d-flex flex-column">
         {{-- Import Loader --}}
-        {{-- Import Header --}}
-        <div class="d-flex justify-content-center align-items-center vh-100">
+        @include('auth._elements.preloader')
 
+        {{-- Import Header --}}
+        @include('auth._elements.header')
+
+        {{-- Content  --}}
+        <div class="d-flex justify-content-center align-items-center flex-grow-1">
             @yield('content')
-        
         </div>
+        
         {{-- Import Footer --}}
-        @yield('scripts')
+        @include('auth._elements.footer')
 
         {{-- Import packages --}}
         @include('auth._elements.notyf')
@@ -39,5 +43,8 @@
         @vite('resources/js/swiper.min.js')
         @vite('resources/js/main.js')
         @vite('resources/js/app.js')
+        @yield('scripts')
+        
+
     </body>
 </html>

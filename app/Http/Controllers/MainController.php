@@ -27,11 +27,9 @@ class MainController extends Controller
         }
 
         if($user->role == 'admin') {
-            // Return redirect route admin index
-            return redirect()->route('main.index')->with(['error' => 'Vous êtes connecté en tant que membre']);
+            return redirect()->route('admin.index');
         } else if ($user->role == 'member') {
-            // Return redirect route member index
-            return redirect()->route('main.index')->with(['error' => 'Vous êtes connecté en tant qu\'admin']);
+            return redirect()->route('member.index');
         } else {
             return redirect()->route('main.index')->with(['error' => 'Vous n\'avez pas de rôle']);
         }

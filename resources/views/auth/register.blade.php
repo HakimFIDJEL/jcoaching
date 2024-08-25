@@ -72,7 +72,7 @@
         </div>
         <div class="row">
             <div class="col">
-                <div class="mb-3">
+                <div class="mb-3 form-group position-relative">
                     <label for="address" class="form-label">Adresse</label>
                     <input 
                         type="text" 
@@ -83,6 +83,9 @@
                         required 
                         value="{{ old('address') }}"
                     >
+                    {{-- <div class="dropdown-menu w-100" id="search-results">
+                        <li class="dropdown-item loading">Chargement...</li>
+                    </div> --}}
                 </div>
             </div>
             <div class="col">
@@ -178,3 +181,7 @@
 </div>
 
 @endsection
+
+{{-- @section('scripts')
+    @vite('resources/js/auth/location.js')
+@endsection --}}
