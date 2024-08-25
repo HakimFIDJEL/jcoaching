@@ -8,7 +8,7 @@
     <div class="mb-4">
         <h3 class="mt-3" style="font-family: 'Raleway'">Mise à jour sécurité</h3>
         <div class="text-muted" style="font-size: 0.9rem;">
-            Cela fait plus d'1 an que vous avez un compte et pour cela merci ! Mais pour des raisons de sécurité, vous devez modifier votre mot de passe.
+            Pour des raisons de sécurité, vous devez modifier votre mot de passe, cette opération est obligatoire mais n'arrive qu'une fois par an.
         </div>
     </div>
     <form action="{{ route('auth.password.toChange') }}" method="post">

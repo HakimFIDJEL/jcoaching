@@ -211,13 +211,24 @@ let dataSet = [
 		
 	
 	// table row
-	var table = $('#dataTable1, #dataTable2, #dataTable3, #dataTable4,  #example3, #example4 ').DataTable({
+	var table = $('.datatable').DataTable({
 		language: {
 			paginate: {
 			  next: '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
 			  previous: '<i class="fa fa-angle-double-left" aria-hidden="true"></i>' 
-			}
-		  }
+			},
+			search: "Recherche:",
+			lengthMenu: "Afficher _MENU_ entrées",
+			info: "Affichage de _START_ à _END_ sur _TOTAL_ entrées",
+			infoEmpty: "Affichage de 0 à 0 sur 0 entrées",
+			emptyTable: "Aucune donnée disponible dans le tableau",
+		  },
+		  initComplete: function () {
+			// Ajout d'une classe à l'input de recherche
+			var searchInput = $('.dataTables_filter input');
+			// searchInput.removeClass();
+			// searchInput.addClass('form-control'); 
+		}
 	});
 	$('#example tbody').on('click', 'tr', function () {
 		var data = table.row( this ).data();

@@ -1,6 +1,5 @@
 import './bootstrap';
-
-
+import $ from 'jquery';
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
 
@@ -38,3 +37,7 @@ const notyf = new Notyf({
 });
 
 window.notyf = notyf;
+
+
+
+

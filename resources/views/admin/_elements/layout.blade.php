@@ -18,6 +18,7 @@
     
         <link rel="stylesheet" href="{{ asset('backoffice/vendor/jquery-nice-select/css/nice-select.css') }}">
         <link rel="stylesheet" href="{{ asset('backoffice/css/style.css') }}">
+        <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
         @vite('resources/css/bootstrap.css')
 
         @yield('styles')
@@ -53,8 +54,11 @@
         <script src="{{ asset('backoffice/vendor/jquery-nice-select/js/jquery.nice-select.min.js') }}" defer></script>
         <script src="{{ asset('backoffice/js/custom.min.js') }}" defer></script>
         <script src="{{ asset('backoffice/js/deznav-init.js') }}" defer></script>
+        <script src="{{ asset('backoffice/vendor/datatables/js/jquery.dataTables.min.js') }}" defer></script>
+        <script src="{{ asset('backoffice/js/plugins-init/datatables.init.js') }}" defer></script>
         @vite('resources/js/app.js')
 
+        
 
 
         @yield('scripts')

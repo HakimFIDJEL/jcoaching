@@ -32,9 +32,13 @@ class AuthController extends Controller
         // If user is already logged in, redirect to home
         if(Auth::check()) {
 
+            // If the password expired
+            $user = Auth::user();
+            if($user->password_expires_at < now()) {
+                return redirect()->route('auth.password.change')->with(['error' => 'Votre mot de passe a expiré']);
+            }
 
             // If the email is not verified
-            $user = Auth::user();
             if(!$user->email_verified_at) {
 
                 $user->user_token = Str::random(30);
@@ -45,12 +49,7 @@ class AuthController extends Controller
                 return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
             }
 
-            // If the password expired
-            if($user->password_expires_at < now()) {
-                return redirect()->route('auth.password.change')->with(['error' => 'Votre mot de passe a expiré']);
-            }
-
-            return redirect()->route('main.account');
+            return redirect()->route('main.account')->with(['success' => 'Vous êtes connecté']);
             
         }
 
@@ -145,7 +144,7 @@ class AuthController extends Controller
                 return redirect()->route('auth.email-verification', ['user_token' => $user->user_token]);
             }
 
-            return redirect()->route('main.account')->with(['success' => 'Vous êtes maintenant connecté']);
+            return redirect()->route('auth.login')->with(['success' => 'Vous êtes maintenant connecté']);
         } else{
             return redirect()->route('auth.login')->with(['error' => 'Email ou mot de passe incorrect']);
         }
@@ -233,7 +232,7 @@ class AuthController extends Controller
 
         $user->save();
 
-        return redirect()->route('main.account')->with(['success' => 'Votre email a été vérifié']);
+        return redirect()->route('auth.login')->with(['success' => 'Votre email a été vérifié']);
     }
 
     // Send Email Verification
@@ -364,7 +363,7 @@ class AuthController extends Controller
         }
 
         if($user->password_expires_at > now()) {
-            return redirect()->route('main.account')->with(['error' => 'Votre mot de passe n\'a pas expiré']);
+            return redirect()->route('auth.login')->with(['error' => 'Votre mot de passe n\'a pas expiré']);
         }
 
         if(Hash::check($password, $user->password)) {
@@ -376,6 +375,6 @@ class AuthController extends Controller
 
         $user->save();
 
-        return redirect()->route('main.account')->with(['success' => 'Mot de passe changé']);
+        return redirect()->route('auth.login')->with(['success' => 'Mot de passe changé']);
     }
 }

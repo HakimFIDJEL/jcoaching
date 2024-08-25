@@ -6,6 +6,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Builder;
 
 class User extends Authenticatable
 {
@@ -67,5 +68,20 @@ class User extends Authenticatable
             'email_token' => 'string',
             'password_token' => 'string',
         ];
+    }
+
+    public function scopeMembers(Builder $query)
+    {
+        return $query->where('role', 'member')->whereNull('deleted_at')->orderBy('id', 'desc');
+    }
+
+    public function scopeAdmins(Builder $query)
+    {
+        return $query->where('role', 'admin')->whereNull('deleted_at')->orderBy('id', 'desc');
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->role === 'admin';
     }
 }

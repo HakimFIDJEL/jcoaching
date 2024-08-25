@@ -4,13 +4,12 @@
             
             <li>
                 <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
-                    <i class="flaticon-025-dashboard"></i>
-                    <span class="nav-text">Lien déroulant</span>
+                    <i class="flaticon-381-networking"></i>
+                    <span class="nav-text">Utilisateurs</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="index.html">Lien 1</a></li>
-                    <li><a href="index-2.html">Lien 2</a></li>
-                    <li><a href="order-list.html">Lien 3</a></li>
+                    <li><a href="{{ route('admin.members.index') }}">Membres</a></li>
+                    <li><a href="{{ route('admin.admins.index') }}">Administrateurs</a></li>
                 </ul>
             </li>
 

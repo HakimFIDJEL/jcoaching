@@ -141,9 +141,8 @@
                 id="address_complement" 
                 rows="2" 
                 style="resize: none;" 
-            >
-                {{ old('address_complement') }}
-            </textarea>
+                placeholder="Entrez un complément d'adresse"
+            >{{ old('address_complement') }}</textarea>
         </div>
         <div class="row">
             <div class="col">

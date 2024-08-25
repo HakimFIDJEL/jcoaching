@@ -65,6 +65,7 @@ hr {
 h1, h2, h3, h4, h5, h6 {
   margin-top: 0;
   font-family: 'Heebo', sans-serif;
+  text-transform: uppercase;
   margin-bottom: 0.5rem; }
 
 p {
@@ -2005,10 +2006,10 @@ fieldset:disabled a.btn {
       box-shadow: 0 0 0 0.2rem rgba(66, 70, 73, 0.5); }
 
 .btn-outline-primary {
-  color: #edcc36;
+  color: #edcc36 !important;
   border-color: #edcc36; }
   .btn-outline-primary:hover {
-    color: #212529;
+    color: #212529 !important;
     background-color: #edcc36;
     border-color: #edcc36; }
   .btn-outline-primary:focus, .btn-outline-primary.focus {
@@ -3250,6 +3251,7 @@ input[type="button"].btn-block {
   display: flex;
   flex-direction: column;
   min-width: 0;
+  border-radius: 0 !important;
   word-wrap: break-word;
   background-color: #090909;
   background-clip: border-box;
@@ -3290,6 +3292,7 @@ input[type="button"].btn-block {
 .card-header {
   padding: 0.75rem 1.3rem;
   margin-bottom: 0;
+  border-radius: 0 !important; 
   background-color: #090909;
   border-bottom: 0.15rem solid rgba(0, 0, 0, 0.125); }
   .card-header + .list-group .list-group-item:first-child {
@@ -3396,6 +3399,8 @@ input[type="button"].btn-block {
     text-decoration: none; }
   .breadcrumb-item.active {
     color: #edcc36; }
+  .breadcrumb-item.active a {
+    color: #edcc36 !important; }
 
 .pagination {
   display: flex;

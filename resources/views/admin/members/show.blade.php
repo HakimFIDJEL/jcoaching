@@ -5,7 +5,7 @@
 @section('content')
 
 
-Dashboard
+Show
 
 
 @endsection

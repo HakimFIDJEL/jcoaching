@@ -26,6 +26,7 @@ class MainController extends Controller
             return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
         }
 
+
         if($user->role == 'admin') {
             return redirect()->route('admin.index');
         } else if ($user->role == 'member') {

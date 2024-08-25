@@ -13,6 +13,8 @@ use App\Http\Controllers\AuthController;
 
 //      Admin Controllers
 use App\Http\Controllers\admin\MainController as AdminMainController;
+use App\Http\Controllers\admin\MemberController as AdminMemberController;
+use App\Http\Controllers\admin\AdminController as AdminAdminController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -52,6 +54,33 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
 // ADMIN ROUTES
 Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->group(function(){
     Route::get('/', [AdminMainController::class, 'index'])->name('index');
+
+    // MEMBERS
+    Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{user}', 'show')->name('show');
+        Route::get('/edit/{user}', 'edit')->name('edit');
+        Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
+
+        Route::post('/update', 'update')->name('update');
+
+        Route::delete('/delete/{user}', 'delete')->name('delete');
+    });
+
+    // ADMINS
+    Route::prefix("/admins")->name("admins.")->controller(AdminAdminController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit', 'edit')->name('edit');
+        Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update', 'update')->name('update');
+
+        Route::delete('/delete/{user}', 'delete')->name('delete');
+    });
 });
 
 
