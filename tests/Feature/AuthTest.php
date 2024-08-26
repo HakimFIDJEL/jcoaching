@@ -61,14 +61,14 @@ class AuthTest extends TestCase
         $response->assertRedirect('/auth/email-verification/' . $this->member->user_token);
 
         // Un utilisateur vérifié peut se connecter
-        $this->member->email_verified_at = now();
+        $this->member->verifyEmail();
         $this->member->save();
         $response = $this->post('/auth/login', [
             'email' => $this->member->email,
             'password' => 'password',
         ]);
         $response->assertStatus(302);
-        $response->assertRedirect('/account');
+        $response->assertRedirect('/auth/login');
     }
 
     public function test_admin_can_login()
@@ -78,7 +78,7 @@ class AuthTest extends TestCase
             'password' => 'password',
         ]);
         $response->assertStatus(302);
-        $response->assertRedirect('/account');
+        $response->assertRedirect('/auth/login');
     }
 
 
@@ -116,22 +116,18 @@ class AuthTest extends TestCase
     public function test_user_can_verify_email()
     {
         $this->member->email_verified_at = null;
-        $this->member->user_token = Str::random(60);
-        $this->member->user_token_expires_at = now()->addDay();
-        $this->member->save();
+        $this->member->generateUserToken();
 
         $response = $this->get('/auth/email-verification/' . $this->member->user_token);
         $response->assertStatus(200);
 
-        $this->member->email_token = Str::random(60);
-        $this->member->email_token_expires_at = now()->addDay();
-        $this->member->save();
+        $this->member->generateEmailToken();
 
         $response = $this->post('/auth/email-verification', [
             'email_token' => $this->member->email_token,
         ]);
         $response->assertStatus(302);
-        $response->assertRedirect('/account');
+        $response->assertRedirect('/auth/login');
 
         $this->assertNotNull($this->member->fresh()->email_verified_at);
     }
@@ -166,9 +162,7 @@ class AuthTest extends TestCase
 
     public function test_member_can_access_reset_password_page()
     {
-        $this->member->password_token = Str::random(60);
-        $this->member->password_token_expires_at = now()->addDay();
-        $this->member->save();
+        $this->member->generatePasswordToken();
 
         $response = $this->get('/auth/password/reset/' . $this->member->password_token);
         $response->assertStatus(200);
@@ -176,9 +170,7 @@ class AuthTest extends TestCase
 
     public function test_member_can_reset_password()
     {
-        $this->member->password_token = Str::random(60);
-        $this->member->password_token_expires_at = now()->addDay();
-        $this->member->save();
+        $this->member->generatePasswordToken();
 
         $response = $this->post('/auth/password/reset/', [
             'password' => 'newpassword',
@@ -195,7 +187,7 @@ class AuthTest extends TestCase
         $this->member->password_expires_at = now()->addDay();
         $this->member->save();
         $response = $this->actingAs($this->member)->get('/auth/password/change');
-        $response->assertRedirect('/account');
+        $response->assertRedirect('/auth/login');
 
         $this->member->password_expires_at = now()->subDay();
         $this->member->save();

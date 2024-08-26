@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class User extends Authenticatable
 {
@@ -83,5 +84,58 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role === 'admin';
+    }
+
+    public function generatePasswordToken()
+    {
+        $this->password_token = Str::random(30);
+        $this->password_token_expires_at = now()->addDay();
+        $this->save();
+    }
+
+    public function generateEmailToken()
+    {
+        $this->email_token = Str::random(30);
+        $this->email_token_expires_at = now()->addDay();
+        $this->save();
+    }
+
+    public function generateUserToken()
+    {
+        $this->user_token = Str::random(50);
+        $this->user_token_expires_at = now()->addDay();
+        $this->save();
+    }
+
+    public function removePasswordToken()
+    {
+        $this->password_token = null;
+        $this->password_token_expires_at = null;
+        $this->save();
+    }
+
+    public function removeEmailToken()
+    {
+        $this->email_token = null;
+        $this->email_token_expires_at = null;
+        $this->save();
+    }
+
+    public function removeUserToken()
+    {
+        $this->user_token = null;
+        $this->user_token_expires_at = null;
+        $this->save();
+    }
+
+    public function verifyEmail()
+    {
+        $this->email_verified_at = now();
+    }
+
+    public function softDelete()
+    {
+        $this->deleted_at = now();
+        $this->save();
     }
 }

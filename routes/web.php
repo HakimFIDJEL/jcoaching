@@ -62,10 +62,10 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/show/{user}', 'show')->name('show');
         Route::get('/edit/{user}', 'edit')->name('edit');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{user}', 'delete')->name('delete');
 
         Route::post('/update', 'update')->name('update');
 
-        Route::delete('/delete/{user}', 'delete')->name('delete');
     });
 
     // ADMINS
@@ -75,11 +75,12 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit', 'edit')->name('edit');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{user}', 'delete')->name('delete');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
+        Route::post('/update-password', 'updatePassword')->name('updatePassword');
 
-        Route::delete('/delete/{user}', 'delete')->name('delete');
     });
 });
 

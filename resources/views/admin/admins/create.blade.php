@@ -26,9 +26,9 @@
                 <h2 class="mb-0">Ajouter un administrateur</h2>
                 <p class="text-light">L'équipe s'agrandit ? En voilà une bonne nouvelle ! Renseigne ses informations, il pourra choisir son mot de passe par soit même.</p>
             </div>	
-            {{-- <span>
-                <a href="{{ route('admin.admins.create') }}" class="btn btn-primary ">+ Ajouter un administrateur</a>
-            </span> --}}
+            <span>
+                <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary ">Retour</a>
+            </span>
         </div>
     </div>
     {{-- /Content Header --}}
@@ -181,7 +181,7 @@
                             class="custom-control-input" 
                             id="email_verified" 
                             name="email_verified"
-                            value="1"
+                            checked={{ old('email_verified') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="email_verified">Vérifier l'adresse e-mail ?</label>
                         <div class="text-muted font-weight-light">

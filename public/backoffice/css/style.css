@@ -3129,7 +3129,7 @@ textarea.form-control {
 .nav-link {
   display: block;
   padding: 0.5rem 1rem;
-  color: var(--bs-primary);
+  color: var(--bs-body-color);
   text-decoration: none;
   transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out; }
   @media (prefers-reduced-motion: reduce) {
@@ -3148,8 +3148,8 @@ textarea.form-control {
     margin-bottom: -1px;
     background: none;
     border: 1px solid transparent;
-    border-top-left-radius: 0.5rem;
-    border-top-right-radius: 0.5rem; }
+    border-top-left-radius: 0rem;
+    border-top-right-radius: 0rem; }
     .nav-tabs .nav-link:hover, .nav-tabs .nav-link:focus {
       border-color: #e9ecef #e9ecef #dee2e6;
       isolation: isolate; }
@@ -33592,7 +33592,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 .form-control.is-invalid {
   border-color: #f72b50 !important;
-  border-right: 0px !important; }
+ }
   .form-control.is-invalid:focus {
     box-shadow: none; }
 

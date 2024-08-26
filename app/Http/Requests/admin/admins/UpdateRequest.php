@@ -5,7 +5,7 @@ namespace App\Http\Requests\admin\admins;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class StoreRequest extends FormRequest
+class UpdateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -29,14 +29,14 @@ class StoreRequest extends FormRequest
         return [
             'lastname' => 'required|string|max:50',
             'firstname' => 'required|string|max:50',
-            'email' => 'required|string|email|max:100|unique:users',
+            'email' => 'required|string|email|max:100',
             'phone' => 'required|string|max:20',
             'address' => 'required|string|max:100',
             'city' => 'required|string|max:50',
             'postal_code' => 'required|string|max:10',
             'address_complement' => 'nullable|string|max:250',
             'country' => 'required|string|max:50',
-            'email_verified' => 'nullable|string|boolean',
+            'email_verified' => 'nullable|string',
         ];
     }
 
@@ -60,7 +60,6 @@ class StoreRequest extends FormRequest
             'email.string' => 'L\'email doit être une chaîne de caractères',
             'email.email' => 'L\'email doit être une adresse email valide',
             'email.max' => 'L\'email ne doit pas dépasser 100 caractères',
-            'email.unique' => 'L\'email est déjà utilisé',
 
             'phone.required' => 'Le téléphone est requis',
             'phone.string' => 'Le téléphone doit être une chaîne de caractères',
@@ -85,7 +84,7 @@ class StoreRequest extends FormRequest
             'country.string' => 'Le pays doit être une chaîne de caractères',
             'country.max' => 'Le pays ne doit pas dépasser 50 caractères',
 
-            'email_verified.boolean' => 'La vérification de l\'email doit être un booléen',
+            'email_verified.string' => 'La vérification de l\'email doit être une chaîne de caractères',
         ];
     }
 }

@@ -75,10 +75,10 @@
                             </td>
                             <td>
                                 <div class="d-flex">
-                                    @if(Auth::user() != $user)
-                                        <a href="{{ route('admin.admins.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp"><i class="fa fa-trash"></i></a>
+                                    @if(Auth::user() == $user)
+                                        <a title="Modifier l'administrateur" href="{{ route('admin.admins.edit') }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
                                     @else 
-                                        <a href="{{ route('admin.admins.edit') }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
+                                        <a title="Mettre à la corbeille l'administrateur" href="{{ route('admin.admins.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp  delete-row"><i class="fa fa-trash"></i></a>
                                     @endif
                                 </div>												
                             </td>
