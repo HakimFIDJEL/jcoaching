@@ -12,11 +12,7 @@ class UpdatePasswordRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(Auth::user()->isAdmin())
-        {
-            return true;
-        }
-        return false;
+        return Auth::user()->isAdmin();
     }
 
     /**

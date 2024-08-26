@@ -82,13 +82,7 @@ class AdminController extends Controller
         $user = Auth::user();
         $email = $data['email'];
 
-        if ($email != $user->email) {
-            $email_exists = User::where('email', $email)->where('id', '!=', $user->id)->exists();
-
-            if ($email_exists) {
-                return redirect()->route('admin.admins.edit')->with(['error' => 'Cet email est déjà utilisé']);
-            }
-        }
+     
 
         // Utilisation de la méthode `update()` sur l'instance de l'utilisateur
         $user->update([
@@ -139,7 +133,7 @@ class AdminController extends Controller
 
     public function softDelete(User $user)
     {
-        if($user != Auth::user())
+        if($user->id !== Auth::id())
         {
             $user->softDelete();
             return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur mis à la corbeille avec succès']);
@@ -147,9 +141,9 @@ class AdminController extends Controller
         return redirect()->route('admin.admins.index')->with(['error' => 'Vous ne pouvez pas supprimer votre propre compte']);
     }
 
-    public function delete()
+    public function delete(User $user)
     {
-        if($user != Auth::user())
+        if($user->id !== Auth::id())
         {
             $user->delete();
             return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur supprimé avec succès']);
