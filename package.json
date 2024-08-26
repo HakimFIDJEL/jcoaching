@@ -11,9 +11,11 @@
         "vite": "^5.0"
     },
     "dependencies": {
+        "ckeditor5": "^43.0.0",
         "datatables.net": "^2.1.4",
         "jquery": "^3.7.1",
         "notyf": "^3.10.0",
-        "sweetalert2": "^11.12.4"
+        "sweetalert2": "^11.12.4",
+        "tinymce": "^7.3.0"
     }
 }

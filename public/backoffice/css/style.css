@@ -41985,3 +41985,70 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
       color: #fff; }
 
 /*# sourceMappingURL=style.css.map */
+
+/* CKEDITOR */
+.ck.ck-reset, .ck.ck-reset_all {
+  background-color: var(--bs-body-bg) !important;
+}
+.ck-reset_all :not(.ck-reset_all-excluded *) {
+  background-color: transparent !important;
+}
+
+.ck-reset_all :not(.ck-reset_all-excluded *):hover {
+  background-color: transparent !important;
+  color: var(--bs-primary);
+}
+
+.ck.ck-editor .ck.ck-button {
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.ck.ck-button.ck-on {
+  transition: all 0.5s ease;
+  border: 1px solid var(--bs-body-color) !important;
+}
+
+.ck.ck-button.ck-off {
+  transition: all 0.5s ease;
+  border: 1px solid transparent !important;
+}
+
+.ck.ck-editor .ck.ck-button:hover {
+  background-color: transparent !important;
+  color: var(--bs-primary) !important;
+}
+
+.ck.ck-reset_all, .ck-reset_all :not(.ck-reset_all-excluded *) {
+  color: var(--bs-body-color) !important;
+}
+
+.ck-editor__editable, .ck.ck-toolbar .ck.ck-toolbar__separator {
+  background-color: var(--bs-body-bg) !important; 
+}
+
+.ck.ck-editor__top .ck-sticky-panel .ck-sticky-panel__content {
+  border: 0 !important;
+}
+.ck.ck-editor {
+  background-color: var(--bs-body-bg) !important;
+  border: 1px solid var(--bs-body-color) !important;
+  transition : all 0.5s ease !important; 
+}
+
+.ck.ck-editor__editable_inline {
+  border: 0 !important;
+}
+
+.ck.ck-content:focus {
+  border: 0 !important;
+}
+
+.ck-balloon-panel {
+  display: none !important;
+}
+
+.ck-editor.border-primary {
+  border-color: var(--bs-primary) !important;
+}
+

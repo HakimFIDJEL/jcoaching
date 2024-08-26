@@ -14,9 +14,9 @@
             </li>
 
             <li>
-                <a href="widget-basic.html" class="ai-icon" aria-expanded="false">
-                    <i class="flaticon-013-checkmark"></i>
-                    <span class="nav-text">Lien non déroulant</span>
+                <a href="{{ route('admin.feedbacks.index') }}" class="ai-icon" aria-expanded="false">
+                    <i class="flaticon-381-layer-1"></i>
+                    <span class="nav-text">Témoignages</span>
                 </a>
             </li>
         </ul>

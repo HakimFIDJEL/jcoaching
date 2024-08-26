@@ -15,6 +15,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\admin\MainController as AdminMainController;
 use App\Http\Controllers\admin\MemberController as AdminMemberController;
 use App\Http\Controllers\admin\AdminController as AdminAdminController;
+use App\Http\Controllers\admin\FeedbackController as AdminFeedbackController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -55,7 +56,7 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
 Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->group(function(){
     Route::get('/', [AdminMainController::class, 'index'])->name('index');
 
-    // MEMBERS
+    // MEMBERS - TODO
     Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -68,7 +69,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
     });
 
-    // ADMINS
+    // ADMINS - DONE
     Route::prefix("/admins")->name("admins.")->controller(AdminAdminController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -81,8 +82,23 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
         Route::post('/update-password', 'updatePassword')->name('updatePassword');
-
     });
+
+
+    // FEEDBACKS - DOING
+    Route::prefix("/feedbacks")->name("feedbacks.")->controller(AdminFeedbackController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit/{feedback}', 'edit')->name('edit');
+        Route::get('/soft-delete/{feedback}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{feedback}', 'delete')->name('delete');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{feedback}', 'update')->name('update');
+    });
+
+
 });
 
 
