@@ -76,6 +76,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/edit', 'edit')->name('edit');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
+        Route::get('/delete-pfp', 'deletePfp')->name('delete-pfp');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');

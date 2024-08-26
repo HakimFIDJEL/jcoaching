@@ -50,7 +50,7 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="informations" role="tabpanel" aria-labelledby="informations-tab">
                 
-                <form action="{{ route('admin.admins.update') }}" method="post">
+                <form action="{{ route('admin.admins.update') }}" method="post" enctype="multipart/form-data">
                     @csrf
             
                     <div class="row">
@@ -191,7 +191,28 @@
                         </div>
                         <div class="col">
                             <div class="mb-3">
-                                {{-- Mettre la photo de profil --}}
+                                <label for="pfp_path" class="form-label">Photo de profil (facultative)</label>
+                                
+                                @if($admin->pfp_path)
+                                    <div class="d-flex align-items-center gap-2">
+                                        <a href="{{ asset('storage/' . str_replace('public/', '', $admin->pfp_path)) }}" target="_blank" title="Voir la photo de profil">
+                                            <img src="{{ asset('storage/' . str_replace('public/', '', $admin->pfp_path)) }}" class="rounded-circle bg-white" style="width: 50px; height: 50px;">
+                                        </a>
+                                        <a href="{{ route('admin.admins.delete-pfp') }}" class="btn btn-sm btn-outline-danger" title="Supprimer la photo de profil">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+                                    </div>
+                                @else 
+                                    <input 
+                                        type="file" 
+                                        class="form-control @error('pfp_path') is-invalid @enderror" 
+                                        id="pfp_path" 
+                                        name="pfp_path" 
+                                        accept="image/*"
+                                    >
+                                @endif
+
+                                
                             </div>
                         </div>
                         {{-- <div class="col d-flex align-items-center">

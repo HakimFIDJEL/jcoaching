@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 // Requests
 use App\Http\Requests\admin\admins\StoreRequest;
@@ -78,27 +79,29 @@ class AdminController extends Controller
     public function update(UpdateRequest $request)
     {
         $data = $request->validated();
-
         $user = Auth::user();
-        $email = $data['email'];
 
-     
+        // Photo de profil
+        if ($request->hasFile('pfp_path')) {
 
-        // Utilisation de la méthode `update()` sur l'instance de l'utilisateur
-        $user->update([
-            'firstname'          => $data['firstname'],
-            'lastname'           => $data['lastname'],
-            'email'              => $data['email'],
-            'phone'              => $data['phone'],
-            'address'            => $data['address'],
-            'city'               => $data['city'],
-            'postal_code'        => $data['postal_code'],
-            'address_complement' => $data['address_complement'],
-            'country'            => $data['country'],
-        ]);
+            
 
-        return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur modifié avec succès']);
+            if ($user->pfp_path) {
+                Storage::delete($user->pfp_path);
+            }
+
+            $path = $request->file('pfp_path')->store('public/users/pfps');
+            $data['pfp_path'] = $path;
+
+        }
+
+        $user->update($data);
+
+        $user->save();
+
+        return redirect()->route('admin.admins.index')->with('success', 'Administrateur modifié avec succès');
     }
+
 
 
     public function updatePassword(updatePasswordRequest $request)
@@ -129,7 +132,17 @@ class AdminController extends Controller
         return redirect()->route('admin.admins.index')->with(['success' => 'Mot de passe modifié avec succès']);
     }
 
-    
+    public function deletePfp()
+    {
+        $user = Auth::user();
+
+        if ($user->pfp_path) {
+            Storage::delete($user->pfp_path);
+            $user->update(['pfp_path' => null]);
+        }
+
+        return redirect()->back()->withInput()->with(['success' => 'Photo de profil supprimée avec succès']);
+    }
 
     public function softDelete(User $user)
     {
@@ -145,6 +158,11 @@ class AdminController extends Controller
     {
         if($user->id !== Auth::id())
         {
+            // Supprime la photo de profil
+            if ($user->pfp_path) {
+                Storage::delete($user->pfp_path);
+            }
+
             $user->delete();
             return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur supprimé avec succès']);
         }
