@@ -27,7 +27,7 @@ class FeedbackRequest extends FormRequest
             'name' => 'required|string|max:191',
             'job' => 'required|string|max:191',
             'message' => 'required|string|max:1500',
-            'online' => 'nullable|string',
+            'online' => 'nullable|boolean',
         ];
     }
 
@@ -51,7 +51,7 @@ class FeedbackRequest extends FormRequest
             'message.string' => 'Le message doit être une chaîne de caractères',
             'message.max' => 'Le message ne doit pas dépasser 1500 caractères',
 
-            'online.string' => 'Le statut en ligne doit être une chaîne de caractères',
+            'online.boolean' => 'Le statut en ligne doit être un booléen',
         ];
     }
 }

@@ -95,11 +95,13 @@
 
                 <div class="col-2 d-flex align-items-center">
                     <div class="custom-control custom-switch">
+                        <input type="hidden" name="online" value="0">
                         <input 
                             type="checkbox" 
                             class="custom-control-input" 
                             id="online" 
                             name="online"
+                            value="1"
                             @if($feedback->online == 1) checked @endif
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>

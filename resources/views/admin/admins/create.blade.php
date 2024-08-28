@@ -176,11 +176,13 @@
                 </div>
                 <div class="col d-flex align-items-center">
                     <div class="custom-control custom-switch">
+                        <input type="hidden" name="email_verified" value="0">
                         <input 
                             type="checkbox" 
                             class="custom-control-input" 
                             id="email_verified" 
                             name="email_verified"
+                            value="1"
                             checked={{ old('email_verified') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="email_verified">Vérifier l'adresse e-mail ?</label>

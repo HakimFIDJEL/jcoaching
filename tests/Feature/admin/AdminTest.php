@@ -71,7 +71,7 @@ class AdminTest extends TestCase
             'postal_code' => '75000',
             'address_complement' => 'Appartement 123',
             'country' => 'France',
-            'email_verified' => 'on',
+            'email_verified' => true,
         ]);
 
         $response->assertStatus(302);
@@ -88,7 +88,7 @@ class AdminTest extends TestCase
             'postal_code' => '75000',
             'address_complement' => 'Appartement 123',
             'country' => 'France',
-            'email_verified' => 'on',
+            'email_verified' => true,
         ]);
 
         $response->assertStatus(302);

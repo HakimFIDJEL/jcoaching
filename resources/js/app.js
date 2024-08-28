@@ -15,7 +15,7 @@ ClassicEditor
         toolbar: {
             items: [
                 'undo', 'redo', '|', 'bold', 'italic', '|',
-                'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor'
+                
             ]
         },
         // Font color is var(--bs-body-color)

@@ -32,7 +32,7 @@ class StoreRequest extends FormRequest
             'postal_code' => 'required|string|max:10',
             'address_complement' => 'nullable|string|max:250',
             'country' => 'required|string|max:50',
-            'email_verified' => 'nullable|string',
+            'email_verified' => 'nullable|boolean',
         ];
     }
 
@@ -81,7 +81,7 @@ class StoreRequest extends FormRequest
             'country.string' => 'Le pays doit être une chaîne de caractères',
             'country.max' => 'Le pays ne doit pas dépasser 50 caractères',
 
-            'email_verified.string' => 'La vérification de l\'email doit être une chaîne de caractères',
+            'email_verified.boolean' => 'La vérification de l\'email doit être un booléen',
         ];
     }
 }

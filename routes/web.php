@@ -93,6 +93,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/edit/{feedback}', 'edit')->name('edit');
         Route::get('/soft-delete/{feedback}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{feedback}', 'delete')->name('delete');
+        Route::get('/restore/{feedback}', 'restore')->name('restore');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{feedback}', 'update')->name('update');

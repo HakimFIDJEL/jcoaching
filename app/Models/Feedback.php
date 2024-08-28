@@ -23,4 +23,10 @@ class Feedback extends Model
         $this->deleted_at = now();
         $this->save();
     }
+
+    public function restore()
+    {
+        $this->deleted_at = null;
+        $this->save();
+    }
 }

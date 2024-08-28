@@ -95,12 +95,14 @@
 
                 <div class="col-2 d-flex align-items-center">
                     <div class="custom-control custom-switch">
+                        <input type="hidden" name="online" value="0">
                         <input 
-                        type="checkbox" 
-                        class="custom-control-input" 
-                        id="online" 
-                        name="online"
-                        checked={{ old('online') ? 'checked' : '' }}
+                            type="checkbox" 
+                            class="custom-control-input" 
+                            id="online" 
+                            name="online"
+                            value="1"
+                            checked={{ old('online') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">
