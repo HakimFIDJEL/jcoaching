@@ -75,7 +75,7 @@
             
             
             <div class="row">
-                <div class="col-10">
+                <div class="col">
                     <div class="mb-3">
                         <label for="message" class="form-label">Témoignage</label>
 
@@ -93,7 +93,7 @@
                 </div>
 
 
-                <div class="col-2 d-flex align-items-center">
+                <div class="col-3 d-flex align-items-center">
                     <div class="custom-control custom-switch">
                         <input type="hidden" name="online" value="0">
                         <input 
@@ -123,3 +123,7 @@
 {{-- /Page content --}}
 @endsection
 
+
+@section('scripts')
+    @vite('resources/js/plugins/ckeditor.js')
+@endsection

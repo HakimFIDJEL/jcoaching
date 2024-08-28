@@ -17,6 +17,7 @@ use App\Http\Controllers\admin\MemberController as AdminMemberController;
 use App\Http\Controllers\admin\AdminController as AdminAdminController;
 use App\Http\Controllers\admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\admin\ContactController as AdminContactController;
+use App\Http\Controllers\admin\MediaController as AdminMediaController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -100,7 +101,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update/{feedback}', 'update')->name('update');
     });
 
-    // CONTACTS - DOING
+    // CONTACTS - DONE
     Route::prefix("/contacts")->name("contacts.")->controller(AdminContactController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -109,6 +110,20 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/delete/{contact}', 'delete')->name('delete');
         Route::get('/restore/{contact}', 'restore')->name('restore');
         
+    });
+
+    // MEDIAS - DOING
+    Route::prefix("/medias")->name("medias.")->controller(AdminMediaController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit/{media}', 'edit')->name('edit');
+        Route::get('/soft-delete/{media}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{media}', 'delete')->name('delete');
+        Route::get('/restore/{media}', 'restore')->name('restore');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{media}', 'update')->name('update');
     });
 
 

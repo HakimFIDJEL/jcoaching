@@ -2,7 +2,12 @@
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
             <li class="{{ Request::is('admin/admins*') ? 'mm-active' : '' }}">
-                <a class="has-arrow ai-icon" href="javascript:void()" aria-expanded="false">
+                <a 
+                    class="has-arrow ai-icon" 
+                    href="javascript:void()" 
+                    aria-expanded="false"
+                    title="Utilisateurs"
+                >
                     <i class="flaticon-381-networking"></i>
                     <span class="nav-text">Utilisateurs</span>
                 </a>
@@ -12,19 +17,36 @@
                 </ul>
             </li>
             <li class="{{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}">
-                <a href="{{ route('admin.feedbacks.index') }}" class="ai-icon {{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}" aria-expanded="false">
+                <a 
+                    href="{{ route('admin.feedbacks.index') }}" 
+                    class="ai-icon {{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false" 
+                    title="Témoignages"
+                >
                     <i class="flaticon-381-layer-1"></i>
                     <span class="nav-text">Témoignages</span>
                 </a>                
             </li>
             <li class="{{ Request::is('admin/contacts*') ? 'mm-active' : '' }}">
-                <a href="{{ route('admin.contacts.index') }}" class="ai-icon {{ Request::is('admin/contacts*') ? 'mm-active' : '' }}" aria-expanded="false">
-                    {{-- Flaticon envelope --}}
-
-                    <i class="flaticon-381-tab">
-
-                    </i>
+                <a 
+                    href="{{ route('admin.contacts.index') }}" 
+                    class="ai-icon {{ Request::is('admin/contacts*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Contacts"
+                >
+                    <i class="flaticon-381-tab"></i>
                     <span class="nav-text">Contacts</span>
+                </a>                
+            </li>
+            <li class="{{ Request::is('admin/medias*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.medias.index') }}" 
+                    class="ai-icon {{ Request::is('admin/medias*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Médias"
+                >
+                    <i class="flaticon-381-photo"></i>
+                    <span class="nav-text">Médias</span>
                 </a>                
             </li>
         </ul>

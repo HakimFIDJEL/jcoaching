@@ -43,6 +43,9 @@
         @vite('resources/js/swiper.min.js')
         @vite('resources/js/main.js')
         @vite('resources/js/app.js')
+
+        @vite('resources/js/plugins/notyf.js')
+        
         @yield('scripts')
         
 

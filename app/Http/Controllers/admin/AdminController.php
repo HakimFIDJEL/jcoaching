@@ -84,15 +84,12 @@ class AdminController extends Controller
         // Photo de profil
         if ($request->hasFile('pfp_path')) {
 
-            
-
             if ($user->pfp_path) {
                 Storage::delete($user->pfp_path);
             }
 
             $path = $request->file('pfp_path')->store('public/users/pfps');
             $data['pfp_path'] = $path;
-
         }
 
         $user->update($data);

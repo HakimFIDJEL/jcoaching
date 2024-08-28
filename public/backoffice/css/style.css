@@ -42053,4 +42053,78 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 .ck-editor.border-primary {
   border-color: var(--bs-primary) !important;
 }
+/* /CKEDITOR */
 
+
+/* FILEPOND */
+/* Changer la couleur de fond de la zone de dépôt */
+.filepond--root {
+  background-color: var(--bs-body-bg); /* Utilise la couleur de fond de Bootstrap */
+  border-radius: 0; /* Ajoute un border radius */
+}
+
+
+
+.filepond--root .filepond--label-action {
+  color: var(--bs-primary); /* Couleur de lien Bootstrap */
+}
+
+/* Changer la couleur de l'indicateur de progression */
+.filepond--root .filepond--file-action-button {
+  background-color: var(--bs-primary); /* Couleur de bouton Bootstrap */
+  color: var(--bs-body-color); /* Texte blanc */
+  border-radius: 0;
+}
+
+
+
+.filepond--file-action-button:focus, .filepond--file-action-button:hover {
+  box-shadow: 0;
+  background-color: var(--bs-body-bg);
+  color: var(--bs-primary);
+}
+
+
+/* Changer la couleur des boutons */
+.filepond--file-action-button {
+  background-color: var(--bs-primary); /* Couleur de bouton Bootstrap */
+  color: var(--bs-body-color); /* Texte blanc */
+  border-radius: 0;
+}
+
+/* Ajuster la hauteur des items de fichiers */
+.filepond--item {
+  border-radius: 0; /* Border radius pour les items */
+  background-color: #fff; /* Couleur de fond des items */
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Ombre légère */
+}
+
+.filepond--drop-label {
+  background-color: var(--bs-body-bg);
+  border: 1px solid var(--bs-body-color);
+  border-radius: 0;
+}
+
+.filepond--drop-label label {
+  color: var(--bs-body-color);
+}
+
+.filepond--panel .filepond--panel-root > * {
+  background-color: var(--bs-body-bg);
+}
+
+.filepond--panel-root {
+  background-color: transparent !important;
+  border: 1px solid var(--bs-primary) !important;
+  border-radius: 0 !important;
+}
+
+.filepond--panel-bottom .filepond--panel-root {
+  transform: 0 !important;
+}
+
+.filepond--file-wrapper {
+  background-color : var(--bs-body-bg) !important;
+}
+
+/* /FILEPOND */

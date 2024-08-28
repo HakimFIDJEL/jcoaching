@@ -58,7 +58,8 @@
         <script src="{{ asset('backoffice/js/plugins-init/datatables.init.js') }}" defer></script>
         @vite('resources/js/app.js')
 
-        
+        @vite('resources/js/plugins/notyf.js')
+        @vite('resources/js/plugins/swal.js')
 
 
         @yield('scripts')
