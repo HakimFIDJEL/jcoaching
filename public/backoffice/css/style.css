@@ -3848,12 +3848,12 @@ textarea.form-control {
   padding: 0.375rem 0.75rem; }
 
 .page-item:first-child .page-link {
-  border-top-left-radius: 0.5rem;
-  border-bottom-left-radius: 0.5rem; }
+  border-top-left-radius: 0rem;
+  border-bottom-left-radius: 0rem; }
 
 .page-item:last-child .page-link {
-  border-top-right-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem; }
+  border-top-right-radius: 0rem;
+  border-bottom-right-radius: 0rem; }
 
 .pagination-lg .page-link {
   padding: 0.75rem 1.5rem;
@@ -10766,6 +10766,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     transition: all 0.5s;
 
 }
+
+
 
 [data-sidebar-style="full"][data-layout="vertical"] .deznav .metismenu > li {
   padding: 0 16px; }
@@ -36720,8 +36722,8 @@ code {
     z-index: 1;
     padding: 0.55rem 1rem;
     font-size: 1rem;
-    background: rgba(255, 255, 255, 0.15);
-    color: #6e6e6e;
+    background: transparent;
+    color: var(--bs-body-color) !important;
     border: 1px solid #F0F0F0; }
     [data-theme-version="dark"] .pagination .page-item .page-link {
       border-color: #3e454d;
@@ -36734,12 +36736,12 @@ code {
       box-shadow: none; }
     .pagination .page-item .page-link:hover {
       background: var(--bs-primary);
-      color: #fff;
+      color: var(--bs-body-bg) !important;
       border-color: var(--bs-primary); }
   .pagination .page-item.active .page-link {
     background-color: var(--bs-primary);
     border-color: var(--bs-primary);
-    color: #fff;
+    color: var(--bs-body-bg) !important;
     box-shadow: 0 10px 20px 0px rgba(14, 138, 116, 0.2); }
     [data-theme-version="dark"] .pagination .page-item.active .page-link {
       color: #fff; }

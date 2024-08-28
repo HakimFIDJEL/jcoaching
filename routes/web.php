@@ -16,6 +16,7 @@ use App\Http\Controllers\admin\MainController as AdminMainController;
 use App\Http\Controllers\admin\MemberController as AdminMemberController;
 use App\Http\Controllers\admin\AdminController as AdminAdminController;
 use App\Http\Controllers\admin\FeedbackController as AdminFeedbackController;
+use App\Http\Controllers\admin\ContactController as AdminContactController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -85,7 +86,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     });
 
 
-    // FEEDBACKS - DOING
+    // FEEDBACKS - DONE
     Route::prefix("/feedbacks")->name("feedbacks.")->controller(AdminFeedbackController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -97,6 +98,17 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{feedback}', 'update')->name('update');
+    });
+
+    // CONTACTS - DOING
+    Route::prefix("/contacts")->name("contacts.")->controller(AdminContactController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{contact}', 'show')->name('show');
+        Route::get('/soft-delete/{contact}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{contact}', 'delete')->name('delete');
+        Route::get('/restore/{contact}', 'restore')->name('restore');
+        
     });
 
 
