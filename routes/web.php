@@ -18,6 +18,7 @@ use App\Http\Controllers\admin\AdminController as AdminAdminController;
 use App\Http\Controllers\admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\admin\ContactController as AdminContactController;
 use App\Http\Controllers\admin\MediaController as AdminMediaController;
+use App\Http\Controllers\admin\FaqController as AdminFaqController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -84,6 +85,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
         Route::post('/update-password', 'updatePassword')->name('updatePassword');
+        Route::post('/update-pfp', 'updatePfp')->name('update-pfp');
     });
 
 
@@ -112,7 +114,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         
     });
 
-    // MEDIAS - DOING
+    // MEDIAS - DONE
     Route::prefix("/medias")->name("medias.")->controller(AdminMediaController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -126,6 +128,19 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update/{media}', 'update')->name('update');
     });
 
+    // FAQS - DOING
+    Route::prefix("/faqs")->name("faqs.")->controller(AdminFaqController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit/{faq}', 'edit')->name('edit');
+        Route::get('/soft-delete/{faq}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{faq}', 'delete')->name('delete');
+        Route::get('/restore/{faq}', 'restore')->name('restore');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{faq}', 'update')->name('update');
+    });
 
 });
 

@@ -1,6 +1,17 @@
 <div class="deznav">
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
+            <li class="{{ Request::is('admin') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.index') }}" 
+                    class="ai-icon {{ Request::is('admin') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Tableau de bord"
+                >
+                    <i class="flaticon-381-network"></i>
+                    <span class="nav-text">Tableau de bord</span>
+                </a>                
+            </li>
             <li class="{{ Request::is('admin/admins*') ? 'mm-active' : '' }}">
                 <a 
                     class="has-arrow ai-icon" 
@@ -8,7 +19,7 @@
                     aria-expanded="false"
                     title="Utilisateurs"
                 >
-                    <i class="flaticon-381-networking"></i>
+                    <i class="flaticon-381-user-9"></i>
                     <span class="nav-text">Utilisateurs</span>
                 </a>
                 <ul aria-expanded="false">
@@ -47,6 +58,17 @@
                 >
                     <i class="flaticon-381-photo"></i>
                     <span class="nav-text">Médias</span>
+                </a>                
+            </li>
+            <li class="{{ Request::is('admin/faqs*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.faqs.index') }}" 
+                    class="ai-icon {{ Request::is('admin/faqs*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Faqs"
+                >
+                    <i class="flaticon-381-notepad"></i>
+                    <span class="nav-text">Faqs</span>
                 </a>                
             </li>
         </ul>

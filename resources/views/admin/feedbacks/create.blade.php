@@ -29,7 +29,12 @@
                 </p>
             </div>	
             <span>
-                <a href="{{ route('admin.feedbacks.index') }}" class="btn btn-secondary ">Retour</a>
+                <a href="{{ route('admin.feedbacks.index') }}" class="btn btn-secondary ">
+                    <i class="fa fa-arrow-left me-2"></i>
+                    <span>
+                        Retour
+                    </span>
+                </a>
             </span>
         </div>
     </div>
@@ -114,7 +119,12 @@
 
             
             <div class="d-grid gap-2 mt-2">
-                <button type="submit" class="btn btn-primary w-100 mb-2">Ajouter le témoignage</button>
+                <button type="submit" class="btn btn-primary w-100 mb-2">
+                    <span>
+                        Ajouter le témoignage
+                    </span>
+                    <i class="fas fa-plus ms-2"></i>
+                </button>
             </div>
         </form>
     </div>

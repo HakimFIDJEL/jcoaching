@@ -1,5 +1,5 @@
 <div class="nav-header">
-    <a href="index.html" class="brand-logo">
+    <a href="{{ route('admin.index') }}" class="brand-logo">
         <img class="logo-abbr" src="./images/logo.png" alt="Logo">
         {{-- <svg class="logo-abbr"  width="54" height="54" viewBox="0 0 54 54" fill="none">
             <rect class="svg-logo-rect" width="54" height="54" rx="14" fill="#0E8A74"/>

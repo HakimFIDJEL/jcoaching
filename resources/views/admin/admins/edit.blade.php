@@ -10,7 +10,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('admin.admins.index') }}">Administrateurs</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Modifier un administrateur</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Modifier vos informations</a></li>
     </ol>
 </div>
 {{-- /Breadcrumbs --}}
@@ -23,13 +23,18 @@
     <div class="card-header border-bottom border-primary">
         <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
             <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Modifier {{ $admin->firstname }} {{ $admin->lastname }}</h2>
+                <h2 class="mb-0">Bonjour {{ $admin->firstname }} {{ $admin->lastname }}</h2>
                 <p class="text-light">
-                    Vous pouvez modifier les informations de l'administrateur ci-dessous.
+                    Vous pouvez modifier vos informations ci-dessous.
                 </p>
             </div>	
             <span>
-                <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary ">Retour</a>
+                <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary ">
+                    <i class="fa fa-arrow-left me-2"></i>
+                    <span>
+                        Retour
+                    </span>
+                </a>
             </span>
         </div>
     </div>
@@ -44,6 +49,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security" type="button" role="tab" aria-controls="security" aria-selected="false">Sécurité</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="pfp-tab" data-bs-toggle="tab" data-bs-target="#pfp" type="button" role="tab" aria-controls="pfp" aria-selected="false">Photo de profil</button>
             </li>
         </ul>
 
@@ -188,53 +196,17 @@
                                     placeholder="Entrez ou non un complément d'adresse"
                                 >{{ $admin->address_complement }}</textarea>
                             </div>
-                        </div>
-                        <div class="col">
-                            <div class="mb-3">
-                                <label for="pfp_path" class="form-label">Photo de profil (facultative)</label>
-                                
-                                @if($admin->pfp_path)
-                                    <div class="d-flex align-items-center gap-2">
-                                        <a href="{{ asset('storage/' . str_replace('public/', '', $admin->pfp_path)) }}" target="_blank" title="Voir la photo de profil">
-                                            <img src="{{ asset('storage/' . str_replace('public/', '', $admin->pfp_path)) }}" class="rounded-circle bg-white" style="width: 50px; height: 50px;">
-                                        </a>
-                                        <a href="{{ route('admin.admins.delete-pfp') }}" class="btn btn-sm btn-outline-danger" title="Supprimer la photo de profil">
-                                            <i class="fas fa-trash"></i>
-                                        </a>
-                                    </div>
-                                @else 
-                                    <input 
-                                        type="file" 
-                                        class="form-control @error('pfp_path') is-invalid @enderror" 
-                                        id="pfp_path" 
-                                        name="pfp_path" 
-                                        accept="image/*"
-                                    >
-                                @endif
-
-                                
-                            </div>
-                        </div>
-                        {{-- <div class="col d-flex align-items-center">
-                            <div class="custom-control custom-switch">
-                                <input 
-                                    type="checkbox" 
-                                    class="custom-control-input" 
-                                    id="email_verified" 
-                                    name="email_verified"
-                                    checked={{ $admin->email_verified_at ? 'checked' : '' }}
-                                >
-                                <label class="custom-control-label" for="email_verified">Vérifier l'adresse e-mail ?</label>
-                                <div class="text-muted font-weight-light">
-                                    En cochant cette case, l'administrateur n'aura pas à vérifier son adresse e-mail si elle a été modifiée.
-                                </div>
-                            </div>
-                        </div> --}}
+                        </div> 
                     </div>
         
                     
                     <div class="d-grid gap-2 mt-2">
-                        <button type="submit" class="btn btn-primary w-100 mb-2">Modifier vos informations</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <span>
+                                Modifier vos informations
+                            </span>
+                            <i class="fas fa-user-edit ms-2"></i>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -287,7 +259,54 @@
         
                     
                     <div class="d-grid gap-2 mt-2">
-                        <button type="submit" class="btn btn-primary w-100 mb-2">Modifier votre mot de passe</button>
+                        <button type="submit" class="btn btn-primary w-100 mb-2">
+                            <span>
+                                Modifier votre mot de passe
+                            </span>
+                            <i class="fas fa-key ms-2"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+            <div class="tab-pane fade" id="pfp" role="tabpanel" aria-labelledby="pfp-tab">
+                <form action="{{ route('admin.admins.update-pfp') }}" method="post" enctype="multipart/form-data">
+                    @csrf
+            
+                    <div class="row">
+                        <div class="col">
+                            <label for="pfp" class="form-label">Photo de profil</label>
+                            <input 
+                                type="file"
+                                class="filepond"
+                                id="pfp"
+                                name="pfp"
+                                accept="image/*, video/*"
+                                data-max-files="1"
+                                {{ $admin->pfp_path ? 'data-media-path=' . asset('storage/' . str_replace('public/', '', $admin->pfp_path)) : '' }}
+                            >
+                        </div>
+                    </div>
+                    
+        
+                    <div class="row">
+                        <div class="col">
+                            <button type="submit" class="btn btn-primary w-100 mb-2">
+                                <span>
+                                    Modifier votre photo de profil
+                                </span>
+                                <i class="fas fa-upload ms-2"></i>
+                            </button>
+                        </div>
+                        @if($admin->pfp_path)
+                            <div class="col-4">
+                                <a href="{{ route('admin.admins.delete-pfp') }}" class="btn btn-outline-danger w-100 delete-row">
+                                    <span>
+                                        Supprimer la photo de profil
+                                    </span>
+                                    <i class="fas fa-trash ms-2"></i>
+                                </a>
+                            </div>
+                        @endif
                     </div>
                 </form>
             </div>
@@ -298,5 +317,9 @@
     {{-- /Content Body --}}
 </div>
 {{-- /Page content --}}
+@endsection
+
+@section('scripts')
+    @vite('resources/js/plugins/filepond.js')
 @endsection
 

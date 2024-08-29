@@ -29,8 +29,10 @@
                                     <div class="right-box-padding">
                                         <div class="read-content">
                                             <a href="{{ route('admin.contacts.index') }}" class="btn btn-secondary px-3 my-1 me-2">
-                                                <span class="d-none d-sm-inline mr-2">Retour</span>
-                                                <i class="fa fa-arrow-left"></i>
+                                                <i class="fa fa-arrow-left me-2"></i>
+                                                <span>
+                                                    Retour
+                                                </span>
                                             </a>
                                             <div class="media pt-3 d-sm-flex d-block justify-content-between">
                                                 

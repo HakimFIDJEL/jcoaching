@@ -32,7 +32,6 @@ class UpdateRequest extends FormRequest
             'postal_code' => 'required|string|max:10',
             'address_complement' => 'nullable|string|max:250',
             'country' => 'required|string|max:50',
-            'pfp_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 
@@ -80,11 +79,6 @@ class UpdateRequest extends FormRequest
             'country.required' => 'Le pays est requis',
             'country.string' => 'Le pays doit être une chaîne de caractères',
             'country.max' => 'Le pays ne doit pas dépasser 50 caractères',
-
-            'pfp_path.image' => 'Le fichier doit être une image',
-            'pfp_path.mimes' => 'Le fichier doit être de type : jpeg, png, jpg, gif, svg',
-            'pfp_path.max' => 'Le fichier ne doit pas dépasser 2 Mo',
-
         ];
     }
 }

@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\admin\admins\StoreRequest;
 use App\Http\Requests\admin\admins\UpdateRequest;
 use App\Http\Requests\admin\admins\UpdatePasswordRequest;
+use App\Http\Requests\admin\admins\PfpRequest;
 
 // Models
 use App\Models\User;
@@ -81,17 +82,6 @@ class AdminController extends Controller
         $data = $request->validated();
         $user = Auth::user();
 
-        // Photo de profil
-        if ($request->hasFile('pfp_path')) {
-
-            if ($user->pfp_path) {
-                Storage::delete($user->pfp_path);
-            }
-
-            $path = $request->file('pfp_path')->store('public/users/pfps');
-            $data['pfp_path'] = $path;
-        }
-
         $user->update($data);
 
         $user->save();
@@ -127,6 +117,29 @@ class AdminController extends Controller
         $user->save();
 
         return redirect()->route('admin.admins.index')->with(['success' => 'Mot de passe modifié avec succès']);
+    }
+
+    public function updatePfp(PfpRequest $request)
+    {
+        $data = $request->validated();
+        $user = Auth::user();
+        // dd($data);
+
+        if($data['pfp'])
+        {
+            // Supprime l'ancienne photo de profil
+            if ($user->pfp_path) {
+                Storage::delete($user->pfp_path);
+            }
+
+            // Enregistre la nouvelle photo de profil
+            $path = $data['pfp']->store('public/users/pfps');
+            $user->update(['pfp_path' => $path]);
+
+            return redirect()->back()->withInput()->with(['success' => 'Photo de profil enregistrée avec succès']);
+        }
+        
+        return redirect()->back()->withInput()->with(['error' => 'Une erreur est survenue lors de l\'enregistrement de la photo de profil']);
     }
 
     public function deletePfp()

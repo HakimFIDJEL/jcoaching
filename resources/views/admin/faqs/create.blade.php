@@ -1,6 +1,6 @@
 @extends('admin._elements.layout')
 
-@section('title', 'Modifier un média')
+@section('title', 'Ajouter une faq')
 
 
 @section('content')
@@ -9,8 +9,8 @@
 <div class="row page-titles mb-0">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.medias.index') }}">Médias</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Modifier un média</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.faqs.index') }}">Faqs</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter une faq</a></li>
     </ol>
 </div>
 {{-- /Breadcrumbs --}}
@@ -23,13 +23,13 @@
     <div class="card-header border-bottom border-primary">
         <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
             <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Modifier un média</h2>
+                <h2 class="mb-0">Ajouter une faq</h2>
                 <p class="text-light">
-                    Remplissez le formulaire ci-dessous pour modifier un média de la galerie
+                    On vous pose souvent les mêmes questions ? Créez une FAQ pour y répondre.
                 </p>
             </div>	
             <span>
-                <a href="{{ route('admin.medias.index') }}" class="btn btn-secondary ">
+                <a href="{{ route('admin.faqs.index') }}" class="btn btn-secondary ">
                     <i class="fa fa-arrow-left me-2"></i>
                     <span>
                         Retour
@@ -42,26 +42,50 @@
 
     {{-- Content Body --}}
     <div class="card-body mb-4 mt-4">
-        <form action="{{ route('admin.medias.update', ['media' => $media]) }}" method="post" enctype="multipart/form-data">
+        <form action="{{ route('admin.faqs.store') }}" method="post">
             @csrf
-
-
+    
             <div class="row">
-                <div class="col-8">
+                <div class="col">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Libellé</label>
+                        <label for="question" class="form-label">Question</label>
                         <input 
                             type="text" 
-                            class="form-control @error('label') is-invalid @enderror" 
-                            id="label" 
-                            name="label" 
-                            placeholder="Entrez le libellé du média" 
+                            class="form-control @error('question') is-invalid @enderror" 
+                            id="question" 
+                            name="question" 
+                            placeholder="Entrez la question" 
                             autofocus 
                             required 
-                            value="{{ $media->label }}"
+                            value="{{ old('question') }}"
                         >
                     </div>
-                    <div class="custom-control custom-switch mb-3">
+                </div>
+            </div>
+            
+            
+            
+            <div class="row">
+                <div class="col">
+                    <div class="mb-3">
+                        <label for="answer" class="form-label">Réponse</label>
+
+                        {{-- Richeditor --}}
+                        <textarea 
+                            class="form-control editor @error('answer') is-invalid @enderror" 
+                            name="answer" 
+                            id="answer" 
+                            rows="2" 
+                            style="resize: none;" 
+                            placeholder="Entrez la réponse"
+                        >{{ old('answer') }}</textarea>
+                        
+                    </div>
+                </div>
+
+
+                <div class="col-3 d-flex align-items-center">
+                    <div class="custom-control custom-switch">
                         <input type="hidden" name="online" value="0">
                         <input 
                             type="checkbox" 
@@ -69,42 +93,23 @@
                             id="online" 
                             name="online"
                             value="1"
-                            checked={{ $media->online ? 'checked' : '' }}
+                            checked={{ old('online') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">
-                            Si vous cochez cette case, le média sera visible sur le site.
+                            Si vous cochez cette case, la faq sera visible sur le site.
                         </div>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="mb-3">
-                        <label for="file" class="form-label">Média</label>
-                        <input 
-                            type="file"
-                            class="filepond"
-                            id="file"
-                            name="file"
-                            accept="image/*, video/*"
-                            data-max-files="1"
-                            data-media-path="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}"
-                            data-media-filename="{{ $media->label }}"
-                        >
-                    </div>
-                </div>
             </div>
-
-    
-            
-            
 
             
             <div class="d-grid gap-2 mt-2">
                 <button type="submit" class="btn btn-primary w-100 mb-2">
                     <span>
-                        Modifier le média
+                        Ajouter la faq
                     </span>
-                    <i class="fas fa-save ms-2"></i>
+                    <i class="fas fa-plus ms-2"></i>
                 </button>
             </div>
         </form>
@@ -116,6 +121,5 @@
 
 
 @section('scripts')
-    @vite('resources/js/plugins/filepond.js')
+    @vite('resources/js/plugins/ckeditor.js')
 @endsection
-
