@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Requests\admin\admins;
+namespace App\Http\Requests\admin\members;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class PfpRequest extends FormRequest
+class DocumentsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,8 @@ class PfpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pfp' => ['nullable', 'file', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'documents' => ['nullable', 'array'],
+            'documents.*' => ['required', 'file', 'mimes:pdf', 'max:2048'],
         ];
     }
 
@@ -35,9 +36,12 @@ class PfpRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'pfp.file' => 'La photo de profil doit être un fichier',
-            'pfp.mimes' => 'La photo de profil doit être de type jpeg, png ou jpg',
-            'pfp.max' => 'La photo de profil doit peser au maximum 2048 Ko',
+            'documents.array' => 'Les documents doivent être un tableau',
+            
+            'documents.*.required' => 'Le document est requis',
+            'documents.*.file' => 'Le document doit être un fichier',
+            'documents.*.mimes' => 'Le document doit être de type pdf',
+            'documents.*.max' => 'Le document doit peser au maximum 2048 Ko',
         ];
     }
 }

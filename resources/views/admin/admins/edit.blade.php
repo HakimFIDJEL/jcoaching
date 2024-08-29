@@ -58,7 +58,7 @@
         <div class="tab-content" id="myTabContent">
             <div class="tab-pane fade show active" id="informations" role="tabpanel" aria-labelledby="informations-tab">
                 
-                <form action="{{ route('admin.admins.update') }}" method="post" enctype="multipart/form-data">
+                <form action="{{ route('admin.admins.update') }}" method="post">
                     @csrf
             
                     <div class="row">
@@ -282,7 +282,11 @@
                                 name="pfp"
                                 accept="image/*, video/*"
                                 data-max-files="1"
-                                {{ $admin->pfp_path ? 'data-media-path=' . asset('storage/' . str_replace('public/', '', $admin->pfp_path)) : '' }}
+                                @if($admin->pfp_path)
+                                    data-documents="{{ json_encode([[
+                                        'source' => asset('storage/' . str_replace('public/', '', $admin->pfp_path)),
+                                    ]]) }}"
+                                @endif
                             >
                         </div>
                     </div>
@@ -299,11 +303,11 @@
                         </div>
                         @if($admin->pfp_path)
                             <div class="col-4">
-                                <a href="{{ route('admin.admins.delete-pfp') }}" class="btn btn-outline-danger w-100 delete-row">
+                                <a href="{{ route('admin.admins.download-pfp', ['user' => $admin]) }}" class="btn btn-secondary w-100">
                                     <span>
-                                        Supprimer la photo de profil
+                                        Télécharger votre photo de profil
                                     </span>
-                                    <i class="fas fa-trash ms-2"></i>
+                                    <i class="fas fa-download ms-2"></i>
                                 </a>
                             </div>
                         @endif

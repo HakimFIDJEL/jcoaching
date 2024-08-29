@@ -175,7 +175,7 @@
                     {{-- Features --}}
                     <div id="features-container">
 
-                        <div class="row mb-3 feature-row" data-feature-id="1">
+                        {{-- <div class="row mb-3 feature-row" data-feature-id="1">
                             <div class="col">
                                 <div>
                                     <label for="feature_1" class="form-label">Spécificité 1</label>
@@ -194,7 +194,10 @@
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </div>
-                        </div>
+                        </div> --}}
+
+
+                        
                     </div>
 
                                         

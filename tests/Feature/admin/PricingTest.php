@@ -157,16 +157,16 @@ class PricingTest extends TestCase
     }
 
     // // DELETE
-    // public function test_admin_can_delete_pricing()
-    // {
-    //     $pricing = pricing::factory()->create();
+    public function test_admin_can_delete_pricing()
+    {
+        $pricing = pricing::factory()->create();
 
-    //     $response = $this->actingAs($this->admin)->get('/admin/pricings/delete/' . $pricing->id);
-    //     $response->assertRedirect('/admin/pricings');
-    //     $response->assertSessionHas('success');
+        $response = $this->actingAs($this->admin)->get('/admin/pricings/delete/' . $pricing->id);
+        $response->assertRedirect('/admin/pricings');
+        $response->assertSessionHas('success');
 
-    //     $this->assertDatabaseMissing('pricings', ['id' => $pricing->id]);
-    //     $this->assertDatabaseMissing('pricing_features', ['pricing_id' => $pricing->id]);
-    // }
+        $this->assertDatabaseMissing('pricings', ['id' => $pricing->id]);
+        $this->assertDatabaseMissing('pricing_features', ['pricing_id' => $pricing->id]);
+    }
 
 }

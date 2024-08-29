@@ -9,6 +9,8 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
+use App\Models\UserDocument;
+
 class User extends Authenticatable
 {
     use HasFactory, Notifiable;
@@ -138,5 +140,15 @@ class User extends Authenticatable
     {
         $this->deleted_at = now();
         $this->save();
+    }
+
+    public function restore()
+    {
+        $this->deleted_at = null;
+        $this->save();
+    }
+
+    public function documents() {
+        return $this->hasMany(UserDocument::class);
     }
 }

@@ -1,6 +1,6 @@
 @extends('admin._elements.layout')
 
-@section('title', 'Ajouter un administrateur')
+@section('title', 'Ajouter un membre')
 
 
 @section('content')
@@ -9,8 +9,8 @@
 <div class="row page-titles mb-0">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.admins.index') }}">Administrateurs</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter un administrateur</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.members.index') }}">Membres</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Ajouter un membre</a></li>
     </ol>
 </div>
 {{-- /Breadcrumbs --}}
@@ -23,11 +23,13 @@
     <div class="card-header border-bottom border-primary">
         <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
             <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Ajouter un administrateur</h2>
-                <p class="text-light">L'équipe s'agrandit ? En voilà une bonne nouvelle ! Renseigne ses informations, il pourra choisir son mot de passe par soit même.</p>
+                <h2 class="mb-0">Ajouter un membre</h2>
+                <p class="text-light">
+                    Un client de plus ? C'est par ici !
+                </p>
             </div>	
             <span>
-                <a href="{{ route('admin.admins.index') }}" class="btn btn-secondary ">
+                <a href="{{ route('admin.members.index') }}" class="btn btn-secondary ">
                     <i class="fa fa-arrow-left me-2"></i>
                     <span>
                         Retour
@@ -40,7 +42,7 @@
 
     {{-- Content Body --}}
     <div class="card-body mb-4 mt-4">
-        <form action="{{ route('admin.admins.store') }}" method="post">
+        <form action="{{ route('admin.members.store') }}" method="post">
             @csrf
     
             <div class="row">
@@ -192,7 +194,7 @@
                         >
                         <label class="custom-control-label" for="email_verified">Vérifier l'adresse e-mail ?</label>
                         <div class="text-muted font-weight-light">
-                            En cochant cette case, l'administrateur n'aura pas à vérifier son adresse e-mail.
+                            En cochant cette case, le membre n'aura pas à vérifier son adresse e-mail.
                         </div>
                     </div>
                 </div>
@@ -202,7 +204,7 @@
             <div class="d-grid gap-2 mt-2">
                 <button type="submit" class="btn btn-primary w-100 mb-2">
                     <span>
-                        Ajouter l'administrateur
+                        Ajouter le membre
                     </span>
                     <i class="fas fa-user-plus ms-2"></i>
                 </button>

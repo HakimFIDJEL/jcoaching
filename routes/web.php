@@ -62,16 +62,22 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     // MAIN - DONE
     Route::get('/', [AdminMainController::class, 'index'])->name('index');
 
-    // MEMBERS - TODO
+    // MEMBERS - DOING
     Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
-        Route::get('/show/{user}', 'show')->name('show');
+        Route::get('/create', 'create')->name('create');
         Route::get('/edit/{user}', 'edit')->name('edit');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
+        Route::get('/restore/{user}', 'restore')->name('restore');
+        Route::get('/download-pfp/{user}', 'downloadPfp')->name('download-pfp');
+        Route::get('/download-documents/{user}', 'downloadDocuments')->name('download-documents');
 
-        Route::post('/update', 'update')->name('update');
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{user}', 'update')->name('update');
+        Route::post('/update-pfp/{user}', 'updatePfp')->name('update-pfp');
+        Route::post('/update-documents/{user}', 'updateDocuments')->name('update-documents');
 
     });
 
@@ -83,7 +89,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/edit', 'edit')->name('edit');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
-        Route::get('/delete-pfp', 'deletePfp')->name('delete-pfp');
+        Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update', 'update')->name('update');
@@ -125,6 +131,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/soft-delete/{media}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{media}', 'delete')->name('delete');
         Route::get('/restore/{media}', 'restore')->name('restore');
+        Route::get('/download/{media}', 'download')->name('download');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{media}', 'update')->name('update');
@@ -144,7 +151,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update/{faq}', 'update')->name('update');
     });
 
-    // PRICINGS - DOING
+    // PRICINGS - DONE
     Route::prefix("/pricings")->name("pricings.")->controller(AdminPricingController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');

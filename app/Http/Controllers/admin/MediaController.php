@@ -56,8 +56,6 @@ class MediaController extends Controller
 
         if ($request->hasFile('file')) {
 
-
-
             Storage::delete($media->path);
 
             $path = $request->file('file')->store('public/medias');
@@ -78,6 +76,10 @@ class MediaController extends Controller
         }
 
         return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été modifié');
+    }
+
+    public function download(Media $media) {
+        return Storage::download($media->path);
     }
 
     public function softDelete(Media $media) {

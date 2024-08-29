@@ -123,35 +123,28 @@ class AdminController extends Controller
     {
         $data = $request->validated();
         $user = Auth::user();
-        // dd($data);
 
-        if($data['pfp'])
-        {
-            // Supprime l'ancienne photo de profil
-            if ($user->pfp_path) {
-                Storage::delete($user->pfp_path);
-            }
-
-            // Enregistre la nouvelle photo de profil
-            $path = $data['pfp']->store('public/users/pfps');
-            $user->update(['pfp_path' => $path]);
-
-            return redirect()->back()->withInput()->with(['success' => 'Photo de profil enregistrée avec succès']);
-        }
-        
-        return redirect()->back()->withInput()->with(['error' => 'Une erreur est survenue lors de l\'enregistrement de la photo de profil']);
-    }
-
-    public function deletePfp()
-    {
-        $user = Auth::user();
-
+        // Supprime l'ancienne photo de profil
         if ($user->pfp_path) {
             Storage::delete($user->pfp_path);
             $user->update(['pfp_path' => null]);
         }
 
-        return redirect()->back()->withInput()->with(['success' => 'Photo de profil supprimée avec succès']);
+        // Enregistre la nouvelle photo de profil
+        if(isset($data['pfp']))
+        {
+            $path = $data['pfp']->store('public/users/pfps');
+            $user->update(['pfp_path' => $path]);
+        }
+
+        return redirect()->back()->withInput()->with(['success' => 'Photo de profil modifiée avec succès']);
+    }
+
+  
+    public function downloadPfp() {
+        $user = Auth::user();
+        $path = $user->pfp_path;
+        return Storage::download($path);
     }
 
     public function softDelete(User $user)

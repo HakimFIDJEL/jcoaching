@@ -87,7 +87,9 @@
                             name="file"
                             accept="image/*, video/*"
                             data-max-files="1"
-                            data-media-path="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}"
+                            data-documents="{{ json_encode([[
+                                'source' => asset('storage/' . str_replace('public/', '', $media->path)),
+                            ]]) }}"
                             data-media-filename="{{ $media->label }}"
                         >
                     </div>
@@ -98,15 +100,25 @@
             
             
 
-            
-            <div class="d-grid gap-2 mt-2">
-                <button type="submit" class="btn btn-primary w-100 mb-2">
-                    <span>
-                        Modifier le média
-                    </span>
-                    <i class="fas fa-save ms-2"></i>
-                </button>
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-primary w-100 mb-2">
+                        <span>
+                            Modifier le média
+                        </span>
+                        <i class="fas fa-upload ms-2"></i>
+                    </button>
+                </div>
+                <div class="col-4">
+                    <a href="{{ route('admin.medias.download', ['media' => $media]) }}" class="btn btn-secondary w-100">
+                        <span>
+                            Télécharger le média
+                        </span>
+                        <i class="fas fa-download ms-2"></i>
+                    </a>
+                </div>
             </div>
+            
         </form>
     </div>
     {{-- /Content Body --}}
