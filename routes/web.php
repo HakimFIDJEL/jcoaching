@@ -151,6 +151,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{pricing}', 'edit')->name('edit');
         Route::get('/soft-delete/{pricing}', 'softDelete')->name('soft-delete');
+        Route::get('/restore/{pricing}', 'restore')->name('restore');
         Route::get('/delete/{pricing}', 'delete')->name('delete');
 
         Route::post('/store', 'store')->name('store');
