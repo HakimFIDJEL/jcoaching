@@ -19,6 +19,7 @@ use App\Http\Controllers\admin\FeedbackController as AdminFeedbackController;
 use App\Http\Controllers\admin\ContactController as AdminContactController;
 use App\Http\Controllers\admin\MediaController as AdminMediaController;
 use App\Http\Controllers\admin\FaqController as AdminFaqController;
+use App\Http\Controllers\admin\PricingController as AdminPricingController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -57,6 +58,8 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
 
 // ADMIN ROUTES
 Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->group(function(){
+
+    // MAIN - DONE
     Route::get('/', [AdminMainController::class, 'index'])->name('index');
 
     // MEMBERS - TODO
@@ -87,7 +90,6 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update-password', 'updatePassword')->name('updatePassword');
         Route::post('/update-pfp', 'updatePfp')->name('update-pfp');
     });
-
 
     // FEEDBACKS - DONE
     Route::prefix("/feedbacks")->name("feedbacks.")->controller(AdminFeedbackController::class)->group(function(){
@@ -128,7 +130,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update/{media}', 'update')->name('update');
     });
 
-    // FAQS - DOING
+    // FAQS - DONE
     Route::prefix("/faqs")->name("faqs.")->controller(AdminFaqController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -140,6 +142,19 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{faq}', 'update')->name('update');
+    });
+
+    // PRICINGS - DOING
+    Route::prefix("/pricings")->name("pricings.")->controller(AdminPricingController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit/{pricing}', 'edit')->name('edit');
+        Route::get('/soft-delete/{pricing}', 'softDelete')->name('soft-delete');
+        Route::get('/delete/{pricing}', 'delete')->name('delete');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{pricing}', 'update')->name('update');
     });
 
 });

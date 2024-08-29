@@ -71,6 +71,17 @@
                     <span class="nav-text">Faqs</span>
                 </a>                
             </li>
+            <li class="{{ Request::is('admin/pricings*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.pricings.index') }}" 
+                    class="ai-icon {{ Request::is('admin/pricings*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Tarifs"
+                >
+                    <i class="flaticon-381-price-tag"></i>
+                    <span class="nav-text">Tarifs</span>
+                </a>                
+            </li>
         </ul>
 
         <hr>
