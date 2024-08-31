@@ -26,7 +26,9 @@ class PlanRequest extends FormRequest
         return [
             'pricing_id' => ['required', 'exists:pricings,id'],
             'nutrition_option' => ['required', 'boolean'],
-            'start_date' => ['required', 'date'],
+            'start_date' => ['sometimes', 'date'],
+            'expiration_date' => ['sometimes', 'date'],
+            'sessions_left' => ['sometimes', 'integer', 'min:0'],
         ];
     }
 
@@ -44,8 +46,12 @@ class PlanRequest extends FormRequest
             'nutrition_option.required' => 'L\'option nutrition est requise',
             'nutrition_option.boolean' => 'L\'option nutrition est invalide',
 
-            'start_date.required' => 'La date de début est requise',
             'start_date.date' => 'La date de début est invalide',
+
+            'expiration_date.date' => 'La date d\'expiration est invalide',
+
+            'sessions_left.integer' => 'Le nombre de séances restantes est invalide',
+            'sessions_left.min' => 'Le nombre de séances restantes doit être supérieur ou égal à 0',
         ];
     }
 }

@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('plans', function (Blueprint $table) {
-            $table->datetime('start_date')->before('expiration_date');
+            $table->timestamp('start_date')->before('expiration_date');
         });
     }
 

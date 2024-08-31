@@ -4,10 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
+
 
 class Plan extends Model
 {
     use HasFactory;
+
+    protected $dates = [
+        'start_date',
+        'expiration_date',
+    ];
 
     protected $fillable = [
         'user_id',
@@ -36,6 +43,16 @@ class Plan extends Model
 
     public function getDaysLeft() {
         return intval(now()->diffInDays($this->expiration_date));
+    }
+
+    public function softDelete() {
+        $this->deleted_at = now();
+        $this->save();
+    }
+
+    public function restore() {
+        $this->deleted_at = null;
+        $this->save();
     }
 
     

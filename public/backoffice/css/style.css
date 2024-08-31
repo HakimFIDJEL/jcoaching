@@ -4337,6 +4337,7 @@ textarea.form-control {
 
 .modal {
   position: fixed;
+  backdrop-filter: blur(3px);
   top: 0;
   left: 0;
   z-index: 1055;
@@ -38438,7 +38439,7 @@ table.dataTable.no-footer {
 .dataTables_wrapper .dataTables_filter,
 .dataTables_wrapper .dataTables_processing,
 .dataTables_wrapper .dataTables_paginate {
-  color: #194039;
+  color: var(--bs-body-color);
   border-radius: 40px;
   padding: 2px 0;
   margin-bottom: 20px; }
@@ -42127,6 +42128,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   background-color : var(--bs-body-bg) !important;
 }
 
+.filepond--pdf-preview-wrapper::before {
+  pointer-events: none !important;;
+}
+
 /* /FILEPOND */
 
 
@@ -42140,3 +42145,41 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   transition: all 0.5 ease;
 }
 /* /SWAL */
+
+
+/* DATATABLE */
+
+.dataTables_paginate {
+  border-radius: 0 !important;
+  border-color: var(--bs-body-color) !important;
+  margin-top: 24px !important;
+  padding: 0 !important;
+}
+.paginate_button {
+  color: var(--bs-body-color) !important;
+  width: 32px !important;
+  height: 32px !important;
+  font-size: 16px !important;
+  line-height: 32px !important;
+  border-radius: 0 !important;
+  transition: 0.5s all ease !important;
+  margin: 0 !important;
+}
+.paginate_button.disabled {
+  color: #6c757d !important;
+  border-color: #6c757d !important;
+  pointer-events: none;
+  cursor: auto;
+}
+.paginate_button.disabled i {
+  color: #6c757d !important;
+}
+
+.paginate_button.current {
+  color: var(--bs-body-bg) !important;
+}
+
+.paginate_button i {
+  font-size: 16px !important;
+}
+/* /DATATABLE */

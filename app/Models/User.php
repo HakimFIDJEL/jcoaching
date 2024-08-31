@@ -153,11 +153,11 @@ class User extends Authenticatable
     }
 
     public function plans() {
-        return $this->hasMany(Plan::class);
+        return $this->hasMany(Plan::class)->where('deleted_at', null);
     }
 
     public function workouts() {
-        return $this->hasMany(Workout::class);
+        return $this->hasMany(Workout::class)->where('deleted_at', null);
     }
 
     public function hasCurrentPlan() {
@@ -168,5 +168,9 @@ class User extends Authenticatable
         return $this->hasOne(Plan::class)
                 ->where('expiration_date', '>', now())
                 ->orderBy('expiration_date', 'desc');
+    }
+
+    public function getProfilePicture() {
+        return asset('storage/' . str_replace('public/', '', $this->pfp_path)) ?? null;
     }
 }

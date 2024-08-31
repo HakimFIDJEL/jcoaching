@@ -48,8 +48,28 @@ class MemberController extends Controller
 
     // EDIT
     public function edit(User $user) {
+        return view('admin.members.edit')->with(['member' => $user]);
+    }
+
+    // PFP
+    public function pfp(User $user) {
+        return view('admin.members.pfp')->with(['member' => $user]);
+    }
+
+    // DOCUMENTS
+    public function documents(User $user) {
+        return view('admin.members.documents')->with(['member' => $user]);
+    }
+
+    // WORKOUTS
+    public function workouts(User $user) {
         $pricings = Pricing::available()->get();
-        return view('admin.members.edit')->with(['member' => $user, 'pricings' => $pricings]);
+        return view('admin.members.workouts')->with(['member' => $user, 'pricings' => $pricings]);
+    }
+
+    // CALENDAR
+    public function calendar(User $user) {
+        return view('admin.members.calendar')->with(['member' => $user]);
     }
 
     // STORE
@@ -94,7 +114,7 @@ class MemberController extends Controller
 
         $user->update($data);
 
-        return redirect()->route('admin.members.index')->with('success', 'Membre modifié avec succès');
+        return redirect()->back()->with('success', 'Membre modifié avec succès');
     }
 
     // UPDATE PFP
@@ -204,6 +224,11 @@ class MemberController extends Controller
 
     // ADD PLAN
     public function addPlan(PlanRequest $request, User $user) {
+
+        if($user->hasCurrentPlan()) {
+            return redirect()->back()->with(['error' => 'Impossible d\'ajouter un abonnement, un abonnement est déjà actif']);
+        }
+
         $data = $request->validated();
 
         $pricing = Pricing::findOrFail($data['pricing_id']);
@@ -223,16 +248,66 @@ class MemberController extends Controller
         return redirect()->back()->with(['success' => 'Abonnement ajouté avec succès']);
     }
 
+    // UPDATE PLAN
+    public function updatePlan(PlanRequest $request, User $user) {
+        if(!$user->hasCurrentPlan()) {
+            return redirect()->back()->with(['error' => 'Impossible de mettre à jour l\'abonnement, aucun abonnement actif']);
+        }
+
+        $data = $request->validated();
+        $plan = $user->currentPlan();
+        $plan->update($data);
+
+        return redirect()->back()->with(['success' => 'Abonnement mis à jour avec succès']);
+    }
+
     // EXPIRE PLAN
-    public function expirePlan(Plan $plan) {
-        $plan->update(['expiration_date' => now()->subDay()]);
-        return redirect()->back()->with(['success' => 'Abonnement expiré avec succès']);
+    public function expirePlan(User $user) {
+        if($user->hasCurrentPlan()) {
+            $user->currentPlan()->update(['expiration_date' => now()->subDay()]);
+            return redirect()->back()->with(['success' => 'Abonnement expiré avec succès']);
+        }
+        return redirect()->back()->with(['error' => 'Impossible d\'expirer l\'abonnement, aucun abonnement actif']);
+    }
+
+    // UNEXPIRE PLAN
+    public function unexpirePlan(User $user, Plan $plan) {
+        if(!$user->hasCurrentPlan()) {
+            if($plan->user_id == $user->id)
+            {
+                $plan->update(['expiration_date' => now()->addDays(30)]);
+                return redirect()->back()->with(['success' => 'Abonnement restauré avec succès']);
+            }
+            return redirect()->back()->with(['error' => 'Impossible de restaurer l\'abonnement']);
+        }
+        return redirect()->back()->with(['error' => 'Impossible de restaurer l\'abonnement, un abonnement est déjà actif']);
+    }
+
+    // SOFT DELETE PLAN
+    public function softDeletePlan(User $user, Plan $plan) {
+        if($plan->user_id == $user->id) {
+            $plan->softDelete();
+            return redirect()->back()->with(['success' => 'Abonnement mis à la corbeille avec succès']);
+        }
+        return redirect()->back()->with(['error' => 'Impossible de mettre à la corbeille l\'abonnement']);
+    }
+
+    // RESTORE PLAN
+    public function restorePlan(User $user, Plan $plan) {
+        if($plan->user_id == $user->id) {
+            $plan->restore();
+            return redirect()->back()->with(['success' => 'Abonnement restauré avec succès']);
+        }
+        return redirect()->back()->with(['error' => 'Impossible de restaurer l\'abonnement']);
     }
 
     // DELETE PLAN
-    public function deletePlan(Plan $plan) {
-        $plan->delete();
-        return redirect()->back()->with(['success' => 'Abonnement supprimé avec succès']);
+    public function deletePlan(User $user, Plan $plan) {
+        if($plan->user_id == $user->id) {
+            $plan->delete();
+            return redirect()->back()->with(['success' => 'Abonnement supprimé avec succès']);
+        }
+        return redirect()->back()->with(['error' => 'Impossible de supprimer l\'abonnement']);
     }
 
     // ADD WORKOUT
@@ -255,6 +330,18 @@ class MemberController extends Controller
     public function deleteWorkout(Workout $workout) {
         $workout->delete();
         return redirect()->back()->with(['success' => 'Séance supprimée avec succès']);
+    }
+
+    // SOFT DELETE WORKOUT
+    public function softDeleteWorkout(Workout $workout) {
+        $workout->softDelete();
+        return redirect()->back()->with(['success' => 'Séance mise à la corbeille avec succès']);
+    }
+
+    // RESTORE WORKOUT
+    public function restoreWorkout(Workout $workout) {
+        $workout->restore();
+        return redirect()->back()->with(['success' => 'Séance restaurée avec succès']);
     }
 
     

@@ -16,9 +16,9 @@
         @vite('resources/css/style.css') --}}
 
     
+        <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
         <link rel="stylesheet" href="{{ asset('backoffice/vendor/jquery-nice-select/css/nice-select.css') }}">
         <link rel="stylesheet" href="{{ asset('backoffice/css/style.css') }}">
-        <link href="{{ asset('backoffice/vendor/datatables/css/jquery.dataTables.min.css') }}" rel="stylesheet">
         @vite('resources/css/bootstrap.css')
 
         @yield('styles')

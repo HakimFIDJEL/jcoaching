@@ -66,36 +66,50 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     // MEMBERS - DOING
     Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
 
-        // Informations
+        // INFORMATIONS
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{user}', 'edit')->name('edit');
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{user}', 'update')->name('update');
+        
+        // WORKOUTS & PLANS
+        Route::get('/workouts/{user}', 'workouts')->name('workouts');
+            // PLANS
+            Route::prefix('/plans/{user}')->name('plans.')->group(function()
+            {
+                Route::get('/unexpire/{plan}', 'unexpirePlan')->name('unexpire');
+                Route::get('/delete/{plan}', 'deletePlan')->name('delete');
+                Route::get('/soft-delete/{plan}', 'softDeletePlan')->name('soft-delete');
+                Route::get('/expire', 'expirePlan')->name('expire');
+                Route::post('/add', 'addPlan')->name('add');
+                Route::post('/update', 'updatePlan')->name('update');
+            });
+            // WORKOUTS
+            Route::prefix('/workouts')->name('workouts.')->group(function()
+            {
+                Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
+                Route::get('/soft-delete/{workout}', 'softDeleteWorkout')->name('soft-delete');
+                Route::post('/add/{user}', 'addWorkout')->name('add');
+            });
+        
+        // DOCUMENTS
+        Route::get('/documents/{user}', 'documents')->name('documents');
+        Route::get('/download-documents/{user}', 'downloadDocuments')->name('download-documents');
+        Route::post('/update-documents/{user}', 'updateDocuments')->name('update-documents');
+        
+        // PFP
+        Route::get('/pfp/{user}', 'pfp')->name('pfp');
+        Route::post('/update-pfp/{user}', 'updatePfp')->name('update-pfp');
+        Route::get('/download-pfp/{user}', 'downloadPfp')->name('download-pfp');
+        
+        // CALENDAR
+        Route::get('/calendar/{user}', 'calendar')->name('calendar');
+
+        // DELETE
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
         Route::get('/restore/{user}', 'restore')->name('restore');
-        Route::get('/download-pfp/{user}', 'downloadPfp')->name('download-pfp');
-        Route::get('/download-documents/{user}', 'downloadDocuments')->name('download-documents');
-
-        Route::post('/store', 'store')->name('store');
-        Route::post('/update/{user}', 'update')->name('update');
-        Route::post('/update-pfp/{user}', 'updatePfp')->name('update-pfp');
-        Route::post('/update-documents/{user}', 'updateDocuments')->name('update-documents');
-
-        // Plans
-        Route::prefix('/plans')->name('plans.')->group(function()
-        {
-            Route::get('/expire/{plan}', 'expirePlan')->name('expire');
-            Route::get('/delete/{plan}', 'deletePlan')->name('delete');
-            Route::post('/add/{user}', 'addPlan')->name('add');
-        });
-
-        // Workouts
-        Route::prefix('/workouts')->name('workouts.')->group(function()
-        {
-            Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
-            Route::post('/add/{user}', 'addWorkout')->name('add');
-        });
-
     });
 
     // ADMINS - DONE
