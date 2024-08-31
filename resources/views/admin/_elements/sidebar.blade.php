@@ -12,7 +12,7 @@
                     <span class="nav-text">Tableau de bord</span>
                 </a>                
             </li>
-            <li class="{{ Request::is('admin/admins*') ? 'mm-active' : '' }}">
+            <li class="{{ Request::is('admin/admins*') || Request::is('admin/members*') ? 'mm-active' : '' }}">
                 <a 
                     class="has-arrow ai-icon" 
                     href="javascript:void()" 

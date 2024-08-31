@@ -23,6 +23,7 @@ use App\Http\Controllers\admin\PricingController as AdminPricingController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
+use App\Http\Controllers\member\PlanController as MemberPlanController;
 
 
 // MAIN ROUTES
@@ -65,6 +66,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     // MEMBERS - DOING
     Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
 
+        // Informations
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{user}', 'edit')->name('edit');
@@ -78,6 +80,21 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update/{user}', 'update')->name('update');
         Route::post('/update-pfp/{user}', 'updatePfp')->name('update-pfp');
         Route::post('/update-documents/{user}', 'updateDocuments')->name('update-documents');
+
+        // Plans
+        Route::prefix('/plans')->name('plans.')->group(function()
+        {
+            Route::get('/expire/{plan}', 'expirePlan')->name('expire');
+            Route::get('/delete/{plan}', 'deletePlan')->name('delete');
+            Route::post('/add/{user}', 'addPlan')->name('add');
+        });
+
+        // Workouts
+        Route::prefix('/workouts')->name('workouts.')->group(function()
+        {
+            Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
+            Route::post('/add/{user}', 'addWorkout')->name('add');
+        });
 
     });
 
@@ -170,5 +187,13 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
 // MEMBER ROUTES
 Route::prefix("/member")->middleware([AuthMiddleware::class])->name("member.")->group(function(){
+
+    // MAIN
     Route::get('/', [MemberMainController::class, 'index'])->name('index');
+
+    // PLANS
+    Route::prefix("/plans")->name("plans.")->controller(MemberPlanController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+    });
 });

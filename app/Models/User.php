@@ -151,4 +151,22 @@ class User extends Authenticatable
     public function documents() {
         return $this->hasMany(UserDocument::class);
     }
+
+    public function plans() {
+        return $this->hasMany(Plan::class);
+    }
+
+    public function workouts() {
+        return $this->hasMany(Workout::class);
+    }
+
+    public function hasCurrentPlan() {
+        return $this->currentPlan()->exists();
+    }
+
+    public function currentPlan() {
+        return $this->hasOne(Plan::class)
+                ->where('expiration_date', '>', now())
+                ->orderBy('expiration_date', 'desc');
+    }
 }

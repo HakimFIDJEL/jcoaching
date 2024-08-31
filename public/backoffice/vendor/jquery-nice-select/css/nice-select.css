@@ -1,7 +1,7 @@
 .nice-select {
   -webkit-tap-highlight-color: transparent;
-  background-color: #fff;
-  border-radius: 5px;
+  background-color: var(--bs-body-bg);
+  border-radius: 0px;
   border: solid 1px #e8e8e8;
   box-sizing: border-box;
   clear: both;
@@ -87,8 +87,9 @@
       line-height: 34px;
       min-height: 34px; }
   .nice-select .list {
-    background-color: #fff;
-    border-radius: 5px;
+    background-color: var(--bs-body-bg);
+    border-radius: 0px !important;
+    border: 1px solid var(--bs-primary);
     box-shadow: 0 0 0 1px rgba(68, 68, 68, 0.11);
     box-sizing: border-box;
     margin-top: 4px;
@@ -112,6 +113,7 @@
       background-color: transparent !important; }
   .nice-select .option {
     cursor: pointer;
+    color: var(--bs-body-color);
     font-weight: 400;
     line-height: 40px;
     list-style: none;
@@ -123,9 +125,12 @@
     -webkit-transition: all 0.2s;
     transition: all 0.2s; }
     .nice-select .option:hover, .nice-select .option.focus, .nice-select .option.selected.focus {
-      background-color: #f6f6f6; }
+      background-color: var(--bs-body-bg);
+      text-decoration: underline;
+      color: var(--bs-body-color); }
     .nice-select .option.selected {
-      font-weight: bold; }
+      color: var(--bs-primary) !important;
+    text-decoration: none !important; }
     .nice-select .option.disabled {
       background-color: transparent;
       color: #999;

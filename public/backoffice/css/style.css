@@ -3902,7 +3902,7 @@ textarea.form-control {
   padding: 1rem 1rem;
   margin-bottom: 1rem;
   border: 1px solid transparent;
-  border-radius: 0.5rem; }
+  border-radius: 0 !important; }
 
 .alert-heading {
   color: inherit; }
@@ -42128,3 +42128,15 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 }
 
 /* /FILEPOND */
+
+
+/* SWAL */
+.swal2-popup {
+  border: 1px solid var(--bs-primary) !important;
+  border-radius: 0 !important;
+}
+.swal2-backdrop-show {
+  backdrop-filter: blur(4px) !important;
+  transition: all 0.5 ease;
+}
+/* /SWAL */

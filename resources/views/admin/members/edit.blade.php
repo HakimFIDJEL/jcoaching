@@ -9,7 +9,7 @@
 <div class="row page-titles mb-0">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
-        <li class="breadcrumb-item"><a href="{{ route('admin.admins.index') }}">Membres</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('admin.members.index') }}">Membres</a></li>
         <li class="breadcrumb-item active"><a href="javascript:void(0)">Modifier un membre</a></li>
     </ol>
 </div>
@@ -52,6 +52,9 @@
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="document-tab" data-bs-toggle="tab" data-bs-target="#document" type="button" role="tab" aria-controls="document" aria-selected="false">Documents</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="workout-tab" data-bs-toggle="tab" data-bs-target="#workout" type="button" role="tab" aria-controls="workout" aria-selected="false">Séances & Abonnements</button>
             </li>
         </ul>
 
@@ -327,6 +330,187 @@
                     </div>
                 </form>
             </div>
+
+
+            <div class="tab-pane fade" id="workout" role="tabpanel" aria-labelledby="workout-tab">
+                
+                <div class="row mt-5 mb-5">
+                    <div class="col">
+                        @if($member->hasCurrentPlan())
+
+                            <div class="alert alert-success text-center mb-0" role="alert">
+                                Actuellement abonné, tarif 
+                                <strong>
+                                    {{ $member->currentPlan()->first()->pricing->title }}
+                                </strong>
+                                , il reste
+                                <strong>
+                                    {{ $member->currentPlan()->first()->getDaysLeft() }}
+                                </strong> 
+                                jours et 
+                                <strong>
+                                    {{ $member->currentPlan()->first()->sessions_left }}
+                                </strong> 
+                                séances à effectuer avant expiration.
+                                <a href="{{ route('admin.members.plans.expire', ['plan' => $member->currentPlan()->first()->id]) }}" class="alert-link text-decoration-underline delete-row" style="white-space: nowrap;">
+                                    Expirer l'abonnement
+                                </a>                                    
+                            </div>  
+                        @else 
+                            <div class="alert alert-secondary text-center mb-0" role="alert">
+                                Le membre n'a pas d'abonnement en cours.
+                                <a href="javascript:void(0);" class="alert-link text-decoration-underline" data-bs-toggle="modal" data-bs-target="#addPlan">
+                                    Ajouter un abonnement
+                                </a>
+                            </div>   
+                        @endif
+                    </div>
+                    <div class="col-3">
+                        <a href="javascript:void(0);" data-bs-toggle="modal" data-bs-target="#addWorkout" class="btn btn-outline-primary w-100 h-100 d-flex align-items-center justify-content-center">
+                            <span>
+                                Ajouter une séance
+                            </span>
+                            <i class="fas fa-plus ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+                    
+                @if($member->plans->where('expiration_date', '<', now())->count() > 0)
+                    <hr />
+
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title">
+                                    <h4 class="mb-0 text-white">
+                                        Historique des abonnements
+                                    </h4>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Séances restantes</th>
+                                            <th scope="col">Abonnement</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($member->plans->where('expiration_date', '<', now())->sortByDesc('id') as $plan)
+                                            <tr>
+                                                <td>#{{ $plan->id }}</td>
+                                                <td>{{ $plan->created_at->format('d/m/Y') }}</td>
+                                                <td>{{ $plan->sessions_left }}</td>
+                                                <td>
+                                                    {{ $plan->pricing->title }} - {{ $plan->pricing->price }}€
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('admin.members.plans.delete', ['plan' => $plan->id]) }}" class="btn btn-danger btn-sm delete-row">
+                                                        <span>
+                                                            Supprimer
+                                                        </span>
+                                                        <i class="fas fa-trash ms-2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                @endif
+
+
+                @if($member->workouts->count() > 0)
+                    <hr />
+                    <div class="row">
+                        <div class="card">
+                            <div class="card-header">
+                                <div class="card-title d-flex justify-content-between align-items-center w-100">
+                                    <h4 class="mb-0 text-white">
+                                        Historique des séances
+                                    </h4>
+                                    
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">ID</th>
+                                            <th scope="col">Statut</th>
+                                            <th scope="col">Date</th>
+                                            <th scope="col">Abonnement ?</th>
+                                            <th scope="col">Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($member->workouts->sortByDesc('id') as $workout)
+                                            <tr>
+                                                <td>#{{ $workout->id }}</td>
+                                                <td>
+                                                    @if($workout->status == true)
+                                                        <span class="badge bg-success">
+                                                            <span>
+                                                                Terminée
+                                                            </span>
+                                                            <i class="fas fa-check ms-2"></i>
+                                                        </span>
+                                                    @else
+                                                        <span class="badge bg-warning">
+                                                            <span>
+                                                                A faire
+                                                            </span>
+                                                            <i class="fas fa-clock ms-2"></i>
+                                                        </span>
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($workout->date)
+                                                        {{ $workout->date->format('d/m/Y') }}
+                                                    @else
+                                                        Aucune date
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    @if($workout->plan)
+                                                        {{ $workout->plan->pricing->title }}
+                                                    @else
+                                                        Aucun
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <a href="{{ route('admin.members.workouts.delete', ['workout' => $workout]) }}" class="btn btn-danger btn-sm delete-row">
+                                                        <span>
+                                                            Supprimer
+                                                        </span>
+                                                        <i class="fas fa-trash ms-2"></i>
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        @endforeach
+
+                                        @if($member->workouts->count() == 0)
+                                            <tr>
+                                                <td colspan="5" class="text-center">
+                                                    Aucune séance n'a été trouvée.
+                                                </td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+
+
         </div>
 
 
@@ -334,6 +518,9 @@
     {{-- /Content Body --}}
 </div>
 {{-- /Page content --}}
+
+@include('admin.members._elements.modal')
+
 @endsection
 
 @section('scripts')

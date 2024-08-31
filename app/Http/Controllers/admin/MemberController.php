@@ -11,16 +11,22 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use ZipArchive;
+use Carbon\Carbon;
 
 // Requests
 use App\Http\Requests\admin\members\StoreRequest;
 use App\Http\Requests\admin\members\UpdateRequest;
 use App\Http\Requests\admin\members\PfpRequest;
 use App\Http\Requests\admin\members\DocumentsRequest;
+use App\Http\Requests\admin\members\PlanRequest;
+use App\Http\Requests\admin\members\WorkoutRequest;
 
 // Models
 use App\Models\User;
 use App\Models\UserDocument;
+use App\Models\Plan;
+use App\Models\Pricing;
+use App\Models\Workout;
 
 // Mails
 use App\Mail\admin\StoreMember;
@@ -42,7 +48,8 @@ class MemberController extends Controller
 
     // EDIT
     public function edit(User $user) {
-        return view('admin.members.edit')->with(['member' => $user]);
+        $pricings = Pricing::available()->get();
+        return view('admin.members.edit')->with(['member' => $user, 'pricings' => $pricings]);
     }
 
     // STORE
@@ -177,16 +184,78 @@ class MemberController extends Controller
         return redirect()->route('admin.members.index')->with(['success' => 'Membre restauré avec succès']);
     }
 
-    public function delete(User $user)
-    {
+    // DELETE
+    public function delete(User $user) {
         // Supprime la photo de profil
         if ($user->pfp_path) {
             Storage::delete($user->pfp_path);
         }
 
         // Supprime les documents
+        $documents = $user->documents;
+        foreach ($documents as $document) {
+            Storage::delete($document->path);
+            $document->delete();
+        }
 
         $user->delete();
         return redirect()->route('admin.members.index')->with(['success' => 'Membre supprimé avec succès']);
     }
+
+    // ADD PLAN
+    public function addPlan(PlanRequest $request, User $user) {
+        $data = $request->validated();
+
+        $pricing = Pricing::findOrFail($data['pricing_id']);
+
+        $start_date = Carbon::parse($data['start_date']);
+        $expiration_date = $start_date->addDays(30);
+
+        $plan = Plan::create([
+            'user_id'          => $user->id,
+            'pricing_id'       => $pricing->id,
+            'start_date'       => $data['start_date'],
+            'expiration_date'  => $expiration_date,
+            'nutrition_option' => $data['nutrition_option'],
+            'sessions_left'    => $pricing->nbr_sessions,
+        ]);
+
+        return redirect()->back()->with(['success' => 'Abonnement ajouté avec succès']);
+    }
+
+    // EXPIRE PLAN
+    public function expirePlan(Plan $plan) {
+        $plan->update(['expiration_date' => now()->subDay()]);
+        return redirect()->back()->with(['success' => 'Abonnement expiré avec succès']);
+    }
+
+    // DELETE PLAN
+    public function deletePlan(Plan $plan) {
+        $plan->delete();
+        return redirect()->back()->with(['success' => 'Abonnement supprimé avec succès']);
+    }
+
+    // ADD WORKOUT
+    public function addWorkout(WorkoutRequest $request, User $user) {
+        $data = $request->validated();
+
+        for($i = 0; $i < $data['nbr_sessions']; $i++) {
+            Workout::create([
+                'user_id' => $user->id,
+                'plan_id' => null,
+                'date'    => null,
+                'status'  => false,
+            ]);
+        }
+
+        return redirect()->back()->with(['success' => 'Séances ajoutées avec succès']);
+    }
+
+    // DELETE WORKOUT
+    public function deleteWorkout(Workout $workout) {
+        $workout->delete();
+        return redirect()->back()->with(['success' => 'Séance supprimée avec succès']);
+    }
+
+    
 }

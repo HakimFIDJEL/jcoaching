@@ -28,6 +28,15 @@ class Pricing extends Model
         return $this->hasMany(PricingFeature::class);
     }
 
+    public function plans()
+    {
+        return $this->hasMany(Plan::class);
+    }
+
+    public function scopeAvailable($query)
+    {
+        return $query->where(['online' => true, 'deleted_at' => null]);
+    }
 
     public function softDelete()
     {
