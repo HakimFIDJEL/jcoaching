@@ -93,7 +93,7 @@
                             </td>
                             <td>
                                 <div class="d-flex">
-                                    <a title="Voir le membre" href="javascript:void(0);" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-calendar"></i></a>
+                                    <a title="Voir le membre" href="{{ route('admin.members.calendar', ['user' => $user]) }}" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-calendar"></i></a>
                                     <a title="Modifier le membre" href="{{ route('admin.members.edit', ['user' => $user]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
                                     <a title="Mettre à la corbeille le membre" href="{{ route('admin.members.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp  delete-row"><i class="fa fa-trash"></i></a>
                                 </div>												

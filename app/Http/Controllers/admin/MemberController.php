@@ -19,7 +19,6 @@ use App\Http\Requests\admin\members\UpdateRequest;
 use App\Http\Requests\admin\members\PfpRequest;
 use App\Http\Requests\admin\members\DocumentsRequest;
 use App\Http\Requests\admin\members\PlanRequest;
-use App\Http\Requests\admin\members\WorkoutRequest;
 
 // Models
 use App\Models\User;
@@ -61,10 +60,10 @@ class MemberController extends Controller
         return view('admin.members.documents')->with(['member' => $user]);
     }
 
-    // WORKOUTS
-    public function workouts(User $user) {
+    // PLANS
+    public function plans(User $user) {
         $pricings = Pricing::available()->get();
-        return view('admin.members.workouts')->with(['member' => $user, 'pricings' => $pricings]);
+        return view('admin.members.plans')->with(['member' => $user, 'pricings' => $pricings]);
     }
 
     // CALENDAR
@@ -310,39 +309,6 @@ class MemberController extends Controller
         return redirect()->back()->with(['error' => 'Impossible de supprimer l\'abonnement']);
     }
 
-    // ADD WORKOUT
-    public function addWorkout(WorkoutRequest $request, User $user) {
-        $data = $request->validated();
-
-        for($i = 0; $i < $data['nbr_sessions']; $i++) {
-            Workout::create([
-                'user_id' => $user->id,
-                'plan_id' => null,
-                'date'    => null,
-                'status'  => false,
-            ]);
-        }
-
-        return redirect()->back()->with(['success' => 'Séances ajoutées avec succès']);
-    }
-
-    // DELETE WORKOUT
-    public function deleteWorkout(Workout $workout) {
-        $workout->delete();
-        return redirect()->back()->with(['success' => 'Séance supprimée avec succès']);
-    }
-
-    // SOFT DELETE WORKOUT
-    public function softDeleteWorkout(Workout $workout) {
-        $workout->softDelete();
-        return redirect()->back()->with(['success' => 'Séance mise à la corbeille avec succès']);
-    }
-
-    // RESTORE WORKOUT
-    public function restoreWorkout(Workout $workout) {
-        $workout->restore();
-        return redirect()->back()->with(['success' => 'Séance restaurée avec succès']);
-    }
 
     
 }

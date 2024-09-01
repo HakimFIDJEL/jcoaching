@@ -82,6 +82,17 @@
                     <span class="nav-text">Tarifs</span>
                 </a>                
             </li>
+            <li class="{{ Request::is('admin/calendar*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.calendar.index') }}" 
+                    class="ai-icon {{ Request::is('admin/calendar*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Calendrier"
+                >
+                    <i class="fa fa-calendar-alt"></i>
+                    <span class="nav-text">Calendrier</span>
+                </a>                
+            </li>
         </ul>
 
         <hr>

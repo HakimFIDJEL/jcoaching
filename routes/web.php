@@ -20,6 +20,7 @@ use App\Http\Controllers\admin\ContactController as AdminContactController;
 use App\Http\Controllers\admin\MediaController as AdminMediaController;
 use App\Http\Controllers\admin\FaqController as AdminFaqController;
 use App\Http\Controllers\admin\PricingController as AdminPricingController;
+use App\Http\Controllers\admin\CalendarController as AdminCalendarController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -73,25 +74,19 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{user}', 'update')->name('update');
         
-        // WORKOUTS & PLANS
-        Route::get('/workouts/{user}', 'workouts')->name('workouts');
-            // PLANS
-            Route::prefix('/plans/{user}')->name('plans.')->group(function()
-            {
+        // PLANS
+        Route::prefix('/plans/{user}')->name('plans.')->group(function()
+        {
+                Route::get('/', 'plans')->name('index');
                 Route::get('/unexpire/{plan}', 'unexpirePlan')->name('unexpire');
                 Route::get('/delete/{plan}', 'deletePlan')->name('delete');
                 Route::get('/soft-delete/{plan}', 'softDeletePlan')->name('soft-delete');
                 Route::get('/expire', 'expirePlan')->name('expire');
                 Route::post('/add', 'addPlan')->name('add');
                 Route::post('/update', 'updatePlan')->name('update');
-            });
-            // WORKOUTS
-            Route::prefix('/workouts')->name('workouts.')->group(function()
-            {
-                Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
-                Route::get('/soft-delete/{workout}', 'softDeleteWorkout')->name('soft-delete');
-                Route::post('/add/{user}', 'addWorkout')->name('add');
-            });
+        });
+
+       
         
         // DOCUMENTS
         Route::get('/documents/{user}', 'documents')->name('documents');
@@ -110,6 +105,25 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
         Route::get('/restore/{user}', 'restore')->name('restore');
+    });
+
+    // CALENDAR - DOING 
+    Route::prefix("/calendar")->name("calendar.")->controller(AdminCalendarController::class)->group(function(){
+
+        Route::get('/{user?}', 'index')->name('index');
+
+        Route::post('/search', 'search')->name('search');
+
+        // WORKOUTS
+        Route::prefix('/workouts/{user}')->name('workouts.')->group(function()
+        {
+            Route::get('/refuse-date/{workout}', 'refuseDateWorkout')->name('refuse-date');
+            Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
+            Route::get('/soft-delete/{workout}', 'softDeleteWorkout')->name('soft-delete');
+
+            Route::post('/add', 'addWorkout')->name('add');
+            Route::post('/update/{workout}', 'updateWorkout')->name('update');
+        });
     });
 
     // ADMINS - DONE

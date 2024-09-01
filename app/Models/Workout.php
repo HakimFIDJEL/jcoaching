@@ -9,6 +9,8 @@ class Workout extends Model
 {
     use HasFactory;
 
+    protected $dates = ['date', 'deleted_at'];
+
     protected $fillable = [
         'user_id',
         'plan_id',

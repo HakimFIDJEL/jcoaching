@@ -42183,3 +42183,22 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   font-size: 16px !important;
 }
 /* /DATATABLE */
+
+
+/* FULLCALENDAR */
+.fc .fc-timegrid-slot {
+  height: 2em !important;
+}
+
+.fc-theme-standard .fc-list-day-cushion {
+  background-color: var(--bs-body-bg);
+}
+
+.fc .fc-list-event:hover td {
+  cursor: auto;
+  color: var(--bs-primary);
+  background-color: var(--bs-body-bg);
+}
+
+
+/* /FULLCALENDAR */
