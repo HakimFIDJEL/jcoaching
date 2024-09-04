@@ -45,7 +45,7 @@ function getUrlParams(dParam)
 			containerLayout: "full",
 			direction: direction,
             navTextColor:'color_1',
-            navigationBarImg: 'images/sidebar-img/1.jpg'  /* image path or null*/
+            navigationBarImg: null  /* image path or null*/
 		};
 
 	

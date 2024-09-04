@@ -26,6 +26,7 @@ use App\Models\UserDocument;
 use App\Models\Plan;
 use App\Models\Pricing;
 use App\Models\Workout;
+use App\Models\RestPeriod;
 
 // Mails
 use App\Mail\admin\StoreMember;
@@ -68,7 +69,9 @@ class MemberController extends Controller
 
     // CALENDAR
     public function calendar(User $user) {
-        return view('admin.members.calendar')->with(['member' => $user]);
+        $workouts = Workout::with('user:id,lastname,firstname')->where('user_id', $user->id)->get();
+        $rest_periods = RestPeriod::all();
+        return view('admin.members.calendar')->with(['member' => $user, 'workouts' => $workouts, 'rest_periods' => $rest_periods]);
     }
 
     // STORE

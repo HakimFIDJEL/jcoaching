@@ -34,6 +34,7 @@ class User extends Authenticatable
         'address_complement',
         'country',
         'pfp_path',
+        'first_session'
     ];
 
     /**

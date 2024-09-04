@@ -68,6 +68,7 @@
                     </div>   
                 @endif
             </div>
+            
         </div>
 
        
@@ -149,7 +150,4 @@
 
 @endsection
 
-@section('scripts')
-    @vite('resources/js/plugins/filepond.js')
-@endsection
 

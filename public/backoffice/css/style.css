@@ -8800,11 +8800,13 @@ label {
   position: absolute;
   left: 0;
   top: 0;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
+  border-bottom: 1px solid var(--bs-primary);
   transition: all .2s ease;
   z-index: 5;
   border-right: 1px solid var(--bs-primary); }
   .nav-header.dez-bg {
+    background: var(--bs-body-bg) !important;
     background-size: 1000px;
     background-position: left;
     background-attachment: fixed; }
@@ -10322,10 +10324,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   top: 5.5rem;
   padding-top: 0;
   z-index: 4;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
   transition: all .2s ease;
   box-shadow: 0px 15px 30px 0px rgba(0, 0, 0, 0.02); }
   .deznav.dez-bg {
+    background: var(--bs-body-bg) !important;
     background-attachment: fixed;
     background-size: cover;
     background-position: left center; }
@@ -10873,7 +10876,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li > a.has-arrow:after {
         display: none; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li.mm-active > a {
-      background: #e7fdf9;
+      background: rgba(255, 255, 255, 0.2);
       border-radius: 0.5rem; }
       [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li.mm-active > a i {
         color: var(--bs-primary);
@@ -10883,7 +10886,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       top: auto; }
     [data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li:hover > a {
       border-radius: 0.5rem;
-      background: #e7fdf9;
+      background: rgba(255, 255, 255, 0.2);
       color: var(--bs-primary); }
       [data-theme-version="dark"][data-sidebar-style="full"][data-layout="vertical"] .menu-toggle .deznav .metismenu > li:hover > a {
         background: #2f363e; }

@@ -223,6 +223,7 @@ let dataSet = [
 			infoEmpty: "Affichage de 0 à 0 sur 0 entrées",
 			emptyTable: "Aucune donnée disponible dans le tableau",
 		  },
+		  order: [[ 0, 'desc' ]],
 		  initComplete: function () {
 			// Ajout d'une classe à l'input de recherche
 			var searchInput = $('.dataTables_filter input');

@@ -17,9 +17,6 @@ let draggableEls                = document.querySelectorAll('.draggable');
 let draggableContainer          = document.querySelector('.draggable-container');
 let noDraggable                 = document.querySelector('.draggable-container .no-draggable');
 
-let datatable                   = $(document).find('.datatable');
-let filterButton                = $(document).find('#filter');
-
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -47,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     let events = workoutEvents.concat(restPeriodEvents);
+
+
+
 
     
     // Draggable
@@ -236,22 +236,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 });
-
-$(document).ready(function() {
-
-
-    // On affiche ou non dont le data-status est à 1
-    $(document).on('change', '#filter', function() {
-        // Si la checkbox est cochée
-        if ($(this).is(':checked')) {
-            datatable.find('tr[data-status="1"]').hide();
-        }   
-        // Si la checkbox est décochée
-        else {
-            datatable.find('tr[data-status="1"]').show();
-        }   
-    });
-})
 
 // Affiche ou non le message "Aucun entraînement disponible"
 function toggleNoDraggable() {

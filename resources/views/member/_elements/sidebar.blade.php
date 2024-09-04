@@ -20,8 +20,20 @@
                     aria-expanded="false"
                     title="Abonnements"
                 >
-                    <i class="flaticon-381-star-1"></i>
+                    <i class="fa fa-credit-card"></i>
                     <span class="nav-text">Abonnements</span>
+                </a>                
+            </li>
+
+            <li class="{{ Request::is('member/calendar*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('member.calendar.index') }}" 
+                    class="ai-icon {{ Request::is('member/calendar*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Calendrier"
+                >
+                    <i class="fa fa-calendar-alt"></i>
+                    <span class="nav-text">Calendrier</span>
                 </a>                
             </li>
             

@@ -25,6 +25,7 @@ use App\Http\Controllers\admin\CalendarController as AdminCalendarController;
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
 use App\Http\Controllers\member\PlanController as MemberPlanController;
+use App\Http\Controllers\member\CalendarController as MemberCalendarController;
 
 
 // MAIN ROUTES
@@ -237,4 +238,21 @@ Route::prefix("/member")->middleware([AuthMiddleware::class])->name("member.")->
 
         Route::get('/', 'index')->name('index');
     });
+
+
+
+    // CALENDAR ROUTES
+    Route::prefix("/calendar")->name("calendar.")->controller(MemberCalendarController::class)->group(function(){
+    
+        Route::get('/', 'index')->name('index');
+    
+        // WORKOUTS
+        Route::prefix('/workouts')->name('workouts.')->group(function()
+        {
+            Route::get('/add', 'addWorkout')->name('add');
+            Route::post('/update', 'updateWorkout')->name('update');
+        });
+    });
 });
+
+

@@ -42,7 +42,7 @@
                         <th>Statut</th>
                         <th>Titre</th>
                         <th>Nombre de sessions</th>
-                        <th>Nombre d'adhérents</th>
+                        <th>Adhérents actifs</th>
                         <th>Prix</th>
                         <th>Action</th>
                     </tr>
@@ -60,7 +60,7 @@
                             </td>
                             <td>{{ $pricing->title }}</td>
                             <td>{{ $pricing->nbr_sessions }}</td>
-                            <td>// TODO</td>
+                            <td>{{ $pricing->nbrOfUsers() }}</td>
                             <td>{{ $pricing->price }}</td>
                             <td>
                                 <div class="d-flex">

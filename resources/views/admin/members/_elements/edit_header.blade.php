@@ -78,8 +78,8 @@
             <i class="fas fa-dumbbell ms-2"></i>
         </a>
         <a 
-            href="{{ route('admin.calendar.index', ['user' => $member]) }}" 
-            class="btn d-flex align-items-center btn-outline-primary"
+            href="{{ route('admin.members.calendar', ['user' => $member]) }}" 
+            class="btn d-flex align-items-center @if(Route::currentRouteName() == 'admin.members.calendar') btn-primary @else btn-outline-primary @endif"
         >
             <span>
                 Calendrier

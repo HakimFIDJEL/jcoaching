@@ -23,6 +23,11 @@ class Pricing extends Model
         'online',
     ];
 
+    public function nbrOfUsers() {        
+        return $this->plans()->where('deleted_at', null)->distinct('user_id')->count();
+    }
+    
+
     public function features()
     {
         return $this->hasMany(PricingFeature::class);
