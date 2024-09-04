@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Workout extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $dates = ['date', 'deleted_at'];
 
@@ -30,13 +32,5 @@ class Workout extends Model
         return $query->where('plan_id', null);
     }
 
-    public function softDelete() {
-        $this->deleted_at = now();
-        $this->save();
-    }
-
-    public function restore() {
-        $this->deleted_at = null;
-        $this->save();
-    }
+   
 }

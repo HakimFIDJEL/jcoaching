@@ -18,7 +18,7 @@ return new class extends Migration
             $table->boolean('nutrition_option')->default(false);
             $table->integer('sessions_left');
             $table->timestamps();
-            $table->timestamp('expiration_date');
+            $table->dateTime('expiration_date');
             $table->softDeletes();
         });
     }

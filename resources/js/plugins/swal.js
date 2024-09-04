@@ -54,3 +54,5 @@ $(document).on('click', '.warning-row', function(e) {
 });
 
 window.Swal = Swal;
+
+export default swal;

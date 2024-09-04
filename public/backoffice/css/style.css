@@ -42200,5 +42200,11 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   background-color: var(--bs-body-bg);
 }
 
+.fc-daygrid-dot-event {
+  cursor: auto;
+  color: var(--bs-primary);
+  background-color: var(--bs-body-bg);
+}
+
 
 /* /FULLCALENDAR */

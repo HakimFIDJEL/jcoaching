@@ -11,8 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('plans', function (Blueprint $table) {
-            $table->dateTime('start_date')->before('expiration_date');
+        Schema::create('rest_periods', function (Blueprint $table) {
+            $table->id();
+            $table->dateTime('start_date');
+            $table->dateTime('end_date');
+            $table->timestamps();
         });
     }
 
@@ -21,8 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('plans', function (Blueprint $table) {
-            $table->dropColumn('start_date');
-        });
+        Schema::dropIfExists('rest_periods');
     }
 };

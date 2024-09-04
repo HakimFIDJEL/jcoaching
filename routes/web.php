@@ -115,14 +115,27 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/search', 'search')->name('search');
 
         // WORKOUTS
-        Route::prefix('/workouts/{user}')->name('workouts.')->group(function()
+        Route::prefix('/workouts')->name('workouts.')->group(function()
         {
-            Route::get('/refuse-date/{workout}', 'refuseDateWorkout')->name('refuse-date');
-            Route::get('/delete/{workout}', 'deleteWorkout')->name('delete');
-            Route::get('/soft-delete/{workout}', 'softDeleteWorkout')->name('soft-delete');
 
+            Route::get('/delete/{user}/{workout}', 'deleteWorkout')->name('delete');
+            Route::get('/soft-delete/{user}/{workout}', 'softDeleteWorkout')->name('soft-delete');
+            Route::get('/restore/{user}/{workout}', 'restoreWorkout')->name('restore');
+
+            Route::get('/done/{user}/{workout}', 'doneWorkout')->name('done');
+            Route::get('/undone/{user}/{workout}', 'undoneWorkout')->name('undone');
+            
             Route::post('/add', 'addWorkout')->name('add');
-            Route::post('/update/{workout}', 'updateWorkout')->name('update');
+            Route::post('/update', 'updateWorkout')->name('update');
+        });
+
+        // REST PERIODS
+        Route::prefix('/rest-periods')->name('rest-periods.')->group(function()
+        {
+            
+            Route::post('/add', 'addRestPeriod')->name('add');
+            Route::post('/update', 'updateRestPeriod')->name('update');
+            Route::post('/delete', 'deleteRestPeriod')->name('delete');
         });
     });
 

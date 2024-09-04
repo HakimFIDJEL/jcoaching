@@ -36,3 +36,5 @@ const notyf = new Notyf({
 
 
 window.notyf = notyf;
+
+export default notyf;
