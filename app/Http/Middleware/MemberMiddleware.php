@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AuthMiddleware
+class MemberMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,6 +18,11 @@ class AuthMiddleware
     {
         if (!Auth::check()) {
             return redirect()->route('auth.login')->with(['error' => 'Vous devez être connecté pour accéder à cette page']);
+        }
+
+        $user = Auth::user();
+        if ($user->role != 'member') {
+            return redirect()->route('main.account');
         }
 
         return $next($request);

@@ -10,16 +10,8 @@
 {{-- /Page Header --}}
 
 
-@php 
-    $fullcalendar_users          = collect([$member]);
-    $fullcalendar_workouts       = $workouts;
-    $fullcalendar_rest_periods   = $rest_periods;
-    $update_workout_route        = route('admin.calendar.workouts.update');
-@endphp
-
-
 {{-- Calendar --}}
-@include('_elements.calendar')
+@include('_elements.calendar.notify')
 {{-- /Calendar --}}
 
 

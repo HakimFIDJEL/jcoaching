@@ -11,15 +11,26 @@
 
 
 
+
 {{-- Page content --}}
 <div class="card border border-4 border-primary">
 
+    {{-- Content Header --}}
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title">
+            <h4 class="mb-0">Les abonnements de {{ $member->firstname }} {{ $member->lastname }}</h4>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous avez la possibilité de gérer les abonnements du membre.
+            </p>
+        </div>
+    </div>
+    {{-- /Content Header --}}
+
 
     {{-- Content Body --}}
-    <div class="card-body mb-4">
-
-      
-
+    <div class="card-body">
         <div class="row mt-4 mb-5">
             <div class="col">
                 @if($member->hasCurrentPlan())
@@ -68,11 +79,7 @@
                     </div>   
                 @endif
             </div>
-            
         </div>
-
-       
-
                     
         <table class="table datatable">
             <thead>
@@ -135,12 +142,6 @@
                 @endforeach
             </tbody>
         </table>
-            
-       
-
-
-            
-
     </div>
     {{-- /Content Body --}}
 </div>

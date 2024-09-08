@@ -31,6 +31,9 @@ use App\Models\RestPeriod;
 // Mails
 use App\Mail\admin\StoreMember;
 
+// Controllers
+use App\Http\Controllers\CalendarController;
+
 
 
 class MemberController extends Controller
@@ -69,9 +72,14 @@ class MemberController extends Controller
 
     // CALENDAR
     public function calendar(User $user) {
-        $workouts = Workout::with('user:id,lastname,firstname')->where('user_id', $user->id)->get();
-        $rest_periods = RestPeriod::all();
-        return view('admin.members.calendar')->with(['member' => $user, 'workouts' => $workouts, 'rest_periods' => $rest_periods]);
+        $calendarController = new CalendarController();
+        return $calendarController->index($user);
+    }
+
+    // CALENDAR NOTIFY
+    public function calendarNotify(User $user) {
+        $calendarController = new CalendarController();
+        return $calendarController->notify($user);
     }
 
     // STORE
@@ -113,6 +121,13 @@ class MemberController extends Controller
     // UPDATE
     public function update(UpdateRequest $request, User $user) {
         $data = $request->validated();
+
+        // Email verified
+        if($data['email_verified'] == 1) {
+            $data['email_verified_at'] = now();
+        } else {
+            $data['email_verified_at'] = null;
+        }
 
         $user->update($data);
 

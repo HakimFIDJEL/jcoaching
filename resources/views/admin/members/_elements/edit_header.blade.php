@@ -21,6 +21,12 @@
                     <i class="fas fa-times ms-1"></i>
                 </span>
             @endif
+            @if($member->first_session)
+                <span class="badge bg-success me-2 p-1">
+                    <span class="">Première séance offerte</span>
+                    <i class="fas fa-check ms-1"></i>
+                </span>
+            @endif
             @if($member->hasCurrentPlan())
                 <span class="badge bg-success me-2 p-1">
                     <span class="">Abonnement actif</span>
@@ -79,7 +85,7 @@
         </a>
         <a 
             href="{{ route('admin.members.calendar', ['user' => $member]) }}" 
-            class="btn d-flex align-items-center @if(Route::currentRouteName() == 'admin.members.calendar') btn-primary @else btn-outline-primary @endif"
+            class="btn d-flex align-items-center @if(Route::currentRouteName() == 'admin.members.calendar' || Route::currentRouteName() == 'admin.members.calendar.notify') btn-primary @else btn-outline-primary @endif"
         >
             <span>
                 Calendrier

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Requests\admin\calendar;
+namespace App\Http\Requests\calendar;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
 
-class AddWorkoutRequest extends FormRequest
+class UpdateRestPeriodRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,8 +24,9 @@ class AddWorkoutRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'nbr_sessions' => ['required', 'integer'],
-            'user' => ['required', 'integer', 'exists:users,id'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date'],
+            'rest_period' => ['required', 'exists:rest_periods,id'],
         ];
     }
 
@@ -37,12 +38,14 @@ class AddWorkoutRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'nbr_sessions.required' => 'Le nombre de sessions est requis',
-            'nbr_sessions.integer' => 'Le nombre de sessions est invalide',
+            'start_date.required' => 'La date de début est requise',
+            'start_date.date' => 'La date de début est invalide',
 
-            'user.required' => 'L\'utilisateur est requis',
-            'user.integer' => 'L\'utilisateur est invalide',
-            'user.exists' => 'L\'utilisateur est invalide',
+            'end_date.required' => 'La date de fin est requise',
+            'end_date.date' => 'La date de fin est invalide',
+
+            'rest_period.required' => 'La période de repos est requise',
+            'rest_period.exists' => 'La période de repos est invalide',
         ];
     }
 }

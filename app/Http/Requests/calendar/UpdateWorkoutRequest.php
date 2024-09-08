@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\member\calendar;
+namespace App\Http\Requests\calendar;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
@@ -13,7 +13,7 @@ class UpdateWorkoutRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return Auth::check();
     }
 
     /**

@@ -41,21 +41,10 @@
 
     <hr> --}}
 
-@php 
-    if(!$user) {
-        $fullcalendar_users     = $members;
-    } else {
-        $fullcalendar_users     = collect([$user]);;
-    }
-    $fullcalendar_workouts      = $workouts;
-    $fullcalendar_rest_periods  = $rest_periods;
-    $fullcalendar_other_workouts = null;
-    $update_workout_route       = route('admin.calendar.workouts.update');
-@endphp
 
 
 {{-- Calendar --}}
-@include('_elements.calendar')
+@include('_elements.calendar.index')
 {{-- /Calendar --}}
 
 

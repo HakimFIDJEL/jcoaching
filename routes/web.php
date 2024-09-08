@@ -4,12 +4,14 @@ use Illuminate\Support\Facades\Route;
 
 // Middlewares
 use App\Http\Middleware\AdminMiddleware;
+use App\Http\Middleware\MemberMiddleware;
 use App\Http\Middleware\AuthMiddleware;
 
 
 // Controllers
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CalendarController;
 
 //      Admin Controllers
 use App\Http\Controllers\admin\MainController as AdminMainController;
@@ -20,12 +22,10 @@ use App\Http\Controllers\admin\ContactController as AdminContactController;
 use App\Http\Controllers\admin\MediaController as AdminMediaController;
 use App\Http\Controllers\admin\FaqController as AdminFaqController;
 use App\Http\Controllers\admin\PricingController as AdminPricingController;
-use App\Http\Controllers\admin\CalendarController as AdminCalendarController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
 use App\Http\Controllers\member\PlanController as MemberPlanController;
-use App\Http\Controllers\member\CalendarController as MemberCalendarController;
 
 
 // MAIN ROUTES
@@ -101,6 +101,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         
         // CALENDAR
         Route::get('/calendar/{user}', 'calendar')->name('calendar');
+        Route::get('/calendar/notify/{user}', 'calendarNotify')->name('calendar.notify');
 
         // DELETE
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
@@ -109,35 +110,36 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     });
 
     // CALENDAR - DOING 
-    Route::prefix("/calendar")->name("calendar.")->controller(AdminCalendarController::class)->group(function(){
+    Route::prefix("/calendar")->name("calendar.")->controller(CalendarController::class)->group(function(){
 
-        Route::get('/{user?}', 'index')->name('index');
-
-        Route::post('/search', 'search')->name('search');
+        Route::get('/', 'index')->name('index');
+        Route::get('/notify', 'notify')->name('notify');
+        
+        Route::post('/notify', 'toNotify')->name('notify-post');
+    
 
         // WORKOUTS
         Route::prefix('/workouts')->name('workouts.')->group(function()
         {
-
             Route::get('/delete/{user}/{workout}', 'deleteWorkout')->name('delete');
             Route::get('/soft-delete/{user}/{workout}', 'softDeleteWorkout')->name('soft-delete');
             Route::get('/restore/{user}/{workout}', 'restoreWorkout')->name('restore');
 
             Route::get('/done/{user}/{workout}', 'doneWorkout')->name('done');
             Route::get('/undone/{user}/{workout}', 'undoneWorkout')->name('undone');
-            
-            Route::post('/add', 'addWorkout')->name('add');
+
+            Route::post('/store', 'storeWorkout')->name('store');
             Route::post('/update', 'updateWorkout')->name('update');
         });
 
         // REST PERIODS
         Route::prefix('/rest-periods')->name('rest-periods.')->group(function()
         {
-            
             Route::post('/add', 'addRestPeriod')->name('add');
             Route::post('/update', 'updateRestPeriod')->name('update');
             Route::post('/delete', 'deleteRestPeriod')->name('delete');
         });
+
     });
 
     // ADMINS - DONE
@@ -228,28 +230,29 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
 
 // MEMBER ROUTES
-Route::prefix("/member")->middleware([AuthMiddleware::class])->name("member.")->group(function(){
+Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")->group(function(){
 
     // MAIN
     Route::get('/', [MemberMainController::class, 'index'])->name('index');
 
     // PLANS
     Route::prefix("/plans")->name("plans.")->controller(MemberPlanController::class)->group(function(){
-
         Route::get('/', 'index')->name('index');
     });
 
-
-
     // CALENDAR ROUTES
-    Route::prefix("/calendar")->name("calendar.")->controller(MemberCalendarController::class)->group(function(){
+    Route::prefix("/calendar")->name("calendar.")->controller(CalendarController::class)->group(function(){
     
         Route::get('/', 'index')->name('index');
-    
+        Route::get('/notify', 'notify')->name('notify');
+
+        Route::post('/notify', 'toNotify')->name('notify-post');
+
         // WORKOUTS
         Route::prefix('/workouts')->name('workouts.')->group(function()
         {
             Route::get('/add', 'addWorkout')->name('add');
+
             Route::post('/update', 'updateWorkout')->name('update');
         });
     });

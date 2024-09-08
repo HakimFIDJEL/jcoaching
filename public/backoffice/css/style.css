@@ -8762,7 +8762,7 @@ label {
 }
 
 .loader .loading .aloader {
-  background: #edcc36;
+  background: var(--bs-primary);
 }
 
 
@@ -36179,7 +36179,7 @@ button.btn.tp-btn-light.btn-light {
     font-size: 20px;
     font-weight: 500;
     color: #000;
-    text-transform: capitalize; }
+    }
     .card-title--large {
       font-size: 1.5rem; }
     .card-title--medium {
@@ -42209,5 +42209,30 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
   background-color: var(--bs-body-bg);
 }
 
+.fc-not-allowed-workout, .fc-not-allowed-rest-period {
+  pointer-events: none !important;
+  cursor: not-allowed;
+}
 
+.fc-not-allowed-workout .fc-event-main { 
+  filter: blur(4px);
+}
+.fc-not-allowed-workout::after {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: '🔒';
+  color: var(--bs-body-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+}
+
+.fc .fc-button {
+  border-radius: 0;
+  transition : all 0.5s ease;
+}
 /* /FULLCALENDAR */

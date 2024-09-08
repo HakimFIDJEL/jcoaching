@@ -8,19 +8,25 @@ import swal from './swal';
 import notyf from './notyf';
 
 
-let fullcalendar_workouts       = $("#calendar").data('fullcalendar_workouts');
-let fullcalendar_rest_periods   = $("#calendar").data('fullcalendar_rest_periods');
-let updateWorkoutRoute          = $("#calendar").data('update_workout_route');
-let updateRestPeriodRoute       = $("#calendar").data('update_rest_period_route');
-let deleteRestPeriodRoute       = $("#calendar").data('delete_rest_period_route');
-let draggableEls                = document.querySelectorAll('.draggable');
-let draggableContainer          = document.querySelector('.draggable-container');
-let noDraggable                 = document.querySelector('.draggable-container .no-draggable');
+let fullcalendar_workouts_visible   = $("#calendar").data('fullcalendar_workouts_visible');
+let fullcalendar_workouts_locked    = $("#calendar").data('fullcalendar_workouts_locked');
+let fullcalendar_rest_periods       = $("#calendar").data('fullcalendar_rest_periods');
+
+let updateWorkoutRoute              = $("#calendar").data('update_workout_route');
+let updateRestPeriodRoute           = $("#calendar").data('update_rest_period_route');
+let deleteRestPeriodRoute           = $("#calendar").data('delete_rest_period_route');
+let isAdministrator                 = $("#calendar").data('is_administrator');
+let userId                          = $("#calendar").data('user_id');
+
+let draggableEls                    = document.querySelectorAll('.draggable');
+let draggableContainer              = document.querySelector('.draggable-container');
+let noDraggable                     = document.querySelector('.draggable-container .no-draggable');
 
 
 document.addEventListener('DOMContentLoaded', function() {
 
-    let workoutEvents = fullcalendar_workouts.map(function(workout) {
+
+    let workoutVisibleEvents = fullcalendar_workouts_visible.map(function(workout) {
         return {
             title: '#' + workout.id + ' - ' + workout.user.lastname + ' ' + workout.user.firstname,
             start: workout.date,
@@ -28,6 +34,19 @@ document.addEventListener('DOMContentLoaded', function() {
             workoutId: workout.id,
             type: 'workout',
             color: getWorkoutColour(workout.status, workout.date),
+            className:  ''
+        };
+    });
+
+    let workoutLockedEvents = fullcalendar_workouts_locked.map(function(workout) {
+        return {
+            title: '#' + workout.id,
+            start: workout.date,
+            userId: workout.user_id,
+            workoutId: workout.id,
+            type: 'workout',
+            color: getWorkoutColour(workout.status, workout.date),
+            className: 'fc-not-allowed-workout'
         };
     });
 
@@ -40,15 +59,12 @@ document.addEventListener('DOMContentLoaded', function() {
             type: 'rest_period',
             color: 'var(--bs-danger)', 
             rendering: 'background', 
+            className: !isAdministrator ? 'fc-not-allowed-rest-period' : '' 
         };
     });
 
-    let events = workoutEvents.concat(restPeriodEvents);
+    let events = workoutVisibleEvents.concat(workoutLockedEvents).concat(restPeriodEvents);
 
-
-
-
-    
     // Draggable
     if (draggableEls && draggableEls.length > 0) {
         draggableEls.forEach(function(draggableEl) {
@@ -60,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         userId: eventEl.dataset.user,    
                         workoutId: eventEl.dataset.workout ,
                         type: 'workout',
-                        color: 'var(--bs-secondary)', 
+                        color: 'var(--bs-secondary)',
                     };
                 },
             });
@@ -104,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
         eventOverlap: false,
 
         eventReceive: function(info) {
+
+
             swal.fire({
                 title: 'Ajouter l\'entraînement ?',
                 text: "Voulez-vous vraiment ajouter cet entraînement à votre planning ?",
@@ -116,11 +134,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }).then((result) => {
                 if (result.isConfirmed) {
                     console.log('Dropped !');
-
                     updateWorkout(info);
-                    
-
-
                 } else {
                     console.log('Drop annulé !');
                     info.revert();
@@ -134,26 +148,31 @@ document.addEventListener('DOMContentLoaded', function() {
         
             const oldEnd = info.oldEvent.end;
             const newEnd = info.event.end;
-        
+
             if (oldStart.getTime() !== newStart.getTime() || (oldEnd && newEnd && oldEnd.getTime() !== newEnd.getTime())) {
                 if(info.event.extendedProps.type === 'rest_period') {
-                    swal.fire({
-                        title: 'Modifier la période de repos ?',
-                        text: "Voulez-vous vraiment modifier cette période de repos sur votre planning ?",
-                        icon: 'warning',
-                        showCancelButton: true,
-                        confirmButtonText: 'Oui',
-                        cancelButtonText: 'Non',
-                        focusConfirm: true,
-                        focusCancel: false,
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            updateRestPeriod(info); // Appeler la fonction pour mettre à jour la période de repos
-                        } else {
-                            console.log('Changement annulé !');
-                            info.revert(); // Revenir à l'état initial si annulé
-                        }
-                    });
+                    if(isAdministrator) {
+                        swal.fire({
+                            title: 'Modifier la période de repos ?',
+                            text: "Voulez-vous vraiment modifier cette période de repos sur votre planning ?",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonText: 'Oui',
+                            cancelButtonText: 'Non',
+                            focusConfirm: true,
+                            focusCancel: false,
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                updateRestPeriod(info); // Appeler la fonction pour mettre à jour la période de repos
+                            } else {
+                                console.log('Changement annulé !');
+                                info.revert(); // Revenir à l'état initial si annulé
+                            }
+                        });
+                    } else {
+                        notyf.error('Vous n\'êtes pas autorisé à modifier une période de repos !');
+                        info.revert();
+                    }
                 } else {
                     swal.fire({
                         title: 'Modifier l\'entraînement ?',
@@ -166,7 +185,6 @@ document.addEventListener('DOMContentLoaded', function() {
                         focusCancel: false,
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            console.log('Changed !');
                             updateWorkout(info); // Appeler la fonction pour mettre à jour l'entraînement
                         } else {
                             console.log('Changement annulé !');
@@ -178,34 +196,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Si ce n'est pas un changement de date, ne rien faire
                 console.log('Changement sans modification de la date (ex: couleur).');
             }
+            
+        
         },
         
         eventClick: function(info) {
 
             if(info.event.extendedProps.type === 'rest_period') {
-                swal.fire({
-                    title: 'Supprimer la période de repos ?',
-                    text: "Voulez-vous vraiment supprimer la période de repose de votre planning ?",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonText: 'Oui',
-                    cancelButtonText: 'Non',
-                    focusConfirm: true,
-                    focusCancel: false,
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        console.log('Event clicked !');
-                        
-                        deleteRestPeriod(info);
-    
-                    } else {
-                        console.log('Click annulé !');
-                    }
-                });
+                if(isAdministrator) {
+                    swal.fire({
+                        title: 'Supprimer la période de repos ?',
+                        text: "Voulez-vous vraiment supprimer la période de repose de votre planning ?",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Oui',
+                        cancelButtonText: 'Non',
+                        focusConfirm: true,
+                        focusCancel: false,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            console.log('Event clicked !');
+                            
+                            deleteRestPeriod(info);
+        
+                        } else {
+                            console.log('Click annulé !');
+                        }
+                    });
+                } else {
+                    notyf.error('Vous n\'êtes pas autorisé à supprimer une période de repos !');
+                }
             } else {
                 swal.fire({
-                    title: 'Retirer l\'entraînement ?',
-                    text: "Voulez-vous vraiment retirer cet entraînement sur votre planning ?",
+                    title: 'Entraînement '+info.event.title,
+                    text: "Voulez-vous vraiment retirer cet entraînement de votre planning ?",
                     icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Oui',
@@ -253,6 +277,8 @@ function toggleNoDraggable() {
 
 // Retirer un entraînement du calendrier
 function refuseDate(info) {
+
+
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -271,7 +297,7 @@ function refuseDate(info) {
                     addDraggableElement(info);  
                     break;
                 case 'error':
-                    notyf.error(response.message);
+                    notyf.error(response.message ?? 'Une erreur est survenue !');
                     break;
                 default:
                     notyf.error('Une erreur est survenue !');
@@ -280,6 +306,7 @@ function refuseDate(info) {
         },
         error: function (response) {
             console.log(response);
+            notyf.error(response.responseJSON.message ?? 'Une erreur est survenue !');
         }
     }).always(function() {
         toggleNoDraggable();
@@ -316,7 +343,15 @@ function addDraggableElement(info) {
 // Met à jour un entraînement dans la base de données
 function updateWorkout(info) {
 
-    console.log('info', info);
+    let date = info.event.startStr;
+    let gridMonth = false;
+
+    if(date.length === 10) {
+        date = date + 'T10:00:00';
+        gridMonth = true;
+    }
+
+
 
     $.ajax({
         headers: {
@@ -327,9 +362,14 @@ function updateWorkout(info) {
         data: {
             userId: info.event.extendedProps.userId,
             workoutId: info.event.extendedProps.workoutId,
-            date: info.event.startStr,
+            date: date
         },
         success: function (response) {
+
+            if(gridMonth) {
+                window.location.reload();
+            }
+
             switch(response.status) {
                 case 'success':
                     notyf.success(response.message);
@@ -338,7 +378,7 @@ function updateWorkout(info) {
                     }
                     break;
                 case 'error':
-                    notyf.error(response.message);
+                    notyf.error(response.message ?? 'Une erreur est survenue !');
                     info.revert();
                     break;
                 default:
@@ -361,6 +401,7 @@ function updateWorkout(info) {
 
 // Met à jour une période de repos dans la base de données
 function updateRestPeriod(info) {
+
     
     $.ajax({
         headers: {
@@ -379,7 +420,7 @@ function updateRestPeriod(info) {
                     notyf.success(response.message);
                     break;
                 case 'error':
-                    notyf.error(response.message);
+                    notyf.error(response.message ?? 'Une erreur est survenue !');
                     info.revert();
                     break;
                 default:
@@ -397,6 +438,7 @@ function updateRestPeriod(info) {
 
 // Supprime une période de repos de la base de données
 function deleteRestPeriod(info) {
+
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -415,7 +457,7 @@ function deleteRestPeriod(info) {
                     info.event.remove();
                     break;
                 case 'error':
-                    notyf.error(response.message);
+                    notyf.error(response.message ?? 'Une erreur est survenue !');
                     break;
                 default:
                     notyf.error('Une erreur est survenue !');

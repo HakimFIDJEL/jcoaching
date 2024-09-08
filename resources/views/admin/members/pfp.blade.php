@@ -15,11 +15,22 @@
 <div class="card border border-4 border-primary">
 
 
+    {{-- Content Header --}}
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title">
+            <h4 class="mb-0">Photo de profil de {{ $member->firstname }} {{ $member->lastname }}</h4>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous avez la possibilité de modifier la photo de profil du membre et de la télécharger.
+            </p>
+        </div>
+    </div>
+    {{-- /Content Header --}}
+
+
     {{-- Content Body --}}
-    <div class="card-body mb-4 mt-4">
-
-      
-
+    <div class="card-body">
         <form action="{{ route('admin.members.update-pfp', ['user' => $member]) }}" method="post" enctype="multipart/form-data">
             @csrf
     

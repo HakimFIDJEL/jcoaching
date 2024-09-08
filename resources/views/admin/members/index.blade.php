@@ -43,9 +43,9 @@
                         </th>
                         <th>ID</th>
                         <th>Nom</th>
-                        <th>Prénom</th>
                         <th>Adresse e-mail</th>
-                        <th>Email vérifié ?</th>
+                        <th>Vérifié</th>
+                        <th>Abonné</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -66,8 +66,7 @@
                                 @endif
                             </td>
                             <th>#{{ $user->id }}</th>
-                            <td>{{ $user->lastname }}</td>
-                            <td>{{ $user->firstname }}</td>
+                            <td>{{ $user->lastname }} {{ $user->firstname }}</td>
                             <td>
                                 <a href="mailto:{{ $user->email }}">
                                     <i class="fa fa-envelope me-1"></i>
@@ -92,8 +91,24 @@
                                 @endif
                             </td>
                             <td>
+                                @if($user->hasCurrentPlan())
+                                    <span class="badge bg-primary">
+                                        <span>
+                                            Oui
+                                        </span>
+                                        <i class="fa fa-check ms-1"></i>
+                                    </span>
+                                @else 
+                                    <span class="badge bg-secondary">
+                                        <span>
+                                            Non
+                                        </span>
+                                        <i class="fa fa-times ms-1"></i>
+                                    </span>
+                                @endif
+                            <td>
                                 <div class="d-flex">
-                                    <a title="Voir le membre" href="{{ route('admin.calendar.index', ['user' => $user]) }}" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-calendar"></i></a>
+                                    <a title="Voir le membre" href="{{ route('admin.members.calendar', ['user' => $user]) }}" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-calendar"></i></a>
                                     <a title="Modifier le membre" href="{{ route('admin.members.edit', ['user' => $user]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
                                     <a title="Mettre à la corbeille le membre" href="{{ route('admin.members.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp  delete-row"><i class="fa fa-trash"></i></a>
                                 </div>												

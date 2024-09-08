@@ -33,6 +33,7 @@ class UpdateRequest extends FormRequest
             'address_complement' => 'nullable|string|max:250',
             'country' => 'required|string|max:50',
             'email_verified' => 'required|boolean',
+            'first_session' => 'required|boolean',
         ];
     }
 
@@ -83,6 +84,9 @@ class UpdateRequest extends FormRequest
 
             'email_verified.required' => 'La vérification de l\'email est requise',
             'email_verified.boolean' => 'La vérification de l\'email doit être un booléen',
+
+            'first_session.required' => 'La première séance est requise',
+            'first_session.boolean' => 'La première séance doit être un booléen',
         ];
     }
 }

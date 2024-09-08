@@ -15,8 +15,22 @@
 <div class="card border border-4 border-primary">
 
 
+    {{-- Content Header --}}
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title">
+            <h4 class="mb-0">Les informations {{ $member->firstname }} {{ $member->lastname }}</h4>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous avez la possibilité de modifier les informations du membre.
+            </p>
+        </div>
+    </div>
+    {{-- /Content Header --}}
+
+
     {{-- Content Body --}}
-    <div class="card-body mb-4 mt-4">
+    <div class="card-body">
 
       
 
@@ -159,8 +173,12 @@
                         >{{ $member->address_complement }}</textarea>
                     </div>
                 </div> 
+                
+            </div>
+
+            <div class="row">
                 <div class="col d-flex align-items-center">
-                    <div class="custom-control custom-switch">
+                    <div class="custom-control custom-switch  mb-3">
                         <input type="hidden" name="email_verified" value="0">
                         <input 
                             type="checkbox" 
@@ -168,11 +186,29 @@
                             id="email_verified" 
                             name="email_verified"
                             value="1"
-                            checked={{ $member->email_verified_at ? 'checked' : '' }}
+                            {{ $member->email_verified_at ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="email_verified">Vérifier l'adresse e-mail ?</label>
                         <div class="text-muted font-weight-light">
                             En cochant cette case, le membre n'aura pas à vérifier son adresse e-mail.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col d-flex align-items-center">
+                    <div class="custom-control custom-switch  mb-3">
+                        <input type="hidden" name="first_session" value="0">
+                        <input 
+                            type="checkbox" 
+                            class="custom-control-input" 
+                            id="first_session" 
+                            name="first_session"
+                            value="1"
+                            {{ $member->first_session ? 'checked' : '' }}
+                        >
+                        <label class="custom-control-label" for="first_session">Première séance ?</label>
+                        <div class="text-muted font-weight-light">
+                            En cochant cette case, le membre a accès à sa première séance gratuite.
                         </div>
                     </div>
                 </div>

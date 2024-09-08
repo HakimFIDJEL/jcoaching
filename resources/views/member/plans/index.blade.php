@@ -55,7 +55,7 @@
             </div>
             <div class="col-3">
                 <a 
-                    href="" 
+                    href="javascript:void(0);" 
                     class="btn btn-primary w-100 h-100 d-flex align-items-center justify-content-center gap-2"
                 >
                     <i class="fas fa-shopping-cart"></i>

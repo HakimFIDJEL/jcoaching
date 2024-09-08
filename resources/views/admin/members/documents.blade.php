@@ -14,12 +14,21 @@
 {{-- Page content --}}
 <div class="card border border-4 border-primary">
 
+    {{-- Content Header --}}
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title">
+            <h4 class="mb-0">Espace documents de {{ $member->firstname }} {{ $member->lastname }}</h4>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous avez la possibilité de modifier les documents du membre et de les télécharger.
+            </p>
+        </div>
+    </div>
+    {{-- /Content Header --}}
 
     {{-- Content Body --}}
-    <div class="card-body mb-4 mt-4">
-
-      
-
+    <div class="card-body">
         <form action="{{ route('admin.members.update-documents', ['user' => $member]) }}" method="post" enctype="multipart/form-data">
             @csrf
     
@@ -66,10 +75,6 @@
                 @endif
             </div>
         </form>
-
-
-            
-
     </div>
     {{-- /Content Body --}}
 </div>
