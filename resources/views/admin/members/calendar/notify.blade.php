@@ -19,6 +19,6 @@
 @endsection
 
 @section('scripts')
-    @vite('resources/js/plugins/fullcalendar.js')
+    @vite('resources/js/pages/calendar.js')
 @endsection
 

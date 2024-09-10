@@ -34,6 +34,9 @@ use App\Mail\admin\StoreMember;
 // Controllers
 use App\Http\Controllers\CalendarController;
 
+// Jobs
+use App\Jobs\SendEmailJob;
+
 
 
 class MemberController extends Controller
@@ -113,7 +116,8 @@ class MemberController extends Controller
 
 
         // Send email
-        Mail::send(new StoreMember($user, $temporary_password));
+        $mail = new StoreMember($user, $temporary_password);
+        SendEmailJob::dispatch($mail);
 
         return redirect()->route('admin.members.index')->with(['success' => 'Membre créé avec succès']);
     }

@@ -65,7 +65,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     // MAIN - DONE
     Route::get('/', [AdminMainController::class, 'index'])->name('index');
 
-    // MEMBERS - DOING
+    // MEMBERS - DONE
     Route::prefix("/members")->name("members.")->controller(AdminMemberController::class)->group(function(){
 
         // INFORMATIONS
@@ -109,7 +109,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/restore/{user}', 'restore')->name('restore');
     });
 
-    // CALENDAR - DOING 
+    // CALENDAR - DONE 
     Route::prefix("/calendar")->name("calendar.")->controller(CalendarController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');

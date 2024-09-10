@@ -9,8 +9,10 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
+// Models
 use App\Models\User;
 
+// Requests
 use App\Http\Requests\auth\LoginRequest;
 use App\Http\Requests\auth\RegisterRequest;
 use App\Http\Requests\auth\EmailVerificationRequest;
@@ -18,10 +20,13 @@ use App\Http\Requests\auth\PasswordForgetRequest;
 use App\Http\Requests\auth\PasswordResetRequest;
 use App\Http\Requests\auth\PasswordChangeRequest;
 
+// Mails
 use App\Mail\auth\RegisterMail;
 use App\Mail\auth\EmailVerification;
 use App\Mail\auth\PasswordReset;
 
+// Jobs
+use App\Jobs\SendEmailJob;
 
 
 class AuthController extends Controller
@@ -166,7 +171,8 @@ class AuthController extends Controller
         $user->save();
         
         // Envoi du mail de bienvenue
-        Mail::send(new RegisterMail($user));
+        $mail = new RegisterMail($user);
+        SendEmailJob::dispatch($mail);
 
         // Authentification de l'utilisateur
         Auth::login($user);
@@ -233,7 +239,8 @@ class AuthController extends Controller
         $user->generateEmailToken();
 
         // Send email with token
-        Mail::send(new EmailVerification($user));
+        $mail = new EmailVerification($user);
+        SendEmailJob::dispatch($mail);
 
         return true;
     }
@@ -294,7 +301,8 @@ class AuthController extends Controller
             $user->generatePasswordToken();
 
             // Send email with token
-            Mail::send(new PasswordReset($user));
+            $mail = new PasswordReset($user);
+            SendEmailJob::dispatch($mail);
 
         }
         

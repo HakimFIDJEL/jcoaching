@@ -26,3 +26,6 @@
 
 
 
+@section('scripts')
+    @vite('resources/js/pages/calendar.js')
+@endsection

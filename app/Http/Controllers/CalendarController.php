@@ -19,6 +19,10 @@ use App\Http\Requests\calendar\UpdateRestPeriodRequest;
 use App\Http\Requests\calendar\NotifyRequest;
 
 // Mails
+use App\Mail\WorkoutMail;
+
+// Jobs
+use App\Jobs\SendEmailJob;
 
 
 class CalendarController extends Controller
@@ -114,11 +118,25 @@ class CalendarController extends Controller
         $data = $request->validated();
 
         $workouts = Workout::whereIn('id', $data['workouts'])->get();
+
+        // On récupère les membres concernés par les $workouts
+        $members = $workouts->pluck('user')->unique();
+
+        // On récupère les admins
         $admins = User::admins()->get();
 
-        foreach($workouts as $workout) {
-            // Send Mail
+        // Pour chaque membre on envoie un mail avec les séances qui ont été notifiées
+        foreach($members as $member) {
+            $mail = new WorkoutMail($member, $workouts->where('user_id', $member->id));
+            SendEmailJob::dispatch($mail);
         }
+
+        // Pour chaque admin on envoie un mail avec les séances qui ont été notifiées
+        foreach($admins as $admin) {
+            $mail = new WorkoutMail($admin, $workouts);
+            SendEmailJob::dispatch($mail);
+        }
+        
 
         $workouts = Workout::where('notified', false)->get();
 

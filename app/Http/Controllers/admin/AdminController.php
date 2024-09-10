@@ -23,6 +23,9 @@ use App\Models\User;
 // Mails
 use App\Mail\admin\StoreAdmin;
 
+// Jobs
+use App\Jobs\SendEmailJob;
+
 
 class AdminController extends Controller
 {
@@ -72,7 +75,8 @@ class AdminController extends Controller
 
 
         // Send email
-        Mail::send(new StoreAdmin($user, $temporary_password));
+        $mail = new StoreAdmin($user, $temporary_password);
+        SendEmailJob::dispatch($mail);
 
         return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur créé avec succès']);
     }

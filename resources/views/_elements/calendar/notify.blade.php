@@ -76,7 +76,19 @@
                                 <i class="fas fa-calendar-alt ms-2"></i>
                             </th>
                             <th>
-                                Notifier
+                                <div class="custom-control custom-switch">
+                                    <input 
+                                        class="custom-control-input"
+                                        type="checkbox"
+                                        id="workout-all"
+                                    />
+                                    <label 
+                                        for="workout-all"
+                                        class="custom-control-label"
+                                    >
+                                    Notifier
+                                    </label>
+                                </div>
                             </th>
                         </tr>
                     </thead>
@@ -148,7 +160,7 @@
                                 <td>
                                     <div class="custom-control custom-switch">
                                         <input 
-                                            class="custom-control-input"
+                                            class="custom-control-input workout"
                                             type="checkbox"
                                             name="workouts[]"
                                             value="{{ $workout->id }}"
