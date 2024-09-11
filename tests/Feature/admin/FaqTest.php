@@ -39,21 +39,21 @@ class FaqTest extends TestCase
         ]);
     }
 
-    // INDEX
+    // INDEX - DONE
     public function test_admin_can_access_faqs_index_page()
     {
         $response = $this->actingAs($this->admin)->get('/admin/faqs');
         $response->assertStatus(200);
     }
 
-    // CREATE
+    // CREATE - DONE
     public function test_admin_can_access_faqs_create_page()
     {
         $response = $this->actingAs($this->admin)->get('/admin/faqs/create');
         $response->assertStatus(200);
     }
 
-    // EDIT
+    // EDIT - DONE
     public function test_admin_can_access_faqs_edit_page()
     {
         $faq = faq::factory()->create();
@@ -62,7 +62,7 @@ class FaqTest extends TestCase
         $response->assertStatus(200);
     }
 
-    // STORE
+    // STORE - DONE
     public function test_admin_can_store_faq()
     {
         $faq = faq::factory()->make()->toArray();
@@ -70,28 +70,24 @@ class FaqTest extends TestCase
         $response = $this->actingAs($this->admin)->post('/admin/faqs/store', $faq);
         $response->assertRedirect('/admin/faqs');
         $response->assertSessionHas('success');
+
         $this->assertDatabaseHas('faqs', $faq);
     }
 
-    // UPDATE
+    // UPDATE - DONE
     public function test_admin_can_update_faq()
     {
         $faq = Faq::factory()->create();
-        $faq->question = 'Here is my question !!';
+        $newFaq = Faq::factory()->make()->toArray();
 
-        $updatedData = $faq->toArray();
-        $updatedData['online'] = (int) $faq->online;
-
-        // Exclure les champs de temps de l'assertion
-        unset($updatedData['created_at'], $updatedData['updated_at']);
-
-        $response = $this->actingAs($this->admin)->post('/admin/faqs/update/' . $faq->id, $updatedData);
+        $response = $this->actingAs($this->admin)->post('/admin/faqs/update/' . $faq->id, $newFaq);
         $response->assertRedirect('/admin/faqs');
         $response->assertSessionHas('success');
-        $this->assertDatabaseHas('faqs', $updatedData);
+
+        $this->assertDatabaseHas('faqs', $newFaq);
     }
 
-    // SOFT DELETE
+    // SOFT DELETE - DONE
     public function test_admin_can_soft_delete_faq()
     {
         $faq = Faq::factory()->create();
@@ -100,33 +96,37 @@ class FaqTest extends TestCase
         $response->assertRedirect('/admin/faqs');
         $response->assertSessionHas('success');
 
-        $expectedData = $faq->only(['id', 'question', 'answer', 'online']);
-        $this->assertSoftDeleted('faqs', $expectedData);
+        $faq->refresh();
+
+        $this->assertSoftDeleted($faq);
     }
 
-    // RESTORE
+    // RESTORE - DONE
     public function test_admin_can_restore_faq()
     {
         $faq = Faq::factory()->create();
-        $faq->softDelete();
+        $faq->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/faqs/restore/' . $faq->id);
         $response->assertRedirect('/admin/faqs');
         $response->assertSessionHas('success');
 
-        $expectedData = $faq->only(['id', 'question', 'answer', 'online']);
-        $this->assertDatabaseHas('faqs', $expectedData);
+        $faq->refresh();
+
+        $this->assertNull($faq->deleted_at);
     }
 
-    // DELETE
+    // DELETE - DONE
     public function test_admin_can_delete_faq()
     {
         $faq = Faq::factory()->create();
+        $faq->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/faqs/delete/' . $faq->id);
         $response->assertRedirect('/admin/faqs');
         $response->assertSessionHas('success');
 
         $this->assertDatabaseMissing('faqs', ['id' => $faq->id]);
+        $this->assertModelMissing($faq);
     }
 }

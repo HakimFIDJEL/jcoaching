@@ -29,19 +29,16 @@ use App\Jobs\SendEmailJob;
 
 class AdminController extends Controller
 {
-    public function index()
-    {
+    public function index() {
         $admins = User::admins()->get();
         return view('admin.admins.index')->with(['admins' => $admins]);
     }
 
-    public function create()
-    {
+    public function create() {
         return view('admin.admins.create');
     }
 
-    public function edit()
-    {
+    public function edit() {
         return view('admin.admins.edit')->with(['admin' => Auth::user()]);
     }
 
@@ -53,8 +50,7 @@ class AdminController extends Controller
         return view('admin.admins.security')->with(['admin' => Auth::user()]);
     }
 
-    public function store(StoreRequest $request)
-    {
+    public function store(StoreRequest $request) {
         $data = $request->validated();
 
         // Create user
@@ -89,8 +85,7 @@ class AdminController extends Controller
         return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur créé avec succès']);
     }
 
-    public function update(UpdateRequest $request)
-    {
+    public function update(UpdateRequest $request) {
         $data = $request->validated();
         $user = Auth::user();
 
@@ -103,8 +98,7 @@ class AdminController extends Controller
 
 
 
-    public function updatePassword(updatePasswordRequest $request)
-    {
+    public function updatePassword(updatePasswordRequest $request) {
         $data = $request->validated();
 
         $user = Auth::user();
@@ -131,8 +125,7 @@ class AdminController extends Controller
         return redirect()->route('admin.admins.index')->with(['success' => 'Mot de passe modifié avec succès']);
     }
 
-    public function updatePfp(PfpRequest $request)
-    {
+    public function updatePfp(PfpRequest $request) {
         $data = $request->validated();
         $user = Auth::user();
 
@@ -159,18 +152,25 @@ class AdminController extends Controller
         return Storage::download($path);
     }
 
-    public function softDelete(User $user)
-    {
+    public function softDelete(User $user) {
         if($user->id !== Auth::id())
         {
-            $user->softDelete();
+            $user->delete();
             return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur mis à la corbeille avec succès']);
         }
         return redirect()->route('admin.admins.index')->with(['error' => 'Vous ne pouvez pas supprimer votre propre compte']);
     }
 
-    public function delete(User $user)
-    {
+    public function restore(int $id) {
+        $user = User::withTrashed()->findOrFail($id);
+        $user->restore();
+        return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur restauré avec succès']);
+    }
+
+    public function delete(int $id) {
+
+        $user = User::withTrashed()->findOrFail($id);
+
         if($user->id !== Auth::id())
         {
             // Supprime la photo de profil
@@ -178,7 +178,7 @@ class AdminController extends Controller
                 Storage::delete($user->pfp_path);
             }
 
-            $user->delete();
+            $user->forceDelete();
             return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur supprimé avec succès']);
         }
         return redirect()->route('admin.admins.index')->with(['error' => 'Vous ne pouvez pas supprimer votre propre compte']);

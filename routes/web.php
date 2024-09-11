@@ -151,7 +151,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/pfp', 'pfp')->name('pfp');
         Route::get('/security', 'security')->name('security');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{user}', 'delete')->name('delete');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
         Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');
 
         Route::post('/store', 'store')->name('store');
@@ -167,8 +168,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{feedback}', 'edit')->name('edit');
         Route::get('/soft-delete/{feedback}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{feedback}', 'delete')->name('delete');
-        Route::get('/restore/{feedback}', 'restore')->name('restore');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{feedback}', 'update')->name('update');
@@ -180,8 +181,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/', 'index')->name('index');
         Route::get('/show/{contact}', 'show')->name('show');
         Route::get('/soft-delete/{contact}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{contact}', 'delete')->name('delete');
-        Route::get('/restore/{contact}', 'restore')->name('restore');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
         
     });
 
@@ -207,8 +208,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{faq}', 'edit')->name('edit');
         Route::get('/soft-delete/{faq}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{faq}', 'delete')->name('delete');
-        Route::get('/restore/{faq}', 'restore')->name('restore');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{faq}', 'update')->name('update');

@@ -14,7 +14,7 @@ use App\Http\Requests\admin\faqs\FaqRequest;
 class FaqController extends Controller
 {
     public function index() {
-        $faqs = Faq::where('deleted_at', null)->get();
+        $faqs = Faq::all();
         return view('admin.faqs.index')->with(['faqs' => $faqs]);
     }
 
@@ -44,17 +44,19 @@ class FaqController extends Controller
     }
 
     public function softDelete(Faq $faq) {
-        $faq->softDelete();
+        $faq->delete();
         return redirect()->route('admin.faqs.index')->with(['success' => 'La FAQ a bien été mise à la corbeille']);
     }
 
-    public function restore(Faq $faq) {
+    public function restore(int $id) {
+        $faq = Faq::withTrashed()->findOrFail($id);
         $faq->restore();
         return redirect()->route('admin.faqs.index')->with(['success' => 'La FAQ a bien été restaurée']);
     }
 
-    public function delete(Faq $faq) {
-        $faq->delete();
+    public function delete(int $id) {
+        $faq = Faq::withTrashed()->findOrFail($id);
+        $faq->forceDelete();
         return redirect()->route('admin.faqs.index')->with(['success' => 'La FAQ a bien été supprimée']);
     }
 }

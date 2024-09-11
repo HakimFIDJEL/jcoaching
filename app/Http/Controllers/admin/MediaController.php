@@ -17,7 +17,7 @@ use App\Http\Requests\admin\medias\MediaRequest;
 class MediaController extends Controller
 {
     public function index() {
-        $medias = Media::where('deleted_at', null)->get();
+        $medias = Media::all();
         return view('admin.medias.index')->with(['medias' => $medias]);
     }
 
@@ -83,7 +83,7 @@ class MediaController extends Controller
     }
 
     public function softDelete(Media $media) {
-        $media->softDelete();
+        $media->delete();
         return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été mis à la corbeille');
     }
 
@@ -94,7 +94,7 @@ class MediaController extends Controller
 
     public function delete(Media $media) {
         Storage::delete($media->path);
-        $media->delete();
+        $media->forceDelete();
         return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été supprimé');
     }
 }

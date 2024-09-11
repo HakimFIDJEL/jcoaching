@@ -8,12 +8,13 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\UserDocument;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -78,12 +79,12 @@ class User extends Authenticatable
 
     public function scopeMembers(Builder $query)
     {
-        return $query->where('role', 'member')->whereNull('deleted_at')->orderBy('id', 'desc');
+        return $query->where('role', 'member')->orderBy('id', 'desc');
     }
 
     public function scopeAdmins(Builder $query)
     {
-        return $query->where('role', 'admin')->whereNull('deleted_at')->orderBy('id', 'desc');
+        return $query->where('role', 'admin')->orderBy('id', 'desc');
     }
 
     public function isAdmin(): bool
@@ -138,28 +139,17 @@ class User extends Authenticatable
         $this->email_verified_at = now();
     }
 
-    public function softDelete()
-    {
-        $this->deleted_at = now();
-        $this->save();
-    }
-
-    public function restore()
-    {
-        $this->deleted_at = null;
-        $this->save();
-    }
 
     public function documents() {
         return $this->hasMany(UserDocument::class);
     }
 
     public function plans() {
-        return $this->hasMany(Plan::class)->where('deleted_at', null);
+        return $this->hasMany(Plan::class);
     }
 
     public function workouts() {
-        return $this->hasMany(Workout::class)->where('deleted_at', null);
+        return $this->hasMany(Workout::class);
     }
 
     public function hasCurrentPlan() {

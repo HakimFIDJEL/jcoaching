@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Faq extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'faqs';
 
@@ -26,13 +28,5 @@ class Faq extends Model
         return $query->where('online', true);
     }
 
-    public function softDelete() {
-        $this->deleted_at = now();
-        $this->save();
-    }
-
-    public function restore() {
-        $this->deleted_at = null;
-        $this->save();
-    }
+   
 }

@@ -38,16 +38,14 @@ class ContactTest extends TestCase
         ]);
     }
 
-    // INDEX
-    public function test_admin_can_access_index_page()
-    {
+    // INDEX - DONE
+    public function test_admin_can_access_index_page() {
         $response = $this->actingAs($this->admin)->get('/admin/contacts');
         $response->assertStatus(200);
     }
 
-    // SHOW
-    public function test_admin_can_access_show_page()
-    {
+    // SHOW - DONE
+    public function test_admin_can_access_show_page() {
         $contact = Contact::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/contacts/show/' . $contact->id);
@@ -58,41 +56,43 @@ class ContactTest extends TestCase
         $this->assertNotNull($contact->read_at);
     }
 
-    // SOFT DELETE
-    public function test_admin_can_soft_delete_contact()
-    {
+    // SOFT DELETE - DONE
+    public function test_admin_can_soft_delete_contact() {
         $contact = Contact::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/contacts/soft-delete/' . $contact->id);
         $response->assertRedirect('/admin/contacts');
         $response->assertSessionHas('success');
 
-        $expectedData =  $contact->only(['id', 'lastname', 'firstname', 'subject', 'email', 'phone', 'message']);
-        $this->assertSoftDeleted('contacts', $expectedData);
+        $contact->refresh();
+
+        $this->assertSoftDeleted($contact);
     }
 
-    // RESTORE
-    public function test_admin_can_restore_contact()
-    {
+    // RESTORE - DONE
+    public function test_admin_can_restore_contact() {
         $contact = Contact::factory()->create();
-        $contact->softDelete();
+        $contact->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/contacts/restore/' . $contact->id);
         $response->assertRedirect('/admin/contacts');
         $response->assertSessionHas('success');
 
-        $this->assertDatabaseHas('contacts', $contact->only(['id', 'lastname', 'firstname', 'subject', 'email', 'phone', 'message']));
+        $contact->refresh();
+
+        $this->assertNull($contact->deleted_at);
     }
 
-    // DELETE
-    public function test_admin_can_delete_contact()
-    {
+    // DELETE - DOING
+    public function test_admin_can_delete_contact() {
         $contact = Contact::factory()->create();
+        $contact->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/contacts/delete/' . $contact->id);
         $response->assertRedirect('/admin/contacts');
         $response->assertSessionHas('success');
 
         $this->assertDatabaseMissing('contacts', ['id' => $contact->id]);
+        $this->assertModelMissing($contact);
     }
 }

@@ -38,32 +38,28 @@ class FeedbackTest extends TestCase
         ]);
     }
 
-    // INDEX
-    public function test_admin_can_access_feedbacks_index_page()
-    {
+    // INDEX - DONE
+    public function test_admin_can_access_feedbacks_index_page() {
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks');
         $response->assertStatus(200);
     }
 
-    // CREATE
-    public function test_admin_can_access_feedbacks_create_page()
-    {
+    // CREATE - DONE
+    public function test_admin_can_access_feedbacks_create_page() {
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks/create');
         $response->assertStatus(200);
     }
 
-    // EDIT
-    public function test_admin_can_access_feedbacks_edit_page()
-    {
+    // EDIT - DONE
+    public function test_admin_can_access_feedbacks_edit_page() {
         $feedback = Feedback::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks/edit/' . $feedback->id);
         $response->assertStatus(200);
     }
 
-    // STORE
-    public function test_admin_can_store_feedback()
-    {
+    // STORE - DONE
+    public function test_admin_can_store_feedback() {
         $feedback = Feedback::factory()->make()->toArray();
 
         $response = $this->actingAs($this->admin)->post('/admin/feedbacks/store', $feedback);
@@ -72,61 +68,56 @@ class FeedbackTest extends TestCase
         $this->assertDatabaseHas('feedback', $feedback);
     }
 
-    // UPDATE
-    public function test_admin_can_update_feedback()
-    {
+    // UPDATE - DOING
+    public function test_admin_can_update_feedback() {
         $feedback = Feedback::factory()->create();
-        $feedback->name = 'Jane Doe';
+        $newFeedback = Feedback::factory()->make()->toArray();
 
-        $updatedData = $feedback->toArray();
-        $updatedData['online'] = (int) $feedback->online;
-
-        // Exclure les champs de temps de l'assertion
-        unset($updatedData['created_at'], $updatedData['updated_at']);
-
-        $response = $this->actingAs($this->admin)->post('/admin/feedbacks/update/' . $feedback->id, $updatedData);
+        $response = $this->actingAs($this->admin)->post('/admin/feedbacks/update/' . $feedback->id, $newFeedback);
         $response->assertRedirect('/admin/feedbacks');
         $response->assertSessionHas('success');
-        $this->assertDatabaseHas('feedback', $updatedData);
+
+        $this->assertDatabaseHas('feedback', $newFeedback);
     }
 
-    // SOFT DELETE
-    public function test_admin_can_soft_delete_feedback()
-    {
+    // SOFT DELETE - DOING
+    public function test_admin_can_soft_delete_feedback() {
         $feedback = Feedback::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks/soft-delete/' . $feedback->id);
         $response->assertRedirect('/admin/feedbacks');
         $response->assertSessionHas('success');
 
-        $expectedData = $feedback->only(['id', 'name', 'job', 'message', 'online']);
-        $this->assertSoftDeleted('feedback', $expectedData);
+        $feedback->refresh();
+
+        $this->assertSoftDeleted($feedback);
     }
 
-    // RESTORE
-    public function test_admin_can_restore_feedback()
-    {
+    // RESTORE - DOING
+    public function test_admin_can_restore_feedback() {
         $feedback = Feedback::factory()->create();
-        $feedback->softDelete();
+        $feedback->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks/restore/' . $feedback->id);
         $response->assertRedirect('/admin/feedbacks');
         $response->assertSessionHas('success');
 
-        $expectedData = $feedback->only(['id', 'name', 'job', 'message', 'online']);
-        $this->assertDatabaseHas('feedback', $expectedData);
+        $feedback->refresh();
+
+        $this->assertNull($feedback->deleted_at);
     }
 
-    // DELETE
-    public function test_admin_can_delete_feedback()
-    {
+    // DELETE - DOING
+    public function test_admin_can_delete_feedback() {
         $feedback = Feedback::factory()->create();
+        $feedback->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/feedbacks/delete/' . $feedback->id);
         $response->assertRedirect('/admin/feedbacks');
         $response->assertSessionHas('success');
 
         $this->assertDatabaseMissing('feedback', ['id' => $feedback->id]);
+        $this->assertModelMissing($feedback);
     }
 
 }

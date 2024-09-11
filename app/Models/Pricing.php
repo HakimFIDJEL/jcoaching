@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\PricingFeature;
 use App\Models\Pricing;
@@ -11,6 +12,7 @@ use App\Models\Pricing;
 class Pricing extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     protected $table = 'pricings';
 
@@ -24,7 +26,7 @@ class Pricing extends Model
     ];
 
     public function nbrOfUsers() {        
-        return $this->plans()->where('deleted_at', null)->distinct('user_id')->count();
+        return $this->plans()->distinct('user_id')->count();
     }
     
 
@@ -38,22 +40,8 @@ class Pricing extends Model
         return $this->hasMany(Plan::class);
     }
 
-    public function scopeAvailable($query)
+    public function scopeOnline(Builder $query)
     {
-        return $query->where(['online' => true, 'deleted_at' => null]);
+        return $query->where('online', 1);
     }
-
-    public function softDelete()
-    {
-        $this->deleted_at = now();
-        $this->save();
-    }
-
-    public function restore()
-    {
-        $this->deleted_at = null;
-        $this->save();
-    }
-
-
 }

@@ -16,7 +16,7 @@ use App\Http\Requests\admin\pricings\PricingRequest;
 class PricingController extends Controller
 {
     public function index(){
-        $pricings = Pricing::where('deleted_at', null)->get();
+        $pricings = Pricing::all();
         return view('admin.pricings.index')->with(['pricings' => $pricings]);
     }
 
@@ -68,7 +68,7 @@ class PricingController extends Controller
 
 
     public function softDelete(Pricing $pricing){
-        $pricing->softDelete();
+        $pricing->delete();
         return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été supprimé avec succès']);
     }
 
@@ -79,7 +79,7 @@ class PricingController extends Controller
 
     public function delete(Pricing $pricing){
         $pricing->features()->delete(); 
-        $pricing->delete();
+        $pricing->forceDelete();
         return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été supprimé définitivement avec succès']); 
     }   
 }

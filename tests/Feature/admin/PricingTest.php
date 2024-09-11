@@ -146,7 +146,7 @@ class PricingTest extends TestCase
     public function test_admin_can_restore_pricing()
     {
         $pricing = pricing::factory()->create();
-        $pricing->softDelete();
+        $pricing->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/pricings/restore/' . $pricing->id);
         $response->assertRedirect('/admin/pricings');

@@ -215,7 +215,7 @@ class MemberController extends Controller
 
     // SOFT DELETE
     public function softDelete(User $user) {
-        $user->softDelete();
+        $user->delete();
         return redirect()->route('admin.members.index')->with(['success' => 'Membre mis à la corbeille avec succès']);   
     }
 
@@ -239,7 +239,7 @@ class MemberController extends Controller
             $document->delete();
         }
 
-        $user->delete();
+        $user->forceDelete();
         return redirect()->route('admin.members.index')->with(['success' => 'Membre supprimé avec succès']);
     }
 
@@ -307,7 +307,7 @@ class MemberController extends Controller
     // SOFT DELETE PLAN
     public function softDeletePlan(User $user, Plan $plan) {
         if($plan->user_id == $user->id) {
-            $plan->softDelete();
+            $plan->delete();
             return redirect()->back()->with(['success' => 'Abonnement mis à la corbeille avec succès']);
         }
         return redirect()->back()->with(['error' => 'Impossible de mettre à la corbeille l\'abonnement']);
@@ -325,7 +325,7 @@ class MemberController extends Controller
     // DELETE PLAN
     public function deletePlan(User $user, Plan $plan) {
         if($plan->user_id == $user->id) {
-            $plan->delete();
+            $plan->forceDelete();
             return redirect()->back()->with(['success' => 'Abonnement supprimé avec succès']);
         }
         return redirect()->back()->with(['error' => 'Impossible de supprimer l\'abonnement']);

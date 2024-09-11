@@ -36,28 +36,43 @@ class AdminTest extends TestCase
         ]);
     }
 
-    // INDEX
+    // INDEX - DONE
     public function test_admin_can_access_admins_index_page()
     {
         $response = $this->actingAs($this->admin)->get('/admin/admins');
         $response->assertStatus(200);
     }
 
-    // CREATE
+    // CREATE - DONE
     public function test_admin_can_access_admins_create_page()
     {
         $response = $this->actingAs($this->admin)->get('/admin/admins/create');
         $response->assertStatus(200);
     }
 
-    // EDIT
+    // EDIT - DONE
     public function test_admin_can_access_admins_edit_page()
     {
         $response = $this->actingAs($this->admin)->get('/admin/admins/edit');
         $response->assertStatus(200);
     }
 
-    // STORE
+    // SECURITY - DONE
+    public function test_admin_can_access_admins_security_page()
+    {
+        $response = $this->actingAs($this->admin)->get('/admin/admins/security');
+        $response->assertStatus(200);
+    }
+
+    // PFP - DONE
+    public function test_admin_can_access_admins_pfp_page()
+    {
+        $response = $this->actingAs($this->admin)->get('/admin/admins/pfp');
+        $response->assertStatus(200);
+    }
+
+
+    // STORE - DONE
     public function test_admin_can_store_admin()
     {
         // Not allowed because email already exists
@@ -94,9 +109,13 @@ class AdminTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/admin/admins');
         $response->assertSessionHas('success');
+
+        // assert that the admin has been created
+        $this->assertNotNull(User::where('email', 'example@example.com')->first());
     }
 
-    // UPDATE
+
+    // UPDATE INFORMATIONS - DONE
     public function test_admin_can_update_admin()
     {
         // Create an admin
@@ -114,7 +133,7 @@ class AdminTest extends TestCase
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
-
+        
         // Not allowed because email already exists
         $response = $this->actingAs($this->admin)->post('/admin/admins/update', [
             'firstname' => 'John',
@@ -164,9 +183,12 @@ class AdminTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/admin/admins');
         $response->assertSessionHas('success');
+
+        // assert that the admin has been updated
+        $this->assertNotNull(User::where('email', 'new@email.com')->first());
     }
 
-    // CHANGE PASSWORD
+    // CHANGE PASSWORD - DONE
     public function test_admin_can_change_password()
     {   
         // Not Allowed - Wrong Current Password
@@ -213,7 +235,7 @@ class AdminTest extends TestCase
     }
 
 
-    // SOFT DELETE
+    // SOFT DELETE - DONE
     public function test_admin_can_soft_delete_admin()
     {
         // Create an admin
@@ -243,8 +265,44 @@ class AdminTest extends TestCase
         $response->assertRedirect('/admin/admins');
         $response->assertSessionHas('success');
 
+        $temporaryAdmin->refresh();
+
+        $this->assertSoftDeleted(User::find($temporaryAdmin->id));
+
 
     }
+
+    // RESTORE - DONE
+    public function test_admin_can_restore_admin() {
+        // Create an admin
+        $temporaryAdmin = User::factory()->create([
+            'firstname' => 'Jane',
+            'lastname' => 'Doe',
+            'phone' => '0123456789',
+            'address' => '1 rue de la Paix',
+            'city' => 'Paris',
+            'postal_code' => '75000',
+            'address_complement' => 'Appartement 123',
+            'country' => 'France',
+            'email' => 'example@example.com',
+            'password' => Hash::make('password'),
+            'role' => 'admin',
+            'email_verified_at' => now(),
+        ]);
+
+        // Soft delete the admin
+        $temporaryAdmin->delete();
+
+        $response = $this->actingAs($this->admin)->get('/admin/admins/restore/' . $temporaryAdmin->id);
+        $response->assertStatus(302);
+        $response->assertRedirect('/admin/admins');
+
+        $temporaryAdmin->refresh();
+
+        $this->assertNull(User::find($temporaryAdmin->id)->deleted_at);
+
+    }
+
 
 
     // DELETE
@@ -266,6 +324,8 @@ class AdminTest extends TestCase
             'email_verified_at' => now(),
         ]);
 
+        $temporaryAdmin->delete();
+
         // Not allowed - Admin is deleting himself
         $response = $this->actingAs($this->admin)->get('/admin/admins/delete/' . $this->admin->id);
         $response->assertStatus(302);
@@ -278,7 +338,7 @@ class AdminTest extends TestCase
         $response->assertSessionHas('success');
 
         // Admin is deleted
-        $this->assertNull(User::find($temporaryAdmin->id));
+        $this->assertDatabaseMissing('users', ['id' => $temporaryAdmin->id]);
 
     }
 }

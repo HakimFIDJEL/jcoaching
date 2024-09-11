@@ -183,7 +183,7 @@ class MemberTest extends TestCase
 
     // RESTORE
     public function test_admin_can_restore_member() {
-        $this->member->softDelete();
+        $this->member->delete();
         $response = $this->actingAs($this->admin)->get('/admin/members/restore/' . $this->member->id);
         $response->assertStatus(302);
         $response->assertRedirect('/admin/members');

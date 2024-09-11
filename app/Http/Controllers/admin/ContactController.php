@@ -9,34 +9,31 @@ use App\Models\Contact;
 
 class ContactController extends Controller
 {
-    public function index()
-    {
-        $contacts = Contact::where('deleted_at', null)->get();
+    public function index() {
+        $contacts = Contact::all();
         return view('admin.contacts.index')->with(['contacts' => $contacts]);
     }
 
-    public function show(Contact $contact)
-    {
+    public function show(Contact $contact) {
         $contact->read_at = now();
         $contact->save();
 
         return view('admin.contacts.show')->with(['contact' => $contact]);
     }
 
-    public function softDelete(Contact $contact)
-    {
-        $contact->softDelete();
+    public function softDelete(Contact $contact) {
+        $contact->delete();
         return redirect()->route('admin.contacts.index')->with(['success' => 'Le contact a été mis dans la corbeille.']);
     }
 
-    public function restore(Contact $contact)
-    {
+    public function restore(int $id) {
+        $contact = Contact::withTrashed()->findOrFail($id);
         $contact->restore();
         return redirect()->route('admin.contacts.index')->with(['success' => 'Le contact a été restauré.']);
     }
 
-    public function delete(Contact $contact)
-    {
+    public function delete(int $id) {
+        $contact = Contact::withTrashed()->findOrFail($id);
         $contact->forceDelete();
         return redirect()->route('admin.contacts.index')->with(['success' => 'Le contact a été supprimé définitivement.']);
     }

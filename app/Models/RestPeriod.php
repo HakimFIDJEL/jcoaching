@@ -4,14 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\Workout;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+
+use App\Models\Workout;
 
 class RestPeriod extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
-    protected $fillable = ['start_date', 'end_date'];
+    protected $fillable = [
+        'start_date', 
+        'end_date',
+    ];
     protected $dates = ['start_date', 'end_date'];
 
     public static function overlapsWithOtherRestPeriods($start_date, $end_date, $excludeId = null)
