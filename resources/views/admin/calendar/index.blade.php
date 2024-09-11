@@ -18,29 +18,6 @@
 {{-- /Breadcrumbs --}}
 
 
- {{-- <form action="{{ route('admin.calendar.search') }}" method="POST">
-        @csrf
-    
-        <div class="mb-3">
-            <label for="user" class="form-label">Sélectionner un utilisateur</label>
-            <select class="default-select form-control wide mb-3" name="user" id="user">
-                <option value="" @if(!$user) selected @endif>Tous</option>
-                @foreach ($members as $member)
-                    <option value="{{ $member->id }}" @if($user && $user->id == $member->id) selected @endif>
-                        {{ $member->firstname }} {{ $member->lastname }}
-                    </option>
-                @endforeach
-            </select>
-        </div>
-        
-        <button type="submit" class="btn btn-primary w-100">
-            <span>Voir les séances</span>
-            <i class="fa fa-eye ms-2"></i>
-        </button>
-    </form>
-
-    <hr> --}}
-
 
 
 {{-- Calendar --}}

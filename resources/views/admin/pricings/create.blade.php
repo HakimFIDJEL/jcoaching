@@ -20,22 +20,22 @@
 <div class="card border border-4 border-primary">
 
     {{-- Content Header --}}
-    <div class="card-header border-bottom border-primary">
-        <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
-            <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Ajouter un tarif</h2>
-                <p class="text-light">
-                    Ajoutez un tarif pour le rendre visible sur le site. A noter qu'un tarif est renouvelable tous les 30 jours.
-                </p>
-            </div>	
-            <span>
-                <a href="{{ route('admin.pricings.index') }}" class="btn btn-secondary ">
-                    <i class="fa fa-arrow-left me-2"></i>
-                    <span>
-                        Retour
-                    </span>
-                </a>
-            </span>
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+            <h4 class="mb-0">
+                Créer un tarif
+            </h4>
+            <a href="{{ route('admin.pricings.index') }}" class="btn btn-secondary ">
+                <i class="fa fa-arrow-left me-2"></i>
+                <span>
+                    Retour
+                </span>
+            </a>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Créez un nouveau tarif pour votre application.  
+            </p>
         </div>
     </div>
     {{-- /Content Header --}}

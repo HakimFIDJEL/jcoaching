@@ -18,16 +18,28 @@
 {{-- Page content --}}
 <div class="card border border-4 border-primary">
 
+
+
     {{-- Content Header --}}
-    <div class="card-header border-bottom border-primary">
-        <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
-            <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Les membres</h2>
-                <p class="text-light">Liste des membres</p>
-            </div>	
-            <span>
-                <a href="{{ route('admin.members.create') }}" class="btn btn-primary ">+ Ajouter un membre</a>
-            </span>
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+            <h4 class="mb-0">
+                Les membres
+            </h4>
+            <a 
+                href="{{ route('admin.members.create') }}"
+                class="btn btn-primary btn-sm"
+            >
+                <span>
+                    Ajouter un membre
+                </span>
+                <i class="fas fa-plus ms-1"></i>
+            </a>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous pouvez gérer les membres de votre application.
+            </p>
         </div>
     </div>
     {{-- /Content Header --}}
@@ -110,7 +122,7 @@
                                 <div class="d-flex">
                                     <a title="Voir le membre" href="{{ route('admin.members.calendar', ['user' => $user]) }}" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-calendar"></i></a>
                                     <a title="Modifier le membre" href="{{ route('admin.members.edit', ['user' => $user]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                                    <a title="Mettre à la corbeille le membre" href="{{ route('admin.members.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp  delete-row"><i class="fa fa-trash"></i></a>
+                                    <a title="Mettre à la corbeille le membre" href="{{ route('admin.members.soft-delete', ['user' => $user]) }}" class="btn btn-outline-danger shadow btn-xs sharp  warning-row"><i class="fa fa-trash"></i></a>
                                 </div>												
                             </td>
                         </tr>

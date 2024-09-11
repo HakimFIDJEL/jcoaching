@@ -24,7 +24,7 @@ class NotifyRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'workouts' => 'required|array',
+            'workouts' => 'array',
             'workouts.*' => 'required|integer|exists:workouts,id',
         ];
     }
@@ -37,7 +37,6 @@ class NotifyRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'workouts.required' => 'Sélectionnez au moins un entraînement.',
             'workouts.*.required' => 'Sélectionnez au moins un entraînement.',
             'workouts.*.integer' => 'L\'identifiant de l\'entraînement doit être un nombre.',
             'workouts.*.exists' => 'L\'entraînement sélectionné n\'existe pas.',

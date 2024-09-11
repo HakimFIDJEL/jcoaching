@@ -18,19 +18,32 @@
 {{-- Page content --}}
 <div class="card border border-4 border-primary">
 
+
+    
     {{-- Content Header --}}
-    <div class="card-header border-bottom border-primary">
-        <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
-            <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Les médias</h2>
-                <p class="text-light">Liste des différentes images et vidéos à exposer dans la galerie</p>
-            </div>	
-            <span>
-                <a href="{{ route('admin.medias.create') }}" class="btn btn-primary ">+ Ajouter un média</a>
-            </span>
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+            <h4 class="mb-0">
+                Les médias
+            </h4>
+            <a 
+                href="{{ route('admin.medias.create') }}"
+                class="btn btn-primary btn-sm"
+            >
+                <span>
+                    Ajouter un média
+                </span>
+                <i class="fas fa-plus ms-1"></i>
+            </a>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous pouvez gérer les médias de votre application, photos et vidéos.
+            </p>
         </div>
     </div>
     {{-- /Content Header --}}
+
 
     {{-- Content Body --}}
     <div class="card-body mb-4 mt-4">
@@ -67,7 +80,7 @@
                             <td>
                                 <div class="d-flex">
                                     <a title="Modifier le média" href="{{ route('admin.medias.edit', ['media' => $media]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
-                                    <a title="Mettre à la corbeille le média" href="{{ route('admin.medias.soft-delete', ['media' => $media]) }}" class="btn btn-outline-danger shadow btn-xs sharp delete-row"><i class="fa fa-trash"></i></a>
+                                    <a title="Mettre à la corbeille le média" href="{{ route('admin.medias.soft-delete', ['media' => $media]) }}" class="btn btn-outline-danger shadow btn-xs sharp warning-row"><i class="fa fa-trash"></i></a>
                                 </div>												
                             </td>
                         </tr>

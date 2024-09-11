@@ -113,30 +113,31 @@ class CalendarController extends Controller
         }
     }
 
-    // TO NOTIFY - TODO
+    // TO NOTIFY - DONE
     public function toNotify(NotifyRequest $request) {
         $data = $request->validated();
 
-        $workouts = Workout::whereIn('id', $data['workouts'])->get();
-
-        // On récupère les membres concernés par les $workouts
-        $members = $workouts->pluck('user')->unique();
-
-        // On récupère les admins
-        $admins = User::admins()->get();
-
-        // Pour chaque membre on envoie un mail avec les séances qui ont été notifiées
-        foreach($members as $member) {
-            $mail = new WorkoutMail($member, $workouts->where('user_id', $member->id));
-            SendEmailJob::dispatch($mail);
+        if(isset($data['workouts'])) {
+            $workouts = Workout::whereIn('id', $data['workouts'])->get();
+    
+            // On récupère les membres concernés par les $workouts
+            $members = $workouts->pluck('user')->unique();
+    
+            // On récupère les admins
+            $admins = User::admins()->get();
+    
+            // Pour chaque membre on envoie un mail avec les séances qui ont été notifiées
+            foreach($members as $member) {
+                $mail = new WorkoutMail($member, $workouts->where('user_id', $member->id));
+                SendEmailJob::dispatch($mail);
+            }
+    
+            // Pour chaque admin on envoie un mail avec les séances qui ont été notifiées
+            foreach($admins as $admin) {
+                $mail = new WorkoutMail($admin, $workouts);
+                SendEmailJob::dispatch($mail);
+            }
         }
-
-        // Pour chaque admin on envoie un mail avec les séances qui ont été notifiées
-        foreach($admins as $admin) {
-            $mail = new WorkoutMail($admin, $workouts);
-            SendEmailJob::dispatch($mail);
-        }
-        
 
         $workouts = Workout::where('notified', false)->get();
 
@@ -323,7 +324,7 @@ class CalendarController extends Controller
             return redirect()->back()->with(['error' => 'Impossible de marquer une séance future comme faite']);
         }
 
-        $workout->update(['status' => true]);
+        $workout->update(['status' => true, 'notified' => false]);
         return redirect()->back()->with(['success' => 'Séance marquée comme faite']);
     }
 
@@ -345,7 +346,7 @@ class CalendarController extends Controller
             return redirect()->back()->with(['error' => 'Impossible de marquer une séance future comme non faite']);
         }
 
-        $workout->update(['status' => false]);
+        $workout->update(['status' => false, 'notified' => false]);
         return redirect()->back()->with(['success' => 'Séance marquée comme non faite']);
     }
 

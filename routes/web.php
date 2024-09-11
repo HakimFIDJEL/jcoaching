@@ -148,6 +148,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/edit', 'edit')->name('edit');
+        Route::get('/pfp', 'pfp')->name('pfp');
+        Route::get('/security', 'security')->name('security');
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
         Route::get('/delete/{user}', 'delete')->name('delete');
         Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');

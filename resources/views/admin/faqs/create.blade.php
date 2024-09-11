@@ -19,23 +19,25 @@
 {{-- Page content --}}
 <div class="card border border-4 border-primary">
 
+
+
     {{-- Content Header --}}
-    <div class="card-header border-bottom border-primary">
-        <div class="form-head d-flex align-items-start justify-content-between gap-2 w-100">    
-            <div class="me-auto flex-shrink-0">
-                <h2 class="mb-0">Ajouter une faq</h2>
-                <p class="text-light">
-                    On vous pose souvent les mêmes questions ? Créez une FAQ pour y répondre.
-                </p>
-            </div>	
-            <span>
-                <a href="{{ route('admin.faqs.index') }}" class="btn btn-secondary ">
-                    <i class="fa fa-arrow-left me-2"></i>
-                    <span>
-                        Retour
-                    </span>
-                </a>
-            </span>
+    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+            <h4 class="mb-0">
+                Ajouter une faq
+            </h4>
+            <a href="{{ route('admin.faqs.index') }}" class="btn btn-secondary ">
+                <i class="fa fa-arrow-left me-2"></i>
+                <span>
+                    Retour
+                </span>
+            </a>
+        </div>
+        <div class="card-description">
+            <p class="text-muted  mb-0 font-weight-light">
+                Depuis cet espace, vous pouvez créer les faqs de votre application.
+            </p>
         </div>
     </div>
     {{-- /Content Header --}}

@@ -45,6 +45,14 @@ class AdminController extends Controller
         return view('admin.admins.edit')->with(['admin' => Auth::user()]);
     }
 
+    public function pfp() {
+        return view('admin.admins.pfp')->with(['admin' => Auth::user()]);
+    }
+
+    public function security() {
+        return view('admin.admins.security')->with(['admin' => Auth::user()]);
+    }
+
     public function store(StoreRequest $request)
     {
         $data = $request->validated();

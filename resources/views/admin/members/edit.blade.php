@@ -15,10 +15,13 @@
 <div class="card border border-4 border-primary">
 
 
+
     {{-- Content Header --}}
     <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
-        <div class="card-title">
-            <h4 class="mb-0">Les informations {{ $member->firstname }} {{ $member->lastname }}</h4>
+        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+            <h4 class="mb-0">
+                Les informations {{ $member->firstname }} {{ $member->lastname }}
+            </h4>
         </div>
         <div class="card-description">
             <p class="text-muted  mb-0 font-weight-light">
