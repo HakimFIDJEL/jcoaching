@@ -54,28 +54,25 @@ class MemberTest extends TestCase
         ]);
     }
 
-    // INDEX
-    public function test_admin_can_access_members_index_page()
-    {
+    // INDEX - DONE
+    public function test_admin_can_access_members_index_page() {
         $response = $this->actingAs($this->admin)->get('/admin/members');
         $response->assertStatus(200);
     }
 
-    // CREATE
-    public function test_admin_can_access_members_create_page()
-    {
+    // CREATE - DONE
+    public function test_admin_can_access_members_create_page() {
         $response = $this->actingAs($this->admin)->get('/admin/members/create');
         $response->assertStatus(200);
     }
 
-    // EDIT
-    public function test_admin_can_access_members_edit_page()
-    {
+    // EDIT - DONE
+    public function test_admin_can_access_members_edit_page() {
         $response = $this->actingAs($this->admin)->get('/admin/members/edit/' . $this->member->id);
         $response->assertStatus(200);
     }
 
-    // STORE
+    // STORE - DONE
     public function test_admin_can_store_member() {
         // Not allowed because email already exists
         $response = $this->actingAs($this->admin)->post('/admin/members/store', [
@@ -111,9 +108,11 @@ class MemberTest extends TestCase
         $response->assertStatus(302);
         $response->assertRedirect('/admin/members');
         $response->assertSessionHas('success');
+
+        $this->assertDatabaseHas('users', ['email' => 'member2@example.com']);
     }
 
-    // UPDATE
+    // UPDATE - DONE
     public function test_admin_can_update_member() {
         
 
@@ -129,6 +128,7 @@ class MemberTest extends TestCase
             'address_complement' => 'Appartement 123',
             'country' => 'France',
             'email_verified' => true,
+            'first_session' => true,
         ]);
 
         $response->assertStatus(302);
@@ -146,10 +146,11 @@ class MemberTest extends TestCase
             'address_complement' => 'Appartement 123',
             'country' => 'France',
             'email_verified' => true,
+            'first_session' => true,
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/admin/members');
+        $response->assertRedirect(url()->previous());
         $response->assertSessionHas('success');
 
         // Allowed - Different Email
@@ -164,42 +165,53 @@ class MemberTest extends TestCase
             'address_complement' => 'Appartement 123',
             'country' => 'France',
             'email_verified' => true,
+            'first_session' => true,
         ]);
 
         $response->assertStatus(302);
-        $response->assertRedirect('/admin/members');
+        $response->assertRedirect(url()->previous());
         $response->assertSessionHas('success');
     }
 
- 
-
-    // SOFT DELETE
+    // SOFT DELETE - DONE
     public function test_admin_can_soft_delete_member() {
+
         $response = $this->actingAs($this->admin)->get('/admin/members/soft-delete/' . $this->member->id);
         $response->assertStatus(302);
         $response->assertRedirect('/admin/members');
         $response->assertSessionHas('success');
+
+        $this->member->refresh();
+
+        $this->assertSoftDeleted($this->member);
     }
 
-    // RESTORE
+    // RESTORE - DONE
     public function test_admin_can_restore_member() {
+
         $this->member->delete();
+
         $response = $this->actingAs($this->admin)->get('/admin/members/restore/' . $this->member->id);
         $response->assertStatus(302);
         $response->assertRedirect('/admin/members');
         $response->assertSessionHas('success');
+
+        $this->member->refresh();
+
+        $this->assertNull($this->member->deleted_at);
     }
 
 
-    // DELETE
+    // DELETE - DONE
     public function test_admin_can_delete_admin() {
+        $this->member->delete();
         $response = $this->actingAs($this->admin)->get('/admin/members/delete/' . $this->member->id);
         $response->assertStatus(302);
         $response->assertRedirect('/admin/members');
         $response->assertSessionHas('success');
 
-        // Member is deleted
-        $this->assertNull(User::find($this->member->id));
+        $this->assertDatabaseMissing($this->member);
+        $this->assertModelMissing($this->member);
 
     }
 

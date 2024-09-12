@@ -13,7 +13,6 @@ class Workout extends Model
     use HasFactory;
     use SoftDeletes;
 
-    protected $dates = ['date'];
 
     protected $fillable = [
         'user_id',

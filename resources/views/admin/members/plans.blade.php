@@ -85,43 +85,62 @@
             <thead>
                 <tr>
                     <th scope="col">ID</th>
+                    <th scope="col">Tarif</th>
+                    <th scope="col">Avancement</th>
+                    <th scope="col">Nutrition</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Séances restantes</th>
-                    <th scope="col">Abonnement</th>
-                    <th scope="col">Option Nutrition</th>
                     <th scope="col">Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($member->plans->where('expiration_date', '<', now())->sortByDesc('id') as $plan)
                     <tr>
-                        <td>#{{ $plan->id }}</td>
-                        <td>{{ $plan->created_at->format('d/m/Y') }}</td>
-                        <td>
-                            {{ $plan->sessions_left }} / {{ $plan->pricing->nbr_sessions }}
-                        </td>
+                        <td>{{ $plan->id }}</td>
                         <td>
                             <a href="{{ route('admin.pricings.edit', ['pricing' => $plan->pricing]) }}" class="alert-link text-decoration-underline">
                                 {{ $plan->pricing->title }} - {{ $plan->pricing->price }}€
                             </a>
                         </td>
                         <td>
+                            @php
+                                $nbr_sessions = $plan->pricing->nbr_sessions;
+                                $sessions_left = $plan->sessions_left;
+                                $progress = (($sessions_left - $nbr_sessions) * -1) / $nbr_sessions * 100;
+                                @endphp
+                            <div 
+                                class="progress"    
+                                title="{{ $sessions_left }} sessions restantes - {{ $progress }}%"
+                                >
+                                <div 
+                                class="progress-bar bg-primary" 
+                                role="progressbar" 
+                                style="width: {{ $progress }}%" 
+                                aria-valuenow="{{ $progress }}" 
+                                aria-valuemin="0" 
+                                aria-valuemax="100" 
+                                >
+                                {{ $progress }}%
+                            </div>
+                            </div>
+                        </td>
+                        <td>
                             @if($plan->nutrition_option)
-                                <span class="badge bg-success">
+                            <span class="badge bg-success">
                                     <span>
                                         Oui
                                     </span>
                                     <i class="fas fa-check ms-2"></i>
                                 </span>
-                            @else 
+                                @else 
                                 <span class="badge bg-danger">
                                     <span>
                                         Non
                                     </span>
                                     <i class="fas fa-times ms-2"></i>
                                 </span>
-                            @endif
-                        </td>
+                                @endif
+                            </td>
+                        <td>{{ $plan->created_at->format('d/m/y') }}</td>
                         <td>
                             <a 
                                 href="{{ route('admin.members.plans.unexpire', ['plan' => $plan, 'user' => $member]) }}" 

@@ -69,7 +69,7 @@ class MemberController extends Controller
 
     // PLANS
     public function plans(User $user) {
-        $pricings = Pricing::available()->get();
+        $pricings = Pricing::all();
         return view('admin.members.plans')->with(['member' => $user, 'pricings' => $pricings]);
     }
 
@@ -220,13 +220,15 @@ class MemberController extends Controller
     }
 
     // RESTORE
-    public function restore(User $user) {
+    public function restore(int $id) {
+        $user = User::withTrashed()->findOrFail($id);
         $user->restore();
         return redirect()->route('admin.members.index')->with(['success' => 'Membre restauré avec succès']);
     }
 
     // DELETE
-    public function delete(User $user) {
+    public function delete(int $id) {
+        $user = User::withTrashed()->findOrFail($id);
         // Supprime la photo de profil
         if ($user->pfp_path) {
             Storage::delete($user->pfp_path);

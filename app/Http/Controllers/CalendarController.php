@@ -368,7 +368,9 @@ class CalendarController extends Controller
     }
     
     // RESTORE WORKOUT - DONE
-    public function restoreWorkout(User $user, Workout $workout) {
+    public function restoreWorkout(User $user, int $id) {
+
+        $workout = Workout::withTrashed()->findOrFail($id);
 
         // Si l'utilisateur n'est pas admin
         if(!Auth::user()->isAdmin()) {
@@ -385,7 +387,9 @@ class CalendarController extends Controller
     }
     
     // DELETE WORKOUT - DONE
-    public function deleteWorkout(User $user, Workout $workout) {
+    public function deleteWorkout(User $user, int $id) {
+
+        $workout = Workout::withTrashed()->findOrFail($id);
         
         // Si l'utilisateur n'est pas admin
         if(!Auth::user()->isAdmin()) {
@@ -402,8 +406,7 @@ class CalendarController extends Controller
     }
 
     // ADD REST PERIOD - DONE
-    public function addRestPeriod(AddRestPeriodRequest $request)
-    {
+    public function addRestPeriod(AddRestPeriodRequest $request) {
         // Si l'utilisateur n'est pas admin
         if(!Auth::user()->isAdmin()) {
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour ajouter des périodes de repos']);
@@ -437,8 +440,7 @@ class CalendarController extends Controller
 
 
     // UPDATE REST PERIOD - DONE
-    public function updateRestPeriod(UpdateRestPeriodRequest $request)
-    {
+    public function updateRestPeriod(UpdateRestPeriodRequest $request) {
         // Si l'utilisateur n'est pas admin
         if(!Auth::user()->isAdmin()) {
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour ajouter des périodes de repos']);

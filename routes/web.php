@@ -22,6 +22,7 @@ use App\Http\Controllers\admin\ContactController as AdminContactController;
 use App\Http\Controllers\admin\MediaController as AdminMediaController;
 use App\Http\Controllers\admin\FaqController as AdminFaqController;
 use App\Http\Controllers\admin\PricingController as AdminPricingController;
+use App\Http\Controllers\admin\PlanController as AdminPlanController;
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -105,8 +106,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
         // DELETE
         Route::get('/soft-delete/{user}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{user}', 'delete')->name('delete');
-        Route::get('/restore/{user}', 'restore')->name('restore');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
     });
 
     // CALENDAR - DONE 
@@ -121,9 +122,9 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         // WORKOUTS
         Route::prefix('/workouts')->name('workouts.')->group(function()
         {
-            Route::get('/delete/{user}/{workout}', 'deleteWorkout')->name('delete');
             Route::get('/soft-delete/{user}/{workout}', 'softDeleteWorkout')->name('soft-delete');
-            Route::get('/restore/{user}/{workout}', 'restoreWorkout')->name('restore');
+            Route::get('/restore/{user}/{id}', 'restoreWorkout')->name('restore');
+            Route::get('/delete/{user}/{id}', 'deleteWorkout')->name('delete');
 
             Route::get('/done/{user}/{workout}', 'doneWorkout')->name('done');
             Route::get('/undone/{user}/{workout}', 'undoneWorkout')->name('undone');
@@ -222,11 +223,20 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{pricing}', 'edit')->name('edit');
         Route::get('/soft-delete/{pricing}', 'softDelete')->name('soft-delete');
-        Route::get('/restore/{pricing}', 'restore')->name('restore');
-        Route::get('/delete/{pricing}', 'delete')->name('delete');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{pricing}', 'update')->name('update');
+    });
+
+
+    // PLANS - DONE
+    Route::prefix("/plans")->name("plans.")->controller(AdminPlanController::class)->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/soft-delete/{plan}', 'softDelete')->name('soft-delete');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
     });
 
 });

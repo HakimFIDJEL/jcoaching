@@ -27,6 +27,17 @@
                     <li><a href="{{ route('admin.admins.index') }}">Administrateurs</a></li>
                 </ul>
             </li>
+            <li class="{{ Request::is('admin/plans*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.plans.index') }}" 
+                    class="ai-icon {{ Request::is('admin/plans*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Abonnements"
+                >
+                    <i class="fa fa-credit-card"></i>
+                    <span class="nav-text">Abonnements</span>
+                </a>                
+            </li>
             <li class="{{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('admin.feedbacks.index') }}" 

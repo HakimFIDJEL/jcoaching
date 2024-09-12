@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
 
 use App\Models\Workout;
@@ -12,7 +11,6 @@ use App\Models\Workout;
 class RestPeriod extends Model
 {
     use HasFactory;
-    use SoftDeletes;
 
     protected $fillable = [
         'start_date', 

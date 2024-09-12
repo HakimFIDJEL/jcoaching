@@ -68,7 +68,7 @@ class FeedbackTest extends TestCase
         $this->assertDatabaseHas('feedback', $feedback);
     }
 
-    // UPDATE - DOING
+    // UPDATE - DONE
     public function test_admin_can_update_feedback() {
         $feedback = Feedback::factory()->create();
         $newFeedback = Feedback::factory()->make()->toArray();
@@ -80,7 +80,7 @@ class FeedbackTest extends TestCase
         $this->assertDatabaseHas('feedback', $newFeedback);
     }
 
-    // SOFT DELETE - DOING
+    // SOFT DELETE - DONE
     public function test_admin_can_soft_delete_feedback() {
         $feedback = Feedback::factory()->create();
 
@@ -93,7 +93,7 @@ class FeedbackTest extends TestCase
         $this->assertSoftDeleted($feedback);
     }
 
-    // RESTORE - DOING
+    // RESTORE - DONE
     public function test_admin_can_restore_feedback() {
         $feedback = Feedback::factory()->create();
         $feedback->delete();
@@ -107,7 +107,7 @@ class FeedbackTest extends TestCase
         $this->assertNull($feedback->deleted_at);
     }
 
-    // DELETE - DOING
+    // DELETE - DONE
     public function test_admin_can_delete_feedback() {
         $feedback = Feedback::factory()->create();
         $feedback->delete();

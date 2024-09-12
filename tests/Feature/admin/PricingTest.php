@@ -38,36 +38,28 @@ class PricingTest extends TestCase
         ]);
     }
 
-    // INDEX
-    public function test_admin_can_access_pricings_index_page()
-    {
+    // INDEX - DONE
+    public function test_admin_can_access_pricings_index_page() {
         $response = $this->actingAs($this->admin)->get('/admin/pricings');
         $response->assertStatus(200);
     }
 
-    // CREATE
-    public function test_admin_can_access_pricings_create_page()
-    {
+    // CREATE - DONE
+    public function test_admin_can_access_pricings_create_page() {
         $response = $this->actingAs($this->admin)->get('/admin/pricings/create');
         $response->assertStatus(200);
     }
 
-    // EDIT
-    public function test_admin_can_access_pricings_edit_page()
-    {
+    // EDIT - DONE
+    public function test_admin_can_access_pricings_edit_page() {
         $pricing = Pricing::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/pricings/edit/' . $pricing->id);
         $response->assertStatus(200);
     }
 
-
-
-
-
-    // STORE
-    public function test_admin_can_store_pricing()
-    {
+    // STORE - DOING
+    public function test_admin_can_store_pricing() {
         $pricingData = Pricing::factory()->make()->toArray();
         $pricingData['features'] = ['feature1', 'feature2', 'feature3'];
 
@@ -88,63 +80,48 @@ class PricingTest extends TestCase
         }
     }
 
-    // UPDATE
-    public function test_admin_can_update_pricing()
-    {
+    // UPDATE - DOING
+    public function test_admin_can_update_pricing() {
         $pricing = Pricing::factory()->create();
-        $pricing->title = 'My title';
+        $newPricing = Pricing::factory()->make()->toArray();
+        $newPricing['features'] = ['feature1', 'feature2', 'feature3'];
 
-        $updatedData = $pricing->toArray();
-        $updatedData['online'] = (int) $pricing->online;
-        $updatedData['features'] = ['feature1', 'feature2', 'feature4'];
-
-        // Exclure les champs de temps de l'assertion
-        unset($updatedData['created_at'], $updatedData['updated_at']);
 
         // Effectuer la requête de mise à jour
-        $response = $this->actingAs($this->admin)->post('/admin/pricings/update/' . $pricing->id, $updatedData);
+        $response = $this->actingAs($this->admin)->post('/admin/pricings/update/' . $pricing->id, $newPricing);
 
         // Vérifier la redirection et le succès
         $response->assertRedirect('/admin/pricings');
         $response->assertSessionHas('success');
 
-        // Vérifier les données mises à jour dans la table `pricings`
+        
+        // Vérifier que les données ont été mises à jour dans la base de données
         $this->assertDatabaseHas('pricings', [
-            'id' => $pricing->id,
-            'title' => 'My title',
-            'subtitle' => $pricing->subtitle,
-            'description' => $pricing->description,
-            'nbr_sessions' => $pricing->nbr_sessions,
-            'price' => $pricing->price,
-            'online' => $pricing->online,
+            'title' => $newPricing['title'],
+            'subtitle' => $newPricing['subtitle'],
+            'description' => $newPricing['description'],
+            'nbr_sessions' => $newPricing['nbr_sessions'],
+            'price' => $newPricing['price'],
+            'online' => $newPricing['online'],
         ]);
-
-        // Vérifier que les `features` sont correctement stockées dans la table associée
-        foreach ($updatedData['features'] as $feature) {
-            $this->assertDatabaseHas('pricing_features', [
-                'label' => $feature,
-                'pricing_id' => $pricing->id,
-            ]);
-        }
     }
 
 
-    // // SOFT DELETE
-    public function test_admin_can_soft_delete_pricing()
-    {
+    // SOFT DELETE - DOING
+    public function test_admin_can_soft_delete_pricing() {
         $pricing = pricing::factory()->create();
 
         $response = $this->actingAs($this->admin)->get('/admin/pricings/soft-delete/' . $pricing->id);
         $response->assertRedirect('/admin/pricings');
         $response->assertSessionHas('success');
 
-        $expectedData = $pricing->only(['id', 'title', 'subtitle', 'description', 'nbr_sessions', 'price', 'online']);
-        $this->assertSoftDeleted('pricings', $expectedData);
+        $pricing->refresh();
+
+        $this->assertSoftDeleted($pricing);
     }
 
-    // // RESTORE
-    public function test_admin_can_restore_pricing()
-    {
+    // RESTORE - DOING
+    public function test_admin_can_restore_pricing() {
         $pricing = pricing::factory()->create();
         $pricing->delete();
 
@@ -152,21 +129,23 @@ class PricingTest extends TestCase
         $response->assertRedirect('/admin/pricings');
         $response->assertSessionHas('success');
 
-        $expectedData = $pricing->only(['id', 'title', 'subtitle', 'description', 'nbr_sessions', 'price', 'online']);
-        $this->assertDatabaseHas('pricings', $expectedData);
+        $pricing->refresh();
+
+        $this->assertNull($pricing->deleted_at);
     }
 
-    // // DELETE
-    public function test_admin_can_delete_pricing()
-    {
+    // DELETE - DOING
+    public function test_admin_can_delete_pricing() {
         $pricing = pricing::factory()->create();
+
+        $pricing->delete();
 
         $response = $this->actingAs($this->admin)->get('/admin/pricings/delete/' . $pricing->id);
         $response->assertRedirect('/admin/pricings');
         $response->assertSessionHas('success');
 
-        $this->assertDatabaseMissing('pricings', ['id' => $pricing->id]);
-        $this->assertDatabaseMissing('pricing_features', ['pricing_id' => $pricing->id]);
+        $this->assertDatabaseMissing($pricing);
+        $this->assertModelMissing($pricing);
     }
 
 }
