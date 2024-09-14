@@ -7,8 +7,7 @@ ClassicEditor
         plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
         toolbar: {
             items: [
-                'undo', 'redo', '|', 'bold', 'italic', '|',
-                
+                'undo', 'redo', '|', 'bold', 'italic', '|', 
             ]
         },
         // Font color is var(--bs-body-color)

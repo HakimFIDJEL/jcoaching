@@ -24,6 +24,7 @@ use App\Http\Controllers\admin\FaqController as AdminFaqController;
 use App\Http\Controllers\admin\PricingController as AdminPricingController;
 use App\Http\Controllers\admin\PlanController as AdminPlanController;
 use App\Http\Controllers\admin\ReductionController as AdminReductionController;
+use App\Http\Controllers\admin\SettingController as AdminSettingController;
 
 
 //      Member Controllers
@@ -242,7 +243,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     });
 
 
-    // REDUCTIONS - DOING
+    // REDUCTIONS - DONE
     Route::prefix("/reductions")->name("reductions.")->controller(AdminReductionController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -254,6 +255,23 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
         Route::post('/store', 'store')->name('store');
         Route::post('/update/{reduction}', 'update')->name('update');
+    });
+
+
+    // SETTINGS - DOING
+    Route::prefix("/settings")->name("settings.")->controller(AdminSettingController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/notify', 'notify')->name('notify');
+        Route::get('/download-logo', 'downloadLogo')->name('download-logo');
+
+        Route::post('/update-company', 'updateCompany')->name('update-company');
+        Route::post('/update-socials', 'updateSocials')->name('update-socials');
+        Route::post('/update-nutrition', 'updateNutrition')->name('update-nutrition');
+        Route::post('/update-pricings', 'updatePricings')->name('update-pricings');
+
+        
+
     });
 
 });

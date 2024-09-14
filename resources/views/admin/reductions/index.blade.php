@@ -52,7 +52,7 @@
                         <th>ID</th>
                         <th>Statut</th>
                         <th>Code</th>
-                        <th>Pourcentage</th>
+                        <th>Réduction</th>
                         <th>Date de début</th>
                         <th>Date de fin</th>
                         <th>Action</th>
