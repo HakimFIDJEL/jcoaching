@@ -23,6 +23,8 @@ use App\Http\Controllers\admin\MediaController as AdminMediaController;
 use App\Http\Controllers\admin\FaqController as AdminFaqController;
 use App\Http\Controllers\admin\PricingController as AdminPricingController;
 use App\Http\Controllers\admin\PlanController as AdminPlanController;
+use App\Http\Controllers\admin\ReductionController as AdminReductionController;
+
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
@@ -237,6 +239,21 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/soft-delete/{plan}', 'softDelete')->name('soft-delete');
         Route::get('/restore/{id}', 'restore')->name('restore');
         Route::get('/delete/{id}', 'delete')->name('delete');
+    });
+
+
+    // REDUCTIONS - DOING
+    Route::prefix("/reductions")->name("reductions.")->controller(AdminReductionController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/create', 'create')->name('create');
+        Route::get('/edit/{reduction}', 'edit')->name('edit');
+        Route::get('/soft-delete/{reduction}', 'softDelete')->name('soft-delete');
+        Route::get('/restore/{id}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
+
+        Route::post('/store', 'store')->name('store');
+        Route::post('/update/{reduction}', 'update')->name('update');
     });
 
 });
