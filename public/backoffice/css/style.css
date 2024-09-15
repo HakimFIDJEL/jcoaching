@@ -33613,8 +33613,8 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
 
 .show-pass {
   cursor: pointer;
-  border-top-right-radius: 0.5rem !important;
-  border-bottom-right-radius: 0.5rem !important; }
+  border-top-right-radius: 0rem !important;
+  border-bottom-right-radius: 0rem !important; }
   .show-pass .fa-eye {
     display: none; }
   .show-pass.active .fa-eye-slash {

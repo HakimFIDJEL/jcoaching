@@ -148,14 +148,20 @@
             <div class="col">
                 <div class="mb-3">
                     <label for="password" class="form-label">Mot de passe</label>
-                    <input 
-                        type="password" 
-                        name="password" 
-                        class="form-control @error('password') is-invalid @enderror" 
-                        id="password" 
-                        placeholder="Entrez votre mot de passe" 
-                        required 
-                    >
+                    <div class="input-group">
+                        <input 
+                            type="password" 
+                            name="password" 
+                            class="form-control @error('password') is-invalid @enderror" 
+                            id="password" 
+                            placeholder="Entrez votre mot de passe" 
+                            required 
+                        >
+                        <button type="button" class="input-group-text show-pass btn btn-primary">
+                            <i class="fa fa-eye-slash"></i>
+                            <i class="fa fa-eye"></i>
+                        </button>
+                    </div>
                 </div>
             </div>
             <div class="col">

@@ -11,7 +11,7 @@
         </h1>
         <div class="badges ms-2 d-flex align-items-center gap-2 flex-wrap">
             <span class="badge bg-secondary me-2 p-1">
-                <span class="">Membre depuis le {{ $admin->created_at->format('d/m/Y') }}</span>
+                <span class="">Administrateur depuis le {{ $admin->created_at->format('d/m/Y') }}</span>
                 <i class="fas fa-calendar-alt ms-1"></i>
             </span>
         </div>

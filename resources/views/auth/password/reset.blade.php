@@ -16,15 +16,21 @@
 
         <div class="mb-3">
             <label for="password" class="form-label">Nouveau mot de passe</label>
-            <input 
-                type="password" 
-                class="form-control @error('password') is-invalid @enderror" 
-                id="password" 
-                name="password" 
-                placeholder="Entrez votre nouveau mot de passe"
-                autofocus 
-                required 
-            >
+            <div class="input-group">
+                <input 
+                    type="password" 
+                    class="form-control @error('password') is-invalid @enderror" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Entrez votre nouveau mot de passe"
+                    autofocus 
+                    required 
+                >
+                <button type="button" class="input-group-text show-pass btn btn-primary">
+                    <i class="fa fa-eye-slash"></i>
+                    <i class="fa fa-eye"></i>
+                </button>
+            </div>
         </div>
         <div class="mb-3">
             <label for="password_confirmation" class="form-label">Confirmez votre mot de passe</label>

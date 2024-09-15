@@ -49,15 +49,21 @@
                 <div class="col">
                     <div class="mb-3">
                         <label for="current_password" class="form-label">Mot de passe actuel</label>
-                        <input 
-                            type="password" 
-                            class="form-control @error('current_password') is-invalid @enderror" 
-                            id="current_password" 
-                            name="current_password" 
-                            placeholder="Entrez votre mot de passe actuel" 
-                            autofocus 
-                            required
-                        >
+                        <div class="input-group">
+                            <input 
+                                type="password" 
+                                class="form-control @error('current_password') is-invalid @enderror" 
+                                id="current_password" 
+                                name="current_password" 
+                                placeholder="Entrez votre mot de passe actuel" 
+                                autofocus 
+                                required
+                            >
+                            <button type="button" class="input-group-text show-pass btn btn-primary">
+                                <i class="fa fa-eye-slash"></i>
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -65,14 +71,20 @@
                 <div class="col">
                     <div class="mb-3">
                         <label for="password" class="form-label">Nouveau mot de passe</label>
-                        <input 
-                            type="password" 
-                            class="form-control @error('password') is-invalid @enderror" 
-                            id="password" 
-                            name="password" 
-                            placeholder="Entrez votre nouveau mot de passe" 
-                            required 
-                        >
+                        <div class="input-group">
+                            <input 
+                                type="password" 
+                                class="form-control @error('password') is-invalid @enderror" 
+                                id="password" 
+                                name="password" 
+                                placeholder="Entrez votre nouveau mot de passe" 
+                                required 
+                            >
+                            <button type="button" class="input-group-text show-pass btn btn-primary">
+                                <i class="fa fa-eye-slash"></i>
+                                <i class="fa fa-eye"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div class="col">

@@ -16,13 +16,9 @@
 {{-- /Breadcrumbs --}}
 
 
-@php 
-    $calendar_route = route('member.calendar.index');
-@endphp
-
 
 {{-- Calendar --}}
-@include('_elements.calendar_notify')
+@include('_elements.calendar.notify')
 {{-- /Calendar --}}
 
 

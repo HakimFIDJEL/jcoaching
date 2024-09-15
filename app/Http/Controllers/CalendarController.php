@@ -289,19 +289,33 @@ class CalendarController extends Controller
             }
         }
 
-        // Mettre à jour la séance
-        $workout->update([
-            'date' => $request->date ? Carbon::parse($request->date) : null, 
-            'status' => false, 
-            'notified' => false
-        ]);
-        
+        if($request->date) {
+            // Mettre à jour la séance
+            $workout->update([
+                'date' => Carbon::parse($request->date),
+                'status' => false, 
+                'notified' => false
+            ]);
+
+            // dd('Il y a une date dans la requête : ' . $request->date);
+            // dd('Date du workout mis à jour : ' . $workout->date);
+        } else {
+            // Retirer la séance
+            $workout->update([
+                'date' => null,
+                'status' => false, 
+                'notified' => false
+            ]);
+        }
+
+
+        $workout->load('user:id,lastname,firstname');
 
         return response()->json(
             [
                 'status' => 'success', 
                 'message' => 'Séance mise à jour avec succès',
-                'workout' => $workout
+                'workout' => $workout,
             ]
         );
     }

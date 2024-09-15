@@ -10,6 +10,7 @@
         </title>
         
         {{-- Import CSS --}}
+        <link rel="stylesheet" href="{{ asset('backoffice/css/style.css') }}">
         @vite('resources/css/bootstrap.css')
         @vite('resources/css/line-awesome.min.css')
         @vite('resources/css/swiper.min.css')

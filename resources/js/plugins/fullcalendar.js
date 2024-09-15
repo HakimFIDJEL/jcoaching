@@ -3,6 +3,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
 import listPlugin from '@fullcalendar/list';
 import interactionPlugin, { Draggable } from '@fullcalendar/interaction';
+import moment from 'moment';
 
 import swal from './swal';
 import notyf from './notyf';
@@ -24,7 +25,6 @@ let noDraggable                     = document.querySelector('.draggable-contain
 
 
 document.addEventListener('DOMContentLoaded', function() {
-
 
     let workoutVisibleEvents = fullcalendar_workouts_visible.map(function(workout) {
         return {
@@ -194,7 +194,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } else {
                 // Si ce n'est pas un changement de date, ne rien faire
-                console.log('Changement sans modification de la date (ex: couleur).');
             }
             
         
@@ -240,7 +239,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (result.isConfirmed) {
                         console.log('Event clicked !');
                         
-                        refuseDate(info);
+                        removeWorkout(info);
     
                     } else {
                         console.log('Click annulé !');
@@ -252,13 +251,9 @@ document.addEventListener('DOMContentLoaded', function() {
         },        
     });
     
-    
     calendar.render();
     
     let draggable = new Draggable(draggableEls);
-
-
-
 });
 
 // Affiche ou non le message "Aucun entraînement disponible"
@@ -275,43 +270,7 @@ function toggleNoDraggable() {
     }
 }
 
-// Retirer un entraînement du calendrier
-function refuseDate(info) {
 
-
-    $.ajax({
-        headers: {
-            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        },
-        type: "POST",
-        url: updateWorkoutRoute,
-        data: {
-            userId: info.event.extendedProps.userId,
-            workoutId: info.event.extendedProps.workoutId,
-        },
-        success: function (response) {
-            switch(response.status) {
-                case 'success':
-                    notyf.success(response.message);
-                    info.event.remove();  
-                    addDraggableElement(info);  
-                    break;
-                case 'error':
-                    notyf.error(response.message ?? 'Une erreur est survenue !');
-                    break;
-                default:
-                    notyf.error('Une erreur est survenue !');
-                    break;
-            }
-        },
-        error: function (response) {
-            console.log(response);
-            notyf.error(response.responseJSON.message ?? 'Une erreur est survenue !');
-        }
-    }).always(function() {
-        toggleNoDraggable();
-    });
-}
 
 // Ajouter un élément draggable dynamiquement dans son container d'origine
 function addDraggableElement(info) {
@@ -342,17 +301,12 @@ function addDraggableElement(info) {
 
 // Met à jour un entraînement dans la base de données
 function updateWorkout(info) {
-
     let date = info.event.startStr;
     let gridMonth = false;
-
     if(date.length === 10) {
         date = date + 'T10:00:00';
         gridMonth = true;
     }
-
-
-
     $.ajax({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
@@ -365,17 +319,19 @@ function updateWorkout(info) {
             date: date
         },
         success: function (response) {
-
             if(gridMonth) {
                 window.location.reload();
             }
-
             switch(response.status) {
                 case 'success':
                     notyf.success(response.message);
                     if(info.draggedEl != undefined) {
                         info.draggedEl.remove();
                     }
+                    updateWorkoutFromDatatable(response.workout);
+                    console.log('Workout.status : ', response.workout.status);
+                    console.log('Workout.date : ', response.workout.date);  
+                    info.event.setProp('color', getWorkoutColour(response.workout.status, response.workout.date));
                     break;
                 case 'error':
                     notyf.error(response.message ?? 'Une erreur est survenue !');
@@ -386,13 +342,47 @@ function updateWorkout(info) {
                     info.revert();
                     break;
             }
-
-            // update the event's color
-            info.event.setProp('color', getWorkoutColour(response.workout.status, response.workout.date));
         },
         error: function (response) {
             notyf.error(response.responseJSON.message ?? 'Une erreur est survenue !');
             info.revert();
+        }
+    }).always(function() {
+        toggleNoDraggable();
+    });
+}
+
+// Retirer un entraînement du calendrier
+function removeWorkout(info) {
+    $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        type: "POST",
+        url: updateWorkoutRoute,
+        data: {
+            userId: info.event.extendedProps.userId,
+            workoutId: info.event.extendedProps.workoutId,
+        },
+        success: function (response) {
+            switch(response.status) {
+                case 'success':
+                    notyf.success(response.message);
+                    info.event.remove();  
+                    addDraggableElement(info);  
+                    updateWorkoutFromDatatable(response.workout);
+                    break;
+                case 'error':
+                    notyf.error(response.message ?? 'Une erreur est survenue !');
+                    break;
+                default:
+                    notyf.error('Une erreur est survenue !');
+                    break;
+            }
+        },
+        error: function (response) {
+            console.log(response);
+            notyf.error(response.responseJSON.message ?? 'Une erreur est survenue !');
         }
     }).always(function() {
         toggleNoDraggable();
@@ -482,4 +472,126 @@ function getWorkoutColour(status, start_date) {
     } else {
         return 'var(--bs-secondary)';
     }
+}
+
+/** Fonctions DataTable Primaires **/
+
+// Fonction pour modifier un entraînement dans le tableau .datatable dynamiquement
+function updateWorkoutFromDatatable(workout) {
+    if ($('.datatable').length) {
+        // Récupérer l'instance DataTable existante
+        var table = $('.datatable').DataTable();
+
+        var row = table.row('tr[data-workout-id="' + workout.id + '"]');
+
+        if (row.length) {
+
+            // Construire les nouvelles données de la ligne
+            var rowData = [];
+
+            // Colonne ID
+            rowData.push('<strong>' + workout.id + '</strong>');
+
+            // Colonne Statut
+            rowData.push(getStatusCell(workout));
+
+            // Colonne Membre (si l'utilisateur est administrateur)
+            if (isAdministrator) {
+                rowData.push(getMembreCell(workout));
+            }
+
+            // Colonne Obtention
+            rowData.push(getObtentionCell(workout));
+
+            // Colonne Date
+            rowData.push(getDateCell(workout));
+
+            // Colonne Actions (si l'utilisateur est administrateur)
+            if (isAdministrator) {
+                rowData.push(getActionsCell(workout));
+            }
+
+            // Mettre à jour la ligne dans le DataTable
+            row.data(rowData).draw();
+        } else {
+            notyf.error('L\'entraînement #' + workout.id + ' n\'a pas été trouvé dans le tableau, veuillez recharger la page !');
+        }
+
+
+    } else {
+        notyf.error('La table .datatable n\'existe pas !');
+    }
+}
+
+
+/** Fonctions DataTable Secondaires **/
+
+// Fonction pour générer le contenu de la cellule ID - DONE
+function getIdCell(workout) {
+    return '<span><strong>'+ workout.id +'</strong></span>';
+}
+
+// Fonction pour générer le contenu de la cellule Statut - DONE
+function getStatusCell(workout) {
+    if (workout.date) {
+        if (workout.status == 1) {
+            return '<span class="badge bg-success"><span>Faite</span><i class="fas fa-check ms-2"></i></span>';
+        } else {
+            return '<span class="badge bg-warning"><span>Non faite</span><i class="fas fa-close ms-2"></i></span>';
+        }
+    } else {
+        return '<span class="badge bg-danger"><span>A planifier</span><i class="fas fa-exclamation-triangle ms-2"></i></span>';
+    }
+}
+
+// Fonction pour générer le contenu de la cellule Membre - DONE
+function getMembreCell(workout) {
+    var url = '/admin/members/edit/' + workout.user.id; // Ajuster l'URL si nécessaire
+    var name = workout.user.firstname + ' ' + workout.user.lastname;
+    return '<a href="' + url + '" class="text-decoration-underline">' + name + '</a>';
+}
+
+// Fonction pour générer le contenu de la cellule Obtention - DONE
+function getObtentionCell(workout) {
+    if (workout.plan_id) {
+        return '<span class="badge bg-primary">Abonnement</span>';
+    } else {
+        return '<span class="badge bg-secondary">A l\'unité</span>';
+    }
+}
+
+// Fonction pour générer le contenu de la cellule Date - DONE
+function getDateCell(workout) {
+    if (workout.date) {
+        // Utilisez moment.js pour formater la date (assurez-vous de l'inclure dans votre projet)
+        var date = moment(workout.date).format('DD/MM/YY - HH:mm');
+        return date;
+    } else {
+        return '<span class="badge bg-danger"><span>A planifier</span><i class="fas fa-exclamation-triangle ms-2"></i></span>';
+    }
+}
+
+// Fonction pour générer le contenu de la cellule Actions - DONE
+function getActionsCell(workout) {
+    var buttons = '<div class="d-flex gap-2 align-items-center">';
+
+    // Bouton Supprimer
+    var deleteUrl = '/admin/calendar/workouts/soft-delete/' + workout.user.id + '/' + workout.id; // Ajuster l'URL si nécessaire
+    buttons += '<a href="' + deleteUrl + '" class="btn btn-danger btn-sm warning-row" title="Supprimer la séance"><i class="fas fa-trash-alt"></i></a>';
+
+    // Vérifier si la date est définie et passée
+    if (workout.date && moment(workout.date).isBefore(moment())) {
+        if (workout.status == 1) {
+            // Bouton Marquer comme non faite
+            var undoneUrl = '/admin/calendar/workouts/undone/' + workout.user.id + '/' + workout.id;
+            buttons += '<a href="' + undoneUrl + '" class="btn btn-warning btn-sm" title="Marquer comme non faite"><i class="fas fa-undo"></i></a>';
+        } else {
+            // Bouton Marquer comme faite
+            var doneUrl = '/admin/calendar/workouts/done/' + workout.user.id + '/' + workout.id;
+            buttons += '<a href="' + doneUrl + '" class="btn btn-success btn-sm" title="Marquer comme faite"><i class="fas fa-check"></i></a>';
+        }
+    }
+
+    buttons += '</div>';
+    return buttons;
 }

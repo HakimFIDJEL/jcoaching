@@ -54,9 +54,10 @@
     </div>
     {{-- /Content Header --}}
 
+    {{-- Content body --}}
     <div class="card-body">
-        {{-- Calendrier --}}
         <div class="row mb-5">
+            {{-- Actions --}}
             <div class="col-xl-3 col-xxl-4">
                 <div class="card border border-primary">
                     <div class="card-body">
@@ -150,7 +151,9 @@
                     </div>
                 </div>
             </div>
+            {{-- /Actions --}}
         
+            {{-- Calendrier --}}
             <div class="col">
                 <div 
                     id="calendar" 
@@ -168,191 +171,195 @@
                     data-is_administrator = "{{ Auth::user()->isAdmin() }}"
                     data-user_id = "{{ Auth::user()->id }}"
                 >
-        
-            
+                </div>
+            </div>
+            {{-- /Calendrier --}}
+        </div>
+    </div>
+    {{-- /Content body --}}
+
+
+    {{-- Card Datatable --}}
+    <div class="card-footer">
+        <div class="row">
+            <div class="col">
+                <div class="card border border-primary">
+                    {{-- Content Header --}}
+                    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+                        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+                            <h4 class="mb-0">
+                                Liste des séances
+                            </h4>
+                        </div>
+                        <div class="card-description">
+                            <p class="text-muted  mb-0 font-weight-light">
+                                Retrouvez ici la liste des séances planifiées et non planifiées.
+                            </p>
+                        </div>
+                    </div>
+                    {{-- /Content Header --}}
+
+                    {{-- Content Body --}}
+                    <div class="card-body">
+                        <table class="table datatable">
+                            <thead>
+                                <tr>
+                                    <th scope="col">
+                                        ID
+                                    </th>
+                                    <th scope="col">
+                                        Statut
+                                    </th>
+                                    @if(Auth::user()->isAdmin())
+                                        <th scope="col">
+                                            <span>
+                                                Membre
+                                            </span>
+                                            <i class="fas fa-user  ms-2"></i>
+                                        </th>
+                                    @endif
+                                    <th scope="col">
+                                        Obtention
+                                    </th>
+                                    <th scope="col">
+                                        <span>
+                                            Date
+                                        </span>
+                                        <i class="fas fa-calendar-alt ms-2"></i>
+                                    </th>
+                                    @if(Auth::user()->isAdmin())
+                                        <th>
+                                            Actions
+                                        </th>
+                                    @endif
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($workouts_visible->sortByDesc('id') as $workout)
+                                    <tr data-workout-id="{{ $workout->id }}">
+
+                                        {{-- ID - DONE --}}
+                                        <td>
+                                            <strong>
+                                                {{ $workout->id }}
+                                            </strong>
+                                        </td>
+
+                                        {{-- Status - DONE --}}
+                                        <td>
+                                            @if($workout->date)
+                                                @if($workout->status == 1)
+                                                    <span class="badge bg-success">
+                                                        <span>
+                                                            Faite
+                                                        </span>
+                                                        <i class="fas fa-check ms-2"></i>
+                                                    </span>
+                                                @else 
+                                                    <span class="badge bg-warning">
+                                                        <span>
+                                                            Non faite
+                                                        </span>
+                                                        <i class="fas fa-close ms-2"></i>
+                                                    </span>
+                                                @endif
+                                            @else 
+                                                <span class="badge bg-danger">
+                                                    <span>
+                                                        A planifier
+                                                    </span>
+                                                    <i class="fas fa-exclamation-triangle ms-2"></i>
+                                                </span> 
+                                            @endif
+                                        </td>
+
+                                        {{-- Membre - DONE --}}
+                                        @if(Auth::user()->isAdmin())
+                                            <td>
+                                                <a href="{{ route('admin.members.edit', $workout->user) }}" class="text-decoration-underline">
+                                                    {{ $workout->user->firstname }} {{ $workout->user->lastname }}
+                                                </a>
+                                            
+                                            </td>
+                                        @endif
+
+                                        {{-- Obtention - DONE --}}
+                                        <td>
+                                            @if($workout->plan_id)
+                                                <span class="badge bg-primary">
+                                                    Abonnement
+                                                </span>
+                                            @else
+                                                <span class="badge bg-secondary">
+                                                    A l'unité
+                                                </span>
+                                            @endif
+                                        </td>
+
+                                        {{-- Date - DONE --}}
+                                        <td>
+                                            @if($workout->date)
+                                                {{ Carbon\Carbon::parse($workout->date)->format('d/m/y - H:i') }}
+                                            @else 
+                                                <span class="badge bg-danger">
+                                                    <span>
+                                                        A planifier
+                                                    </span>
+                                                    <i class="fas fa-exclamation-triangle ms-2"></i>
+                                                </span>
+                                            @endif
+                                        </td>
+
+                                        {{-- Actions - DONE --}}
+                                        @if(Auth::user()->isAdmin())
+                                            <td>
+                                                <div class="d-flex gap-2 align-items-center">
+                                                    <a 
+                                                        href="{{ route('admin.calendar.workouts.soft-delete', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
+                                                        class="btn btn-danger btn-sm warning-row"
+                                                        title="Supprimer la séance"
+                                                    >
+                                                        <i class="fas fa-trash-alt"></i>
+                                                    </a>
+                    
+                                                    @if($workout->date && $workout->date < Carbon\Carbon::now())
+                                                        @if($workout->status == 1)
+                                                            <a 
+                                                                href="{{ route('admin.calendar.workouts.undone', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
+                                                                class="btn btn-warning btn-sm"
+                                                                title="Marquer comme non faite"
+                                                            >
+                                                                <i class="fas fa-undo"></i>
+                                                            </a>
+                                                        @else 
+                                                            
+                                                            <a 
+                                                                href="{{ route('admin.calendar.workouts.done', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
+                                                                class="btn btn-success btn-sm"
+                                                                title="Marquer comme faite"
+                                                            >
+                                                                <i class="fas fa-check"></i>
+                                                            </a>
+                    
+                                                        @endif
+                                                        
+                                                    @endif
+                                                </div>
+                                            </td>
+                                        @endif
+
+
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                    {{-- /Content Body --}}
                 </div>
             </div>
         </div>
-        {{-- /Calendrier --}}
     </div>
-
-
-    <div class="card-footer">
-            <div class="row">
-                <div class="col">
-                    <div class="card border border-primary">
-                        
-                        {{-- Content Header --}}
-                        <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
-                            <div class="card-title d-flex justify-content-between w-100 align-items-center">
-                                <h4 class="mb-0">
-                                    Liste des séances
-                                </h4>
-                                <a 
-                                    href="" 
-                                    class="btn btn-primary btn-sm"
-                                >
-                                    <span>
-                                        Actualiser le tableau
-                                    </span>
-                                    <i class="fas fa-sync ms-2"></i>
-                                </a>
-                            </div>
-                            <div class="card-description">
-                                <p class="text-muted  mb-0 font-weight-light">
-                                    Retrouvez ici la liste des séances planifiées et non planifiées.
-                                </p>
-                            </div>
-                        </div>
-                        {{-- /Content Header --}}
-
-                        {{-- Content Body --}}
-                        <div class="card-body">
-                            <table class="table datatable">
-                                <thead>
-                                    <tr>
-                                        <th scope="col">
-                                            ID
-                                        </th>
-                                        <th scope="col">
-                                            Statut
-                                        </th>
-                                        @if(Auth::user()->isAdmin())
-                                            <th scope="col">
-                                                <span>
-                                                    Membre
-                                                </span>
-                                                <i class="fas fa-user  ms-2"></i>
-                                            </th>
-                                        @endif
-                                        <th scope="col">
-                                            Obtention
-                                        </th>
-                                        <th scope="col">
-                                            <span>
-                                                Date
-                                            </span>
-                                            <i class="fas fa-calendar-alt ms-2"></i>
-                                        </th>
-                                        @if(Auth::user()->isAdmin())
-                                            <th>
-                                                Actions
-                                            </th>
-                                        @endif
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($workouts_visible->sortByDesc('id') as $workout)
-                                        <tr data-status="{{ $workout->status }}">
-                                            <td>
-                                                <strong>
-                                                    {{ $workout->id }}
-                                                </strong>
-                                            </td>
-                                            <td>
-                                                @if($workout->date)
-                                                    @if($workout->status == 1)
-                                                        <span class="badge bg-success">
-                                                            <span>
-                                                                Faite
-                                                            </span>
-                                                            <i class="fas fa-check ms-2"></i>
-                                                        </span>
-                                                    @else 
-                                                        <span class="badge bg-warning">
-                                                            <span>
-                                                                Non faite
-                                                            </span>
-                                                            <i class="fas fa-close ms-2"></i>
-                                                        </span>
-                                                    @endif
-                                                @else 
-                                                    <span class="badge bg-danger">
-                                                        <span>
-                                                            A planifier
-                                                        </span>
-                                                        <i class="fas fa-exclamation-triangle ms-2"></i>
-                                                    </span> 
-                                                @endif
-                                            </td>
-                                            @if(Auth::user()->isAdmin())
-                                                <td>
-                                                    <a href="{{ route('admin.members.edit', $workout->user) }}" class="text-decoration-underline">
-                                                        {{ $workout->user->firstname }} {{ $workout->user->lastname }}
-                                                    </a>
-                                                
-                                                </td>
-                                            @endif
-                                            <td>
-                                                @if($workout->plan_id)
-                                                    <span class="badge bg-primary">
-                                                        Abonnement
-                                                    </span>
-                                                @else
-                                                    <span class="badge bg-secondary">
-                                                        A l'unité
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            <td>
-                                                @if($workout->date)
-                                                    {{ Carbon\Carbon::parse($workout->date)->format('d/m/y - H:i') }}
-                                                @else 
-                                                    <span class="badge bg-danger">
-                                                        <span>
-                                                            A planifier
-                                                        </span>
-                                                        <i class="fas fa-exclamation-triangle ms-2"></i>
-                                                    </span>
-                                                @endif
-                                            </td>
-                                            @if(Auth::user()->isAdmin())
-                                                <td>
-                                                    <div class="d-flex gap-2 align-items-center">
-                                                        <a 
-                                                            href="{{ route('admin.calendar.workouts.soft-delete', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
-                                                            class="btn btn-danger btn-sm warning-row"
-                                                            title="Supprimer la séance"
-                                                        >
-                                                            <i class="fas fa-trash-alt"></i>
-                                                        </a>
-                        
-                                                        @if($workout->date && $workout->date < Carbon\Carbon::now())
-                                                            @if($workout->status == 1)
-                                                                <a 
-                                                                    href="{{ route('admin.calendar.workouts.undone', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
-                                                                    class="btn btn-warning btn-sm"
-                                                                    title="Marquer comme non faite"
-                                                                >
-                                                                    <i class="fas fa-undo"></i>
-                                                                </a>
-                                                            @else 
-                                                                
-                                                                <a 
-                                                                    href="{{ route('admin.calendar.workouts.done', ['user' => $workout->user->id, 'workout' => $workout->id]) }}"
-                                                                    class="btn btn-success btn-sm"
-                                                                    title="Marquer comme faite"
-                                                                >
-                                                                    <i class="fas fa-check"></i>
-                                                                </a>
-                        
-                                                            @endif
-                                                            
-                                                        @endif
-                                                    </div>
-                                                </td>
-                                            @endif
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        {{-- /Content Body --}}
-                    </div>
-        
-                </div>
-            </div>
-    </div>
+    {{-- /Card Datatable --}}
 </div>
 
 
