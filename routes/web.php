@@ -276,12 +276,12 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     Route::prefix("/chatbox")->name("chatbox.")->controller(ChatboxController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
-        Route::get('/show/{chatbox}', 'show')->name('show');
-        Route::get('/block/{chatbox}', 'block')->name('block');
-        Route::get('/unblock/{chatbox}', 'unblock')->name('unblock');   
-        Route::get('/delete-messages/{chatbox}', 'deleteMessages')->name('delete-messages');
+        Route::get('/show/{user}', 'show')->name('show');
+        Route::get('/block/{user}', 'block')->name('block');
+        Route::get('/unblock/{user}', 'unblock')->name('unblock');   
+        Route::get('/delete-messages/{user}', 'deleteMessages')->name('delete-messages');
 
-        Route::post('/send/{chatbox}', 'send')->name('send');
+        Route::post('/send/{user}', 'send')->name('send');
     });
 
 });

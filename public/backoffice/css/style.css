@@ -12329,6 +12329,9 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   .chatbox .user_info:hover span {
     color: var(--bs-primary);
   }
+  .chatbox-content {
+    height: auto !important;
+  }
   .chatbox .user_info span {
     font-size: 15px;
     transition: all 0.5s ease;
@@ -12348,7 +12351,7 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
     font-size: 13px;
     color: rgba(255, 255, 255, 0.3);
     margin-bottom: 0;
-    line-height: 1;
+    line-height: 16px;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -12464,19 +12467,11 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
       [data-theme-version="dark"] .chatbox .msg_cotainer_send:after {
         border-left: 10px solid #24292d; }
   .chatbox .type_msg .form-control {
-    padding: 10px 0;
-    height: 50px;
-    border: 0;
+    
+    height: 80px !important;
     resize: none; }
     .chatbox .type_msg .form-control:focus {
       z-index: 0; }
-  .chatbox .type_msg .btn {
-    font-size: 18px;
-    border-radius: 38px !important;
-    width: 38px;
-    height: 38px;
-    padding: 0;
-    margin-top: 6px; }
   .chatbox .video_cam {
     margin-left: 15px; }
     .chatbox .video_cam span {
@@ -42152,6 +42147,10 @@ html[dir="rtl"] [direction="rtl"][data-sidebar-style="compact"]:not([data-layout
 
 .filepond--pdf-preview-wrapper::before {
   pointer-events: none !important;;
+}
+
+.filepond--credits {
+  display: none !important;
 }
 
 /* /FILEPOND */

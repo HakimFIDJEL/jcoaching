@@ -24,8 +24,8 @@ class ChatboxMessage extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function files() {
-        return $this->hasMany(ChatboxMessageFile::class);
+    public function file() {
+        return $this->hasOne(ChatboxMessageFile::class);
     }
 
     public function read() {

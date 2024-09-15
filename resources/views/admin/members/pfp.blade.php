@@ -86,8 +86,3 @@
 
 
 @endsection
-
-@section('scripts')
-    @vite('resources/js/plugins/filepond.js')
-@endsection
-

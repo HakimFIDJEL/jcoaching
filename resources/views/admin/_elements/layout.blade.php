@@ -61,7 +61,8 @@
         <script src="{{ asset('backoffice/js/plugins-init/datatables.init.js') }}" defer></script>
         @vite('resources/js/app.js')
         
-        @vite('resources/js/chatbox.js')
+        @vite('resources/js/plugins/chatbox.js')
+        @vite('resources/js/plugins/filepond.js')
         @vite('resources/js/plugins/notyf.js')
         @vite('resources/js/plugins/swal.js')
 

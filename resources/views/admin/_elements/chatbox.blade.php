@@ -1,6 +1,11 @@
-<div class="chatbox">
+<div 
+    class="chatbox active" 
+    id="chatbox" 
+    data-user-id=""
+    data-chatbox-messages-route="/admin/chatbox/show"
+>
     <div class="chatbox-close"></div>
-    <div class="custom-tab-1">
+    <div class="custom-tab-1 ">
 
         {{-- Card Chatboxes --}}
         <div class="card mb-sm-3 mb-md-0 contacts_card dz-chat-user-box border-primary border-left">
@@ -10,6 +15,7 @@
                     href="#" 
                     class="btn btn-outline-primary d-flex align-items-center justify-content-center"
                     title="Marquer tous les messages comme lus"
+                    id="mark-as-read-chatbox"
                 >
                     <i class="fa fa-inbox"></i>
                 </a>
@@ -24,7 +30,6 @@
                     class="btn btn-outline-primary d-flex align-items-center justify-content-center" 
                     title="Fermer la fenêtre de chat"
                     id="close-chatbox"
-                    onclick="$('.chatbox').removeClass('active');"
                 >
                     <i class="fa fa-close"></i>
                 </a>
@@ -50,7 +55,7 @@
                             @endphp
                         @endif
                 
-                        <li class="dz-chat-user">
+                        <li class="dz-chat-user" data-user-id="{{ $member->id }}">
                             <div class="d-flex bd-highlight">
                                 <div class="img_cont">
                                     @if($member->pfp_path)
@@ -84,7 +89,8 @@
         {{-- /Card Chatboxes --}}
 
         {{-- Chat History --}}
-        <div class="card chat dz-chat-history-box d-none border-primary border-left">
+        <div class="card chat dz-chat-history-box d-none border-primary border-left" style="height: 100vh">
+            {{-- Card Header --}}
             <div class="card-header chat-list-header text-center border-primary border-bottom">
                 <a 
                     href="#" 
@@ -94,8 +100,9 @@
                     <i class="fa fa-arrow-left"></i>
                 </a>
                 <div>
-                    <h6 class="mb-1">Chat with Khelesh</h6>
-                    <p class="mb-0 text-success">Online</p>
+                    <h6 class="mb-1 chatbox-user-name">
+                        Chargement...
+                    </h6>
                 </div>							
                 <div class="dropdown">
                     <a 
@@ -113,144 +120,58 @@
                     </ul>
                 </div>
             </div>
-            <div class="card-body msg_card_body dz-scroll" id="DZ_W_Contacts_Body3">
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        Hi, how are you samim?
-                        <span class="msg_time">8:40 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        Hi Khalid i am good tnx how about you?
-                        <span class="msg_time_send">8:55 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
+            {{-- /Card Header --}}
+
+            {{-- Card Body --}}
+            <div class="card-body msg_card_body dz-scroll chatbox-content" id="DZ_W_Contacts_Body3">
+                
+                <div class="chatbox-loading align-items-center justify-content-center w-100 h-100">
+                    <div class="spinner-border text-primary" role="status">
+                        <span class="visually-hidden">Chargement...</span>
                     </div>
                 </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        I am good too, thank you for your chat template
-                        <span class="msg_time">9:00 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        You are welcome
-                        <span class="msg_time_send">9:05 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        I am looking for your next templates
-                        <span class="msg_time">9:07 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        Ok, thank you have a good day
-                        <span class="msg_time_send">9:10 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        Bye, see you
-                        <span class="msg_time">9:12 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        Hi, how are you samim?
-                        <span class="msg_time">8:40 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        Hi Khalid i am good tnx how about you?
-                        <span class="msg_time_send">8:55 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        I am good too, thank you for your chat template
-                        <span class="msg_time">9:00 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        You are welcome
-                        <span class="msg_time_send">9:05 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        I am looking for your next templates
-                        <span class="msg_time">9:07 AM, Today</span>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-end mb-4">
-                    <div class="msg_cotainer_send">
-                        Ok, thank you have a good day
-                        <span class="msg_time_send">9:10 AM, Today</span>
-                    </div>
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/2.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                </div>
-                <div class="d-flex justify-content-start mb-4">
-                    <div class="img_cont_msg">
-                        <img src="images/avatar/1.jpg" class="rounded-circle user_img_msg" alt=""/>
-                    </div>
-                    <div class="msg_cotainer">
-                        Bye, see you
-                        <span class="msg_time">9:12 AM, Today</span>
-                    </div>
-                </div>
+                
+                
             </div>
+            {{-- /Card Body --}}
+
+            {{-- Card Footer --}}
             <div class="card-footer type_msg">
-                <div class="input-group">
-                    <textarea class="form-control" placeholder="Type your message..."></textarea>
-                    <div class="input-group-append">
-                        <button type="button" class="btn btn-primary align-items-center justify-content-center">
-                            <i class="fa fa-location-arrow"></i>
+                <form method="POST" action="/admin/chatbox/send" enctype="multipart/form-data" id="chatbox-form">
+                    @csrf
+
+                    <div>
+                        <input 
+                            type="file" 
+                            class="filepond" 
+                            id="file" 
+                            name="file" 
+                            accept="image/*, video/*, application/pdf"
+                            data-max-files="1"
+                        >
+                    </div>
+
+                    <div class="input-group">
+                        <textarea 
+                            type="text" 
+                            class="form-control @error('content') is-invalid @enderror" 
+                            id="content" 
+                            name="content" 
+                            placeholder="Entrez votre message..." 
+                            required
+                        ></textarea>
+                        <button 
+                            type="submit" 
+                            class="input-group-text btn btn-primary chatbox-send-button"
+                            title="Envoyer le message"
+                        >
+                            <i class="fa fa-paper-plane"></i>
                         </button>
                     </div>
-                </div>
+
+                </form>
             </div>
+            {{-- /Card Footer --}}
         </div>
         {{-- /Chat History --}}
     </div>

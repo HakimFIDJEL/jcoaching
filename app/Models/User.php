@@ -166,4 +166,12 @@ class User extends Authenticatable
         return asset('storage/' . str_replace('public/', '', $this->pfp_path)) ?? null;
     }
 
+    public function hasChatbox() {
+        return $this->chatbox()->exists();
+    }
+
+    public function chatbox() {
+        return $this->hasOne(Chatbox::class);
+    }
+
 }
