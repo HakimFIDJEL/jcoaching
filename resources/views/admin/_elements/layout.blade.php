@@ -31,7 +31,9 @@
 
         <div id="main-wrapper">
             {{-- Import Nav Header --}} @include('admin._elements.navheader')
-    
+
+            {{-- Import Chatbox --}} @include('admin._elements.chatbox')
+
             {{-- Import Header --}} @include('admin._elements.header')
         
             {{-- Import Sidebar --}} @include('admin._elements.sidebar')
@@ -58,7 +60,8 @@
         <script src="{{ asset('backoffice/vendor/datatables/js/jquery.dataTables.min.js') }}" defer></script>
         <script src="{{ asset('backoffice/js/plugins-init/datatables.init.js') }}" defer></script>
         @vite('resources/js/app.js')
-
+        
+        @vite('resources/js/chatbox.js')
         @vite('resources/js/plugins/notyf.js')
         @vite('resources/js/plugins/swal.js')
 

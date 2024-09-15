@@ -25,6 +25,7 @@ class AdminMiddleware
             return redirect()->route('main.account');
         }
 
+
         return $next($request);
     }
 }

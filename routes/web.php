@@ -12,6 +12,7 @@ use App\Http\Middleware\AuthMiddleware;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CalendarController;
+use App\Http\Controllers\ChatboxController;
 
 //      Admin Controllers
 use App\Http\Controllers\admin\MainController as AdminMainController;
@@ -258,7 +259,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     });
 
 
-    // SETTINGS - DOING
+    // SETTINGS - DONE
     Route::prefix("/settings")->name("settings.")->controller(AdminSettingController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
@@ -269,9 +270,18 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update-socials', 'updateSocials')->name('update-socials');
         Route::post('/update-nutrition', 'updateNutrition')->name('update-nutrition');
         Route::post('/update-pricings', 'updatePricings')->name('update-pricings');
+    });
 
-        
+    // CHATBOX - DOING
+    Route::prefix("/chatbox")->name("chatbox.")->controller(ChatboxController::class)->group(function(){
 
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{chatbox}', 'show')->name('show');
+        Route::get('/block/{chatbox}', 'block')->name('block');
+        Route::get('/unblock/{chatbox}', 'unblock')->name('unblock');   
+        Route::get('/delete-messages/{chatbox}', 'deleteMessages')->name('delete-messages');
+
+        Route::post('/send/{chatbox}', 'send')->name('send');
     });
 
 });

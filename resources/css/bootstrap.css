@@ -2257,15 +2257,14 @@ input[type="button"].btn-block {
   display: none;
   float: left;
   min-width: 10rem;
-  padding: 0.5rem 0;
+  padding: 0.5rem;
   margin: 0.125rem 0 0;
   font-size: 0.9rem;
   color: #fff;
   text-align: left;
   list-style: none;
   background-color: #090909;
-  background-clip: padding-box;
-  border: 1px solid #dddddd; }
+  background-clip: padding-box; }
 
 .dropdown-menu .dropdown-item.loading {
     display: none;
@@ -2583,7 +2582,7 @@ input[type="button"].btn-block {
   text-align: center;
   white-space: nowrap;
   background-color: var(--primary);
-  border: 1px solid #dddddd; }
+   }
   .input-group-text input[type="radio"],
   .input-group-text input[type="checkbox"] {
     margin-top: 0; }

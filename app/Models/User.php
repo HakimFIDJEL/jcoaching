@@ -165,4 +165,5 @@ class User extends Authenticatable
     public function getProfilePicture() {
         return asset('storage/' . str_replace('public/', '', $this->pfp_path)) ?? null;
     }
+
 }

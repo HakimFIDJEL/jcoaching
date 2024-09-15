@@ -25,6 +25,7 @@ class MemberMiddleware
             return redirect()->route('main.account');
         }
 
+
         return $next($request);
     }
 }

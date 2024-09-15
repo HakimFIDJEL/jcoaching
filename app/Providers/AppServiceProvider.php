@@ -4,6 +4,12 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
+
+// Models
+use App\Models\User;
+use App\Models\Chatbox;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -21,5 +27,17 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Schema::defaultStringLength(191);
+
+        // Send all users to the admin views
+        View::composer('admin.*', function ($view) {
+            // Vérification supplémentaire pour éviter les erreurs
+            if (Auth::check() && Auth::user()->isAdmin()) {
+
+                $members_view = User::members()->get();
+
+                $view->with('members_view', $members_view);
+
+            }
+        });
     }
 }

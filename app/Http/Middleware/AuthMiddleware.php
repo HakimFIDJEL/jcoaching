@@ -20,6 +20,7 @@ class AuthMiddleware
             return redirect()->route('auth.login')->with(['error' => 'Vous devez être connecté pour accéder à cette page']);
         }
 
+
         return $next($request);
     }
 }
