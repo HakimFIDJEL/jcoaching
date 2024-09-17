@@ -32,7 +32,7 @@
         <div id="main-wrapper">
             {{-- Import Nav Header --}} @include('admin._elements.navheader')
 
-            {{-- Import Chatbox --}} @include('admin._elements.chatbox')
+            {{-- Import Chatbox --}} @include('_elements.chatbox')
 
             {{-- Import Header --}} @include('admin._elements.header')
         

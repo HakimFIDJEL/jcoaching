@@ -12233,6 +12233,17 @@ Fixing Order => Base + Typography >> General Layout + Grid >> Page Layout + Comp
   -webkit-transition: all 0.8s;
   -ms-transition: all 0.8s;
   transition: all 0.8s; }
+  .chatbox .dropdown-menu{
+
+  }
+  .chatbox .dropdown-menu .dropdown-item {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 0.5rem;
+    height: auto;
+    line-height: 1;
+    text-align: left;
+  }
   [data-theme-version="dark"] .chatbox {
     background: #2f363e; }
   .chatbox .chatbox-close {

@@ -21,19 +21,19 @@ FilePond.registerPlugin(
     FilePondPluginImageEdit,
     FilePondPluginPdfPreview,
 )
+const allFilePondInstances = [];
 
 document.addEventListener('DOMContentLoaded', function() {
     // Sélectionner tous les éléments `input[type="file"].filepond`
     const inputElements = document.querySelectorAll('input[type="file"].filepond');
 
     
-    
     // Boucler sur chaque élément pour créer une instance de FilePond
     inputElements.forEach(inputElement => {
 
         const preloadedDocuments = inputElement.dataset.documents ? JSON.parse(inputElement.dataset.documents) : [];
 
-        FilePond.create(inputElement, {
+        const pond = FilePond.create(inputElement, {
             instantUpload: false,
             server: {
                 load: (source, load, error, progress, abort, headers) => {
@@ -74,5 +74,14 @@ document.addEventListener('DOMContentLoaded', function() {
             labelButtonRetryItemProcessing: "Réessayer",
             labelButtonProcessItem: "Charger",
         });
+
+        allFilePondInstances.push(pond);
+
     });
 });
+
+export default function clearAllFilePond() {
+    allFilePondInstances.forEach(pond => {
+        pond.removeFiles();
+    });
+}

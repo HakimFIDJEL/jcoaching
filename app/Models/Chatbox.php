@@ -39,4 +39,8 @@ class Chatbox extends Model
         $this->blocked_at = null;
         $this->save();
     }
+
+    public function isBlocked() {
+        return $this->blocked_at !== null;
+    }
 }

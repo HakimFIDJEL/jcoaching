@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('chatboxes', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->date('blocked_at')->nullable();
+            $table->dateTime('blocked_at')->nullable();
             $table->timestamps();
         });
     }
