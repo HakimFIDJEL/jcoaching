@@ -31,6 +31,8 @@
 
         <div id="main-wrapper">
             {{-- Import Nav Header --}} @include('member._elements.navheader')
+
+            {{-- Import Chatbox --}} @include('_elements.chatbox')
     
             {{-- Import Header --}} @include('member._elements.header')
         
@@ -61,6 +63,8 @@
 
         @vite('resources/js/plugins/notyf.js')
         @vite('resources/js/plugins/swal.js')
+        @vite('resources/js/plugins/chatbox.js')
+        @vite('resources/js/plugins/filepond.js')
 
 
         @yield('scripts')

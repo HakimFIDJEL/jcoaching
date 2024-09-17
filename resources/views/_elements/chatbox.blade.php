@@ -1,12 +1,15 @@
 <div 
-    class="chatbox active" 
+    class="chatbox" 
     id="chatbox" 
+    data-is-administrator="{{ Auth::user()->isAdmin() }}"
+    data-authenticated-user-id="{{ Auth::user()->id }}"
+    
+    data-user-id=""
     @if(Auth::user()->isAdmin())
-        data-user-id=""
+        data-chatbox-messages-route="/admin/chatbox/show"
     @else
-        data-user-id="{{ Auth::user()->id }}"
+        data-chatbox-messages-route="/member/chatbox/show"
     @endif
-    data-chatbox-messages-route="/admin/chatbox/show"
 >
     <div class="chatbox-close"></div>
     <div class="custom-tab-1 ">
@@ -17,7 +20,7 @@
                 {{-- Card Header --}}
                 <div class="card-header chat-list-header text-center border-primary border-bottom">
                     <a 
-                        href="#" 
+                        href="{{ route('admin.chatbox.mark-as-read') }}"
                         class="btn btn-outline-primary d-flex align-items-center justify-content-center"
                         title="Marquer tous les messages comme lus"
                         id="mark-as-read-chatbox"
@@ -76,11 +79,17 @@
                                             </span>
 
                                         @endif
+
+                                        @if($member->chatbox->unreadMessages->count() > 0)
+                                            <span class="online_icon">
+
+                                            </span>
+                                        @endif
                                     </div>
                                     <div class="user_info">
                                         <span>{{ $member->lastname }} {{ $member->firstname }}</span>
                                         <p>
-                                            Message de test
+                                            {{ $member->chatbox->messages->first() ? $member->chatbox->messages->first()->content : 'Aucun message' }}
                                         </p>
                                     </div>
                                 </div>
@@ -162,7 +171,7 @@
             {{-- Card Body --}}
             <div class="card-body msg_card_body dz-scroll chatbox-content" id="DZ_W_Contacts_Body3">
                 
-                <div class="chatbox-loading align-items-center justify-content-center w-100 h-100">
+                <div class="chatbox-loading align-items-center justify-content-center w-100 h-100 d-flex">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Chargement...</span>
                     </div>
@@ -174,7 +183,16 @@
 
             {{-- Card Footer --}}
             <div class="card-footer type_msg" id="chatbox-form-container">
-                <form method="POST" action="/admin/chatbox/send" enctype="multipart/form-data" id="chatbox-form">
+                <form 
+                    method="POST" 
+                    @if(Auth::user()->isAdmin())
+                        action="/admin/chatbox/send" 
+                    @else
+                        action="/member/chatbox/send" 
+                    @endif
+                    enctype="multipart/form-data" 
+                    id="chatbox-form"
+                >
                     @csrf
 
                     <div>

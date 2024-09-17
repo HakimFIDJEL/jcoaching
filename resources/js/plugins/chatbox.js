@@ -3,6 +3,8 @@ import clearAllFilePond from './filepond';
 import swal from './swal';
 
 let chatbox = $("#chatbox");
+let chatboxAuthenticatedUserId = chatbox.data('authenticated-user-id');
+let chatboxIsAdminstrator = chatbox.data('is-administrator');
 let chatboxLoading = chatbox.find('.chatbox-loading');
 let chatboxContent = chatbox.find('.chatbox-content');
 let ps = new PerfectScrollbar('.chatbox-content');
@@ -18,6 +20,13 @@ let unblock_button = $('#chatbox-unblock');
 let dayDiplayed;
 
 $(document).ready(function() {
+
+    moment.locale('fr');
+
+    // Open Chatbox - DONE
+    $(document).on('click', '#open-chatbox', function() {
+        openChatbox();
+    });
 
     // Close Chatbox - DONE
     $(document).on('click', '#close-chatbox', function() {
@@ -111,9 +120,10 @@ $(document).ready(function() {
 
 /** Fonctions primaires **/
 function openChat(userId) {
+
     // Si on a déjà chargé la chatbox de cet utilisateur, on l'affiche
     if(chatbox.data('user-id') == userId) {
-
+    // On ouvre la chatbox d'un autre utilisateur
     } else {
         chatbox.data('user-id', userId);
 
@@ -141,13 +151,13 @@ function openChat(userId) {
                     case 'error' :
                         closeChatbox();
                         notyf.error(response.message ?? 'Une erreur est survenue !');
-                    break;
+                        break;
                     default:
                         closeChatbox();
                         notyf.error('Une erreur est survenue !');
-                    break;
-                }
-            },
+                        break;
+                    }
+                },
             error: function(response) {
                 closeChatbox();
                 notyf.error(response.responseJSON.message ?? 'Une erreur est survenue !');
@@ -172,14 +182,14 @@ function sendChat(route, formData) {
     .done(function(response) {
         switch(response.status) {
             case 'success' :
-                appendAdminMessage(response.message);
-                break;
+                appendMessage(response.message, true);
+            break;
             case 'error' :
                 notyf.error('Une erreur est survenue !');
-                break;
+            break;
             default:
                 notyf.error('Une erreur est survenue !');
-                break;
+            break;
         }
     })
     .fail(function(response) {
@@ -238,7 +248,7 @@ function createFileViewer(file) {
     }
 }
 
-function showDaySeparator(date) {
+function appendDaySeparator(date) {
 
     // Si on a déjà affiché la date separatrice, on ne l'affiche pas
     if(dayDiplayed == moment(date).format('YYYY-MM-DD')) {
@@ -247,56 +257,69 @@ function showDaySeparator(date) {
         dayDiplayed = moment(date).format('YYYY-MM-DD');
     }
 
-    return `
+    chatboxContent.append( `
         <div class="d-flex justify-content-center mb-4 w-100">
             <div class="border-primary p-2 w-100 card text-center">
-                ${moment(date).isSame(new Date(), 'day') ? 'Aujourd\'hui' : moment(date).format('DD/MM/YY')}
+                ${moment(date).isSame(new Date(), 'day') ? 'Aujourd\'hui' : moment(date).format('D MMMM YYYY')}
             </div>
         </div>
-    `;
+    `);
+
+    scrollToBottom();
+
+    return;
 
 }
 
-function appendUserMessage(message) {
-    let html = `
-        <div class="d-flex justify-content-start mb-4">
+function appendMessage(message, isMine) {
+
+
+    // On affiche la date separatrice
+    appendDaySeparator(message.created_at);
+
+    let html = '';
+
+    if(isMine) {
+        html = `
+            <div class="d-flex justify-content-start mb-4">
+                <div class="img_cont_msg">
+                    ` + generateAvatar(message.user) + `
+                </div>
+                <div class="msg_cotainer">
+                    ${message.content}
+                    <br>
+                    ${message.file ? createFileViewer(message.file) : ''}
+                    <span class="msg_time">
+                        ` + generateDate(message) + ` 
+                       
+                    </span>
+                </div>
+            </div>
+        `;
+    } else {
+        html = `
+            <div class="d-flex justify-content-end mb-4">
+                <div class="msg_cotainer_send">
+                    ${message.content}
+                    <br>
+                    ${message.file ? createFileViewer(message.file) : ''}
+                <span class="msg_time_send">
+                    ` + generateDate(message) + ` 
+                </span>
+            </div>
             <div class="img_cont_msg">
                 ` + generateAvatar(message.user) + `
             </div>
-            <div class="msg_cotainer">
-                ${message.content}
-                <br>
-                ${message.file ? createFileViewer(message.file) : ''}
-                <span class="msg_time">
-                    ${moment(message.created_at).format('HH:mm')}
-                </span>
-            </div>
         </div>
-    `;
+        `;
+    }
+    
 
     chatboxContent.append(html);
 }
 
-function appendAdminMessage(message) {
-    let html = `
-        <div class="d-flex justify-content-end mb-4">
-            <div class="msg_cotainer_send">
-                ${message.content}
-                <br>
-                ${message.file ? createFileViewer(message.file) : ''}
-            <span class="msg_time_send">
-                ${moment(message.created_at).format('HH:mm')}
-            </span>
-        </div>
-        <div class="img_cont_msg">
-            `
-            + generateAvatar(message.user) +
-            `
-        </div>
-    </div>
-    `;
-
-    chatboxContent.append(html);
+function generateDate(message) {
+    return `${moment(message.created_at).format('HH:mm')} • ${message.read_at ? 'Lu le ' + moment(message.read_at).format('DD/MM/YY à HH:mm') : 'Non lu'}`;
 }
 
 function generateAvatar(user) {
@@ -313,6 +336,9 @@ function generateAvatar(user) {
 }
 
 function displayChat(response) {
+
+    // Réinitialise la date affichée
+    dayDiplayed = null;
 
     // Vide le contenu de la chatbox hormis le loading
     chatboxContent.children().not(chatboxLoading).remove();
@@ -342,16 +368,8 @@ function displayChat(response) {
 
 function displayMessages(messages) {
     messages.forEach(message => {
-
-        // On affiche la date separatrice
-        chatboxContent.append(showDaySeparator(message.created_at));
-
-
-        if(message.user.id == chatbox.data('user-id')) {
-            appendUserMessage(message);
-        } else {
-            appendAdminMessage(message);
-        }
+        console.log(message.user);
+        appendMessage(message, message.user.id == chatboxAuthenticatedUserId);
     });
 }
 /** /Fonctions secondaires **/
@@ -360,6 +378,14 @@ function displayMessages(messages) {
 /** Fonctions tertiaires **/
 function openChatbox() {
     chatbox.addClass('active');
+
+    if(!chatboxIsAdminstrator) {
+        $(".dz-chat-history-box").removeClass('d-none');
+
+        // On fait comme si on ouvrait la chatbox de l'utilisateur actuel
+        openChat(chatboxAuthenticatedUserId);
+    }
+
 }
 
 function closeChatbox() {

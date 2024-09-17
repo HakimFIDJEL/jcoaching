@@ -27,6 +27,19 @@ class ChatboxController extends Controller
         }
     }
 
+    // Mark as read
+    public function markAsRead() {
+        if(!Auth::user()->isAdmin()) {
+            return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour effectuer cette action.']);
+        } else {
+            $chatboxs = Chatbox::all();
+            foreach($chatboxs as $chatbox) {
+                $chatbox->markAsRead();
+            }
+            return redirect()->back()->with(['success' => 'Tous les messages ont bien été marqués comme lus.']);
+        }
+    }
+
     // Show - Done
     public function show(User $user) {
         if(!Auth::user()->isAdmin()) {
@@ -36,10 +49,13 @@ class ChatboxController extends Controller
                 'user:id,lastname,firstname,pfp_path', 
             ])->first();
 
+            $chatbox->markAsRead();
+
             return response()->json([
                 'status' => 'success',
                 'chatbox' => $chatbox,
             ]);
+
         } else {
             if($user->isAdmin()) {
                 return response()->json([
@@ -49,13 +65,15 @@ class ChatboxController extends Controller
                 if(!$user->hasChatbox()) {
                     $user->chatbox()->create();
                 } 
-
+                
                 $chatbox = $user->chatbox()->with([
                     'messages.file',
                     'messages.user:id,lastname,firstname,pfp_path',
                     'user:id,lastname,firstname,pfp_path', 
-                ])->first();
-                
+                    ])->first();
+                    
+                $chatbox->markAsRead();
+
                 return response()->json([
                     'status' => 'success',
                     'chatbox' => $chatbox,
@@ -64,7 +82,7 @@ class ChatboxController extends Controller
         }
     }
 
-    // Block
+    // Block - DONE
     public function block(User $user) {
         if(!Auth::user()->isAdmin()) {
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour effectuer cette action.']);
@@ -77,7 +95,7 @@ class ChatboxController extends Controller
         }
     }
 
-    // Unblock
+    // Unblock - DONE
     public function unblock(User $user) {
         if(!Auth::user()->isAdmin()) {
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour effectuer cette action.']);

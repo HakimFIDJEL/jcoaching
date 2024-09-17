@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Chatbox extends Model
 {
@@ -27,7 +28,7 @@ class Chatbox extends Model
     }
 
     public function unreadMessages() {
-        return $this->hasMany(ChatboxMessage::class)->whereNull('read_at');
+        return $this->hasMany(ChatboxMessage::class)->whereNull('read_at')->where('user_id', '!=', Auth::id());
     }
 
     public function block() {
@@ -42,5 +43,9 @@ class Chatbox extends Model
 
     public function isBlocked() {
         return $this->blocked_at !== null;
+    }
+
+    public function markAsRead() {
+        $this->unreadMessages()->update(['read_at' => now()]);
     }
 }

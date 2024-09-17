@@ -272,10 +272,11 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update-pricings', 'updatePricings')->name('update-pricings');
     });
 
-    // CHATBOX - DOING
+    // CHATBOX - DONE
     Route::prefix("/chatbox")->name("chatbox.")->controller(ChatboxController::class)->group(function(){
 
         Route::get('/', 'index')->name('index');
+        Route::get('/mark-as-read', 'markAsRead')->name('mark-as-read');
         Route::get('/show/{user}', 'show')->name('show');
         Route::get('/block/{user}', 'block')->name('block');
         Route::get('/unblock/{user}', 'unblock')->name('unblock');   
@@ -313,6 +314,14 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
 
             Route::post('/update', 'updateWorkout')->name('update');
         });
+    });
+
+    // CHATBOX - DONE
+    Route::prefix("/chatbox")->name("chatbox.")->controller(ChatboxController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/show/{user}', 'show')->name('show'); 
+        Route::post('/send/{user}', 'send')->name('send');
     });
 });
 

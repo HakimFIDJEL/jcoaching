@@ -34,8 +34,16 @@ class AppServiceProvider extends ServiceProvider
             if (Auth::check() && Auth::user()->isAdmin()) {
 
                 $members_view = User::members()->get();
+                $chatboxs = Chatbox::all();
+                $unread_messages_view = 0;
+                foreach ($chatboxs as $chatbox) {
+                    $unread_messages_view += $chatbox->unreadMessages()->count();
+                }
 
-                $view->with('members_view', $members_view);
+                $view->with([
+                    'members_view' => $members_view,
+                    'unread_messages_view' => $unread_messages_view,
+                ]);
 
             }
         });
