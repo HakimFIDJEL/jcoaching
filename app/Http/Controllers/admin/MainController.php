@@ -5,6 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Models\User;
+use App\Models\Workout;
+use App\Models\Contact;
+use App\Models\Setting;
+
 class MainController extends Controller
 {
     public function index()

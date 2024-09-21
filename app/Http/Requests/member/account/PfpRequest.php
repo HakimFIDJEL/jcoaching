@@ -12,7 +12,7 @@ class PfpRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return Auth::user()->isAdmin();
+        return Auth::check();
     }
 
     /**

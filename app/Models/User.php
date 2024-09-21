@@ -77,6 +77,21 @@ class User extends Authenticatable
         ];
     }
 
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            // Créer automatiquement une chatbox pour les membres
+            if ($user->role === 'member') {
+                $user->chatbox()->create();
+            }
+        });
+    }
+
+    public function toOthers()
+    {
+        return $this->except($this->id);
+    }
+
     public function scopeMembers(Builder $query)
     {
         return $query->where('role', 'member')->orderBy('id', 'desc');

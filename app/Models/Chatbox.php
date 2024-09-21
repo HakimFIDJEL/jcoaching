@@ -20,7 +20,7 @@ class Chatbox extends Model
     }
 
     public function messages() {
-        return $this->hasMany(ChatboxMessage::class);
+        return $this->hasMany(ChatboxMessage::class)->orderBy('created_at', 'asc');
     }
 
     public function lastMessage() {

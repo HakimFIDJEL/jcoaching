@@ -52,7 +52,7 @@
                     aria-expanded="false" 
                     title="Témoignages"
                 >
-                    <i class="flaticon-381-layer-1"></i>
+                    <i class="fas fa-comment-dots "></i>
                     <span class="nav-text">Témoignages</span>
                 </a>                
             </li>
@@ -65,7 +65,7 @@
                     aria-expanded="false"
                     title="Contacts"
                 >
-                    <i class="flaticon-381-tab"></i>
+                    <i class="fas fa-envelope"></i>
                     <span class="nav-text">Contacts</span>
                 </a>                
             </li>
@@ -78,7 +78,7 @@
                     aria-expanded="false"
                     title="Médias"
                 >
-                    <i class="flaticon-381-photo"></i>
+                    <i class="fas fa-photo-video"></i>
                     <span class="nav-text">Médias</span>
                 </a>                
             </li>
@@ -91,7 +91,7 @@
                     aria-expanded="false"
                     title="Faqs"
                 >
-                    <i class="flaticon-381-notepad"></i>
+                    <i class="fas fa-question-circle"></i>
                     <span class="nav-text">Faqs</span>
                 </a>                
             </li>
@@ -104,7 +104,7 @@
                     aria-expanded="false"
                     title="Tarifs"
                 >
-                    <i class="flaticon-381-price-tag"></i>
+                    <i class="fas fa-euro-sign"></i>
                     <span class="nav-text">Tarifs</span>
                 </a>                
             </li>
@@ -133,6 +133,19 @@
                     <i class="fa fa-calendar-alt"></i>
                     <span class="nav-text">Calendrier</span>
                 </a>                
+            </li>
+
+            {{-- Corbeille --}}
+            <li class="{{ Request::is('admin/trash*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.trash.users.index') }}" 
+                    class="ai-icon {{ Request::is('admin/trash*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Corbeille"
+                >
+                    <i class="fa fa-trash-alt"></i>
+                    <span class="nav-text">Corbeille</span>
+                </a>
             </li>
         </ul>
 

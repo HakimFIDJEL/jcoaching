@@ -4,6 +4,7 @@
     data-is-administrator="{{ Auth::user()->isAdmin() }}"
     data-authenticated-user-id="{{ Auth::user()->id }}"
     
+    
     data-user-id=""
     @if(Auth::user()->isAdmin())
         data-chatbox-messages-route="/admin/chatbox/show"
@@ -80,16 +81,16 @@
 
                                         @endif
 
-                                        @if($member->chatbox->unreadMessages->count() > 0)
-                                            <span class="online_icon">
+                                        
+                                        <span class="online_icon" @if($member->chatbox->unreadMessages->count() == 0) style="display:none;" @endif>
 
-                                            </span>
-                                        @endif
+                                        </span>
+                                        
                                     </div>
                                     <div class="user_info">
                                         <span>{{ $member->lastname }} {{ $member->firstname }}</span>
-                                        <p>
-                                            {{ $member->chatbox->messages->first() ? $member->chatbox->messages->first()->content : 'Aucun message' }}
+                                        <p class="chatbox_last_message">
+                                            {{ $member->chatbox->messages->last() ? $member->chatbox->messages->last()->content : 'Aucun message' }}
                                         </p>
                                     </div>
                                 </div>
@@ -169,9 +170,9 @@
             {{-- /Card Header --}}
 
             {{-- Card Body --}}
-            <div class="card-body msg_card_body dz-scroll chatbox-content" id="DZ_W_Contacts_Body3">
+            <div class="card-body msg_card_body chatbox-content" style="overflow: auto;">
                 
-                <div class="chatbox-loading align-items-center justify-content-center w-100 h-100 d-flex">
+                <div class="chatbox-loading align-items-center justify-content-center w-100 h-100" style="display: flex;">
                     <div class="spinner-border text-primary" role="status">
                         <span class="visually-hidden">Chargement...</span>
                     </div>
@@ -215,12 +216,27 @@
                             placeholder="Entrez votre message..." 
                             required
                         ></textarea>
+                        {{-- Send button --}}
                         <button 
                             type="submit" 
                             class="input-group-text btn btn-primary chatbox-send-button"
                             title="Envoyer le message"
+                            id="chatbox-send-button"
                         >
                             <i class="fa fa-paper-plane"></i>
+                        </button>
+
+                        {{-- Loading button --}}
+                        <button 
+                            type="button" 
+                            class="input-group-text btn btn-primary chatbox-loading-button"
+                            title="Envoi en cours..."
+                            id="chatbox-loading-button"
+                            style="display: none;"
+                        >
+                            <div class="spinner-border spinner-border-sm" role="status">
+                                <span class="visually-hidden">Envoi en cours...</span>
+                            </div>
                         </button>
                     </div>
 

@@ -27,6 +27,7 @@ use App\Models\Plan;
 use App\Models\Pricing;
 use App\Models\Workout;
 use App\Models\RestPeriod;
+use App\Models\Chatbox;
 
 // Mails
 use App\Mail\admin\StoreMember;
@@ -114,6 +115,8 @@ class MemberController extends Controller
             $user->save();
         }
 
+        // Logique déplacée dans le modèle User
+        // $user->chatbox()->create();
 
         // Send email
         $mail = new StoreMember($user, $temporary_password);
@@ -239,6 +242,18 @@ class MemberController extends Controller
         foreach ($documents as $document) {
             Storage::delete($document->path);
             $document->delete();
+        }
+
+        // Supprime les plans
+        $plans = $user->plans;
+        foreach ($plans as $plan) {
+            $plan->forceDelete();
+        }
+
+        // Supprime les workouts
+        $workouts = $user->workouts;
+        foreach ($workouts as $workout) {
+            $workout->forceDelete();
         }
 
         $user->forceDelete();

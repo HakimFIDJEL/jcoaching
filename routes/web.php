@@ -26,11 +26,13 @@ use App\Http\Controllers\admin\PricingController as AdminPricingController;
 use App\Http\Controllers\admin\PlanController as AdminPlanController;
 use App\Http\Controllers\admin\ReductionController as AdminReductionController;
 use App\Http\Controllers\admin\SettingController as AdminSettingController;
+use App\Http\Controllers\admin\TrashController as AdminTrashController;
 
 
 //      Member Controllers
 use App\Http\Controllers\member\MainController as MemberMainController;
 use App\Http\Controllers\member\PlanController as MemberPlanController;
+use App\Http\Controllers\member\AccountController as MemberAccountController;
 
 
 // MAIN ROUTES
@@ -285,6 +287,68 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/send/{user}', 'send')->name('send');
     });
 
+    // Corbeille
+    Route::prefix("/trash")->name("trash.")->controller(AdminTrashController::class)->group(function(){
+
+        Route::prefix("/feedbacks")->name("feedbacks.")->group(function(){
+            Route::get('/', 'feedbacks')->name('index');
+            Route::get('/restore-all', 'restoreAllFeedbacks')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllFeedbacks')->name('delete-all');
+        });
+
+        Route::prefix("/users")->name("users.")->group(function(){
+            Route::get('/', 'users')->name('index');
+            Route::get('/restore-all', 'restoreAllUsers')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllUsers')->name('delete-all');
+        });
+
+        Route::prefix("/workouts")->name("workouts.")->group(function(){
+            Route::get('/', 'workouts')->name('index');
+            Route::get('/restore-all', 'restoreAllWorkouts')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllWorkouts')->name('delete-all');
+        });
+
+        Route::prefix("/contacts")->name("contacts.")->group(function(){
+            Route::get('/', 'contacts')->name('index');
+            Route::get('/restore-all', 'restoreAllContacts')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllContacts')->name('delete-all');
+        });
+
+        Route::prefix("/faqs")->name("faqs.")->group(function(){
+            Route::get('/', 'faqs')->name('index');
+            Route::get('/restore-all', 'restoreAllFaqs')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllFaqs')->name('delete-all');
+        });
+
+        Route::prefix("/medias")->name("medias.")->group(function(){
+            Route::get('/', 'medias')->name('index');
+            Route::get('/restore-all', 'restoreAllMedias')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllMedias')->name('delete-all');
+        });
+
+        Route::prefix("/plans")->name("plans.")->group(function(){
+            Route::get('/', 'plans')->name('index');
+            Route::get('/restore-all', 'restoreAllPlans')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllPlans')->name('delete-all');
+        });
+
+        Route::prefix("/pricings")->name("pricings.")->group(function(){
+            Route::get('/', 'pricings')->name('index');
+            Route::get('/restore-all', 'restoreAllPricings')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllPricings')->name('delete-all');
+        });
+
+        Route::prefix("/reductions")->name("reductions.")->group(function(){
+            Route::get('/', 'reductions')->name('index');
+            Route::get('/restore-all', 'restoreAllReductions')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllReductions')->name('delete-all');
+        });
+
+
+    });
+
+    
+
 });
 
 
@@ -294,12 +358,12 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
     // MAIN
     Route::get('/', [MemberMainController::class, 'index'])->name('index');
 
-    // PLANS
+    // PLANS - DOING
     Route::prefix("/plans")->name("plans.")->controller(MemberPlanController::class)->group(function(){
         Route::get('/', 'index')->name('index');
     });
 
-    // CALENDAR ROUTES
+    // CALENDAR ROUTES - DONE
     Route::prefix("/calendar")->name("calendar.")->controller(CalendarController::class)->group(function(){
     
         Route::get('/', 'index')->name('index');
@@ -322,6 +386,20 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
         Route::get('/', 'index')->name('index');
         Route::get('/show/{user}', 'show')->name('show'); 
         Route::post('/send/{user}', 'send')->name('send');
+    });
+
+    // ACCOUNT - DONE
+    Route::prefix("/account")->name("account.")->controller(MemberAccountController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+        Route::get('/pfp', 'pfp')->name('pfp'); 
+        Route::get('/security', 'security')->name('security'); 
+
+        Route::post('/update', 'update')->name('update');
+        Route::post('/update-password', 'updatePassword')->name('update-password');
+        Route::post('/update-pfp', 'updatePfp')->name('update-pfp');
+
+        Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');
     });
 });
 

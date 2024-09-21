@@ -57,14 +57,14 @@ class FeedbackController extends Controller
     public function restore(int $id) {
         $feedback = Feedback::withTrashed()->findOrFail($id);
         $feedback->restore();
-        return redirect()->route('admin.feedbacks.index')->with('success', 'Le feedback a bien été restauré');
+        return redirect()->back()->with('success', 'Le feedback a bien été restauré');
     }
 
     // DELETE
     public function delete(int $id) {
         $feedback = Feedback::withTrashed()->findOrFail($id);
         $feedback->forceDelete();
-        return redirect()->route('admin.feedbacks.index')->with('success', 'Le feedback a bien été supprimé');
+        return redirect()->back()->with('success', 'Le feedback a bien été supprimé');
     }
 
     

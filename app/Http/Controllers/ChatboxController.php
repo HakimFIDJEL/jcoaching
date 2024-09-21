@@ -16,6 +16,11 @@ use App\Models\ChatboxMessageFile;
 // Requests
 use App\Http\Requests\chatbox\MessageRequest;
 
+// Events
+use App\Events\ChatboxMessageSent_Admin; /* Member send, Admin receive */
+use App\Events\ChatboxMessageSent_Member; /* Admin send, Member receive */
+use App\Events\ChatboxMessageSent; /* Both receive */
+
 class ChatboxController extends Controller
 {
     // Index
@@ -147,25 +152,27 @@ class ChatboxController extends Controller
             ]);
 
             $message->load('user:id,lastname,firstname,pfp_path', 'file');
-
-            return response()->json([
-                'status' => 'success',
-                'message' => $message,
-            ]);
         } else {
 
             $message = $chatbox->messages()->create([
                 'user_id' => Auth::id(),
                 'content' => $request->content,
             ]);
-    
             $message->load('user:id,lastname,firstname,pfp_path');
-    
-            return response()->json([
-                'status' => 'success',
-                'message' => $message,
-            ]);
         }
+
+        // if(Auth::user()->isAdmin()) {
+        //     broadcast(new ChatboxMessageSent_Member($message))->toOthers();
+        // } else {
+        //     broadcast(new ChatboxMessageSent_Admin($message));
+        // }
+        
+        event(new ChatboxMessageSent($message));
+
+        return response()->json([
+            'status' => 'success',
+            'message' => $message,
+        ]);
 
 
     }
