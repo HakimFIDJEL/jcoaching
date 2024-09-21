@@ -129,8 +129,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::prefix('/workouts')->name('workouts.')->group(function()
         {
             Route::get('/soft-delete/{user}/{workout}', 'softDeleteWorkout')->name('soft-delete');
-            Route::get('/restore/{user}/{id}', 'restoreWorkout')->name('restore');
-            Route::get('/delete/{user}/{id}', 'deleteWorkout')->name('delete');
+            Route::get('/restore/{id}', 'restoreWorkout')->name('restore');
+            Route::get('/delete/{id}', 'deleteWorkout')->name('delete');
 
             Route::get('/done/{user}/{workout}', 'doneWorkout')->name('done');
             Route::get('/undone/{user}/{workout}', 'undoneWorkout')->name('undone');
@@ -200,8 +200,8 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{media}', 'edit')->name('edit');
         Route::get('/soft-delete/{media}', 'softDelete')->name('soft-delete');
-        Route::get('/delete/{media}', 'delete')->name('delete');
-        Route::get('/restore/{media}', 'restore')->name('restore');
+        Route::get('/delete/{id}', 'delete')->name('delete');
+        Route::get('/restore/{id}', 'restore')->name('restore');
         Route::get('/download/{media}', 'download')->name('download');
 
         Route::post('/store', 'store')->name('store');
@@ -287,7 +287,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/send/{user}', 'send')->name('send');
     });
 
-    // Corbeille
+    // CORBEILLE - DOING
     Route::prefix("/trash")->name("trash.")->controller(AdminTrashController::class)->group(function(){
 
         Route::prefix("/feedbacks")->name("feedbacks.")->group(function(){
@@ -296,10 +296,16 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
             Route::get('/delete-all', 'deleteAllFeedbacks')->name('delete-all');
         });
 
-        Route::prefix("/users")->name("users.")->group(function(){
-            Route::get('/', 'users')->name('index');
-            Route::get('/restore-all', 'restoreAllUsers')->name('restore-all');
-            Route::get('/delete-all', 'deleteAllUsers')->name('delete-all');
+        Route::prefix("/members")->name("members.")->group(function(){
+            Route::get('/', 'members')->name('index');
+            Route::get('/restore-all', 'restoreAllMembers')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllMembers')->name('delete-all');
+        });
+
+        Route::prefix('/admins')->name('admins.')->group(function(){
+            Route::get('/', 'admins')->name('index');
+            Route::get('/restore-all', 'restoreAllAdmins')->name('restore-all');
+            Route::get('/delete-all', 'deleteAllAdmins')->name('delete-all');
         });
 
         Route::prefix("/workouts")->name("workouts.")->group(function(){

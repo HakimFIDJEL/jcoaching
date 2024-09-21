@@ -29,12 +29,12 @@ class ContactController extends Controller
     public function restore(int $id) {
         $contact = Contact::withTrashed()->findOrFail($id);
         $contact->restore();
-        return redirect()->route('admin.contacts.index')->with(['success' => 'Le contact a été restauré.']);
+        return redirect()->back()->with(['success' => 'Le contact a été restauré.']);
     }
 
     public function delete(int $id) {
         $contact = Contact::withTrashed()->findOrFail($id);
         $contact->forceDelete();
-        return redirect()->route('admin.contacts.index')->with(['success' => 'Le contact a été supprimé définitivement.']);
+        return redirect()->back()->with(['success' => 'Le contact a été supprimé définitivement.']);
     }
 }

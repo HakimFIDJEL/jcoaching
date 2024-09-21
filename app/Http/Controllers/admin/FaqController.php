@@ -51,12 +51,12 @@ class FaqController extends Controller
     public function restore(int $id) {
         $faq = Faq::withTrashed()->findOrFail($id);
         $faq->restore();
-        return redirect()->route('admin.faqs.index')->with(['success' => 'La FAQ a bien été restaurée']);
+        return redirect()->back()->with(['success' => 'La FAQ a bien été restaurée']);
     }
 
     public function delete(int $id) {
         $faq = Faq::withTrashed()->findOrFail($id);
         $faq->forceDelete();
-        return redirect()->route('admin.faqs.index')->with(['success' => 'La FAQ a bien été supprimée']);
+        return redirect()->back()->with(['success' => 'La FAQ a bien été supprimée']);
     }
 }

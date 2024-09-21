@@ -226,7 +226,7 @@ class MemberController extends Controller
     public function restore(int $id) {
         $user = User::withTrashed()->findOrFail($id);
         $user->restore();
-        return redirect()->route('admin.members.index')->with(['success' => 'Membre restauré avec succès']);
+        return redirect()->back()->with(['success' => 'Membre restauré avec succès']);
     }
 
     // DELETE
@@ -245,19 +245,31 @@ class MemberController extends Controller
         }
 
         // Supprime les plans
-        $plans = $user->plans;
+        $plans = $user->plans()->withTrashed()->get();
         foreach ($plans as $plan) {
             $plan->forceDelete();
         }
 
         // Supprime les workouts
-        $workouts = $user->workouts;
+        $workouts = $user->workouts()->withTrashed()->get();
         foreach ($workouts as $workout) {
             $workout->forceDelete();
         }
 
+        // Supprime la chatbox
+        $chatbox = $user->chatbox()->first();
+        $chatbox_messages = $chatbox->messages;
+        foreach($chatbox_messages as $message) {
+            if($message->file) {
+                Storage::delete($message->file->path);
+                $message->file->delete();
+            }
+            $message->delete();
+        }
+        $chatbox->delete();
+
         $user->forceDelete();
-        return redirect()->route('admin.members.index')->with(['success' => 'Membre supprimé avec succès']);
+        return redirect()->back()->with(['success' => 'Membre supprimé avec succès']);
     }
 
     // ADD PLAN

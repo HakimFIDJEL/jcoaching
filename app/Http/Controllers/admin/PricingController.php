@@ -70,14 +70,14 @@ class PricingController extends Controller
     // SOFT DELETE - DONE
     public function softDelete(Pricing $pricing){
         $pricing->delete();
-        return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été supprimé avec succès']);
+        return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été mis à la corbeille avec succès']);
     }
 
     // RESTORE - DONE
     public function restore(int $id){
         $pricing = Pricing::withTrashed()->findOrFail($id);
         $pricing->restore();
-        return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été restauré avec succès']);
+        return redirect()->back()->with(['success' => 'Le tarif a été restauré avec succès']);
     }
 
     // DELETE - DONE
@@ -85,6 +85,6 @@ class PricingController extends Controller
         $pricing = Pricing::withTrashed()->findOrFail($id);
         $pricing->features()->delete(); 
         $pricing->forceDelete();
-        return redirect()->route('admin.pricings.index')->with(['success' => 'Le tarif a été supprimé définitivement avec succès']); 
+        return redirect()->back()->with(['success' => 'Le tarif a été supprimé avec succès']); 
     }   
 }

@@ -164,7 +164,7 @@ class AdminController extends Controller
     public function restore(int $id) {
         $user = User::withTrashed()->findOrFail($id);
         $user->restore();
-        return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur restauré avec succès']);
+        return redirect()->back()->with(['success' => 'Administrateur restauré avec succès']);
     }
 
     public function delete(int $id) {
@@ -179,8 +179,8 @@ class AdminController extends Controller
             }
 
             $user->forceDelete();
-            return redirect()->route('admin.admins.index')->with(['success' => 'Administrateur supprimé avec succès']);
+            return redirect()->back()->with(['success' => 'Administrateur supprimé avec succès']);
         }
-        return redirect()->route('admin.admins.index')->with(['error' => 'Vous ne pouvez pas supprimer votre propre compte']);
+        return redirect()->back()->with(['error' => 'Vous ne pouvez pas supprimer votre propre compte']);
     }
 }

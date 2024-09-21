@@ -46,13 +46,13 @@ class ReductionController extends Controller
     public function restore($id) {
         $reduction = Reduction::withTrashed()->findOrFail($id);
         $reduction->restore();
-        return redirect()->route('admin.reductions.index')->with(['success' => 'Code de réduction restauré avec succès']);
+        return redirect()->back()->with(['success' => 'Code de réduction restauré avec succès']);
     }
 
     public function delete($id) {
         $reduction = Reduction::withTrashed()->findOrFail($id);
         $reduction->forceDelete();
-        return redirect()->route('admin.reductions.index')->with(['success' => 'Code de réduction supprimé avec succès']);
+        return redirect()->back()->with(['success' => 'Code de réduction supprimé avec succès']);
     }
 
 

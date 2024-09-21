@@ -87,14 +87,16 @@ class MediaController extends Controller
         return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été mis à la corbeille');
     }
 
-    public function restore(Media $media) {
+    public function restore(int $id) {
+        $media = Media::withTrashed()->findOrFail($id);
         $media->restore();
-        return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été restauré');
+        return redirect()->back()->with('success', 'Le média a bien été restauré');
     }
 
-    public function delete(Media $media) {
+    public function delete(int $id) {
+        $media = Media::withTrashed()->findOrFail($id);
         Storage::delete($media->path);
         $media->forceDelete();
-        return redirect()->route('admin.medias.index')->with('success', 'Le média a bien été supprimé');
+        return redirect()->back()->with('success', 'Le média a bien été supprimé');
     }
 }

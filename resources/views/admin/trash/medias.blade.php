@@ -1,6 +1,6 @@
 @extends('admin._elements.layout')
 
-@section('title', 'Corbeille - Témoignages')
+@section('title', 'Corbeille - Médias')
 
 
 @section('content')
@@ -17,20 +17,20 @@
     <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
         <div class="card-title d-flex justify-content-between w-100 align-items-center">
             <h4 class="mb-0">
-                Les témoignages
+                Les médias
             </h4>
             <div class="d-flex align-items-center gap-2">
                 <a 
-                    href="{{ route('admin.trash.feedbacks.restore-all') }}" 
+                    href="{{ route('admin.trash.medias.restore-all') }}" 
                     class="btn btn-outline-primary warning-row"
-                    title="Restorer tous les témoignages"
+                    title="Restorer tous les médias"
                 >
                         <i class="fa fa-undo me-1"></i> Restorer tout
                 </a>
                 <a 
-                    href="{{ route('admin.trash.feedbacks.delete-all') }}" 
+                    href="{{ route('admin.trash.medias.delete-all') }}" 
                     class="btn btn-outline-danger delete-row"
-                    title="Supprimer tous les témoignages"
+                    title="Supprimer tous les médias"
                 >
                         <i class="fa fa-trash me-1"></i> Supprimer tout
                 </a>
@@ -38,7 +38,7 @@
         </div>
         <div class="card-description">
             <p class="text-muted  mb-0 font-weight-light">
-                Depuis cet espace, vous avez accès aux témoignages mis à la corbeille. Vous pouvez les restaurer ou les supprimer définitivement.
+                Depuis cet espace, vous avez accès aux médias mis à la corbeille. Vous pouvez les restaurer ou les supprimer définitivement.
             </p>
         </div>
     </div>
@@ -53,28 +53,34 @@
                     <tr>
                         <th>ID</th>
                         <th>Statut</th>
-                        <th>Nom</th>
-                        <th>Emploi / Métier</th>
+                        <th>Libellé</th>
+                        <th>Aperçu</th>
                         <th>Action</th>
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($feedbacks as $feedback)
+                    @foreach($medias as $media)
                         <tr>
-                            <td>#{{ $feedback->id }}</td>
+                            <td>#{{ $media->id }}</td>
                             <td>
-                                @if($feedback->online)
+                                @if($media->online)
                                     <span class="badge bg-primary">En ligne</span>
                                 @else 
                                     <span class="badge bg-secondary">Hors ligne</span>
                                 @endif
                             </td>
-                            <td>{{ $feedback->name }}</td>
-                            <td>{{ $feedback->job }}</td>
+                            <td>{{ $media->label }}</td>
                             <td>
+                                @if($media->type == 'image/jpeg' || $media->type == 'image/png' || $media->type == 'image/jpg')
+                                    <img src="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;">
+                                @else
+                                    <video src="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;"></video>
+                                @endif
+                            </td>
+                            <td>										
                                 <div class="d-flex">
-                                    <a title="Restorer le témoignage" href="{{ route('admin.feedbacks.restore', ['id' => $feedback->id]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1 warning-row"><i class="fa fa-undo"></i></a>
-                                    <a title="Supprimer le témoignage" href="{{ route('admin.feedbacks.delete', ['id' => $feedback->id]) }}" class="btn btn-outline-danger shadow btn-xs sharp delete-row"><i class="fa fa-trash"></i></a>
+                                    <a title="Restorer le média" href="{{ route('admin.medias.restore', ['id' => $media->id]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1 warning-row"><i class="fa fa-undo"></i></a>
+                                    <a title="Supprimer le média" href="{{ route('admin.medias.delete', ['id' => $media->id]) }}" class="btn btn-outline-danger shadow btn-xs sharp delete-row"><i class="fa fa-trash"></i></a>
                                 </div>												
                             </td>
                         </tr>

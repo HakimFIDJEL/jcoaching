@@ -382,7 +382,7 @@ class CalendarController extends Controller
     }
     
     // RESTORE WORKOUT - DONE
-    public function restoreWorkout(User $user, int $id) {
+    public function restoreWorkout(int $id) {
 
         $workout = Workout::withTrashed()->findOrFail($id);
 
@@ -391,28 +391,18 @@ class CalendarController extends Controller
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour restaurer une séance']);
         }
 
-        // Si la séance n'appartient pas à l'utilisateur fournie
-        if($workout->user_id != $user->id) {
-            return redirect()->back()->with(['error' => 'Impossible de restaurer la séance']);
-        }
-
         $workout->restore();
         return redirect()->back()->with(['success' => 'Séance restaurée avec succès']);
     }
     
     // DELETE WORKOUT - DONE
-    public function deleteWorkout(User $user, int $id) {
+    public function deleteWorkout(int $id) {
 
         $workout = Workout::withTrashed()->findOrFail($id);
         
         // Si l'utilisateur n'est pas admin
         if(!Auth::user()->isAdmin()) {
             return redirect()->back()->with(['error' => 'Vous n\'avez pas les droits pour supprimer une séance']);
-        }
-
-        // Si la séance n'appartient pas à l'utilisateur fournie
-        if($workout->user_id != $user->id) {
-            return redirect()->back()->with(['error' => 'Impossible de supprimer la séance']);
         }
 
         $workout->forceDelete();

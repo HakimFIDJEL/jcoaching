@@ -104,7 +104,7 @@
                     aria-expanded="false"
                     title="Tarifs"
                 >
-                    <i class="fas fa-euro-sign"></i>
+                    <i class="flaticon-381-price-tag"></i>
                     <span class="nav-text">Tarifs</span>
                 </a>                
             </li>
@@ -135,16 +135,40 @@
                 </a>                
             </li>
 
+            <hr>
+
+            @php
+                $total_trash = 0;
+                    
+                $total_trash += $trash_members;
+                $total_trash += $trash_admins;
+                $total_trash += $trash_contacts;
+                $total_trash += $trash_faqs;
+                $total_trash += $trash_feedbacks;
+                $total_trash += $trash_medias;
+                $total_trash += $trash_plans;
+                $total_trash += $trash_pricings;
+                $total_trash += $trash_reductions;
+                $total_trash += $trash_workouts;
+
+
+            @endphp
+
             {{-- Corbeille --}}
             <li class="{{ Request::is('admin/trash*') ? 'mm-active' : '' }}">
                 <a 
-                    href="{{ route('admin.trash.users.index') }}" 
+                    href="{{ route('admin.trash.members.index') }}" 
                     class="ai-icon {{ Request::is('admin/trash*') ? 'mm-active' : '' }}" 
                     aria-expanded="false"
                     title="Corbeille"
                 >
                     <i class="fa fa-trash-alt"></i>
-                    <span class="nav-text">Corbeille</span>
+                    <span class="nav-text">
+                        Corbeille
+                        @if ($total_trash > 0)
+                            <span class="badge badge-danger ml-2">{{ $total_trash }}</span>
+                        @endif
+                    </span>
                 </a>
             </li>
         </ul>

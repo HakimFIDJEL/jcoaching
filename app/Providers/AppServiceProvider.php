@@ -10,6 +10,14 @@ use Illuminate\Support\Facades\View;
 // Models
 use App\Models\User;
 use App\Models\Chatbox;
+use App\Models\Contact;
+use App\Models\Faq;
+use App\Models\Feedback;
+use App\Models\Media;
+use App\Models\Plan;
+use App\Models\Pricing;
+use App\Models\Reduction;
+use App\Models\Workout;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -40,9 +48,31 @@ class AppServiceProvider extends ServiceProvider
                     $unread_messages_view += $chatbox->unreadMessages()->count();
                 }
 
+                $trash_members = User::onlyTrashed()->where('role', 'member')->count();
+                $trash_admins = User::onlyTrashed()->where('role', 'admin')->count();
+                $trash_contacts = Contact::onlyTrashed()->count();
+                $trash_faqs = Faq::onlyTrashed()->count();
+                $trash_feedbacks = Feedback::onlyTrashed()->count();
+                $trash_medias = Media::onlyTrashed()->count();
+                $trash_plans = Plan::onlyTrashed()->count();
+                $trash_pricings = Pricing::onlyTrashed()->count();
+                $trash_reductions = Reduction::onlyTrashed()->count();
+                $trash_workouts = Workout::onlyTrashed()->count();
+
+
                 $view->with([
                     'members_view' => $members_view,
                     'unread_messages_view' => $unread_messages_view,
+                    'trash_members' => $trash_members,
+                    'trash_admins' => $trash_admins,
+                    'trash_contacts' => $trash_contacts,
+                    'trash_faqs' => $trash_faqs,
+                    'trash_feedbacks' => $trash_feedbacks,
+                    'trash_medias' => $trash_medias,
+                    'trash_plans' => $trash_plans,
+                    'trash_pricings' => $trash_pricings,
+                    'trash_reductions' => $trash_reductions,
+                    'trash_workouts' => $trash_workouts,
                 ]);
 
             }
