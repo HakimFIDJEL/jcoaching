@@ -47,15 +47,18 @@
                 @else 
                     <div class="alert alert-secondary text-center mb-0" role="alert">
                         Vous n'avez pas d'abonnement en cours.
-                        <a href="javascript:void(0);" class="alert-link text-decoration-underline" data-bs-toggle="modal" data-bs-target="#addPlan">
-                            Ajouter un abonnement
+                        <a 
+                            href="{{ route('member.payment.plan.index') }}" 
+                            class="alert-link text-decoration-underline"
+                        >
+                            Souscrire à un abonnement
                         </a>
                     </div>   
                 @endif
             </div>
             <div class="col-3">
                 <a 
-                    href="javascript:void(0);" 
+                    href="{{ route('member.payment.workout.index') }}" 
                     class="btn btn-primary w-100 h-100 d-flex align-items-center justify-content-center gap-2"
                 >
                     <i class="fas fa-shopping-cart"></i>

@@ -24,6 +24,13 @@ class Reduction extends Model
         'end_date',
     ];
 
+    public function scopeAvailable($query)
+    {
+        return $query->where('online', true)
+            ->where('start_date', '<=', now())
+            ->where('end_date', '>=', now());
+    }   
+
     public function isAvailable(): bool
     {
         return $this->online && $this->start_date <= now() && $this->end_date >= now();

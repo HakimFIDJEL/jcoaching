@@ -33,6 +33,7 @@ use App\Http\Controllers\admin\TrashController as AdminTrashController;
 use App\Http\Controllers\member\MainController as MemberMainController;
 use App\Http\Controllers\member\PlanController as MemberPlanController;
 use App\Http\Controllers\member\AccountController as MemberAccountController;
+use App\Http\Controllers\member\PaymentController as MemberPaymentController;
 
 
 // MAIN ROUTES
@@ -287,7 +288,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/send/{user}', 'send')->name('send');
     });
 
-    // CORBEILLE - DOING
+    // CORBEILLE - DONE
     Route::prefix("/trash")->name("trash.")->controller(AdminTrashController::class)->group(function(){
 
         Route::prefix("/feedbacks")->name("feedbacks.")->group(function(){
@@ -353,7 +354,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
     });
 
-    
+    // ORDERS - TODO
 
 });
 
@@ -406,6 +407,16 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
         Route::post('/update-pfp', 'updatePfp')->name('update-pfp');
 
         Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');
+    });
+
+    // PAYMENT - DOING
+    Route::prefix("/payment")->name("payment.")->controller(MemberPaymentController::class)->group(function(){
+
+        Route::get('/plan', 'plan_index')->name('plan.index');
+        Route::get('/workout', 'workout_index')->name('workout.index');
+
+        Route::post('/reduction', 'get_reduction')->name('reduction');
+
     });
 });
 

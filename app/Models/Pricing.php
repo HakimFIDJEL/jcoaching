@@ -40,7 +40,7 @@ class Pricing extends Model
         return $this->hasMany(Plan::class);
     }
 
-    public function scopeOnline(Builder $query)
+    public function scopeAvailable($query)
     {
         return $query->where('online', 1);
     }

@@ -42295,3 +42295,33 @@ table.datatable thead th {
   transition : all 0.5s ease;
 }
 /* /FULLCALENDAR */
+
+/* SMART WIZARD */
+.sw-theme-default {
+  border: none !important;
+}
+
+.form-wizard .nav-wizard li .nav-link span {
+  background-color: var(--bs-body-bg);
+}
+
+.form-wizard .nav-wizard li .nav-link::after {
+  background-color: rgb(255, 255, 255, 0.2) !important;
+}
+
+.form-wizard .nav-wizard li .nav-link.active span, .form-wizard .nav-wizard li .nav-link.done span {
+  color: var(--bs-body-bg) !important;
+}
+
+.form-wizard.sw-theme-default .toolbar > .btn {
+  background-color: var(--bs-primary) !important;
+  border: none !important;
+  color: var(--bs-body-bg) !important;
+  border-radius: 0 !important;
+  transition : 0.5s all ease;
+}
+
+.form-wizard.sw-theme-default .toolbar > .btn:hover {
+  background-color: var(--bs-body-color) !important;
+}
+/* /SMART WIZARD */

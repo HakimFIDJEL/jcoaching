@@ -26,8 +26,16 @@
                     <span class="nav-text">Utilisateurs</span>
                 </a>
                 <ul aria-expanded="false">
-                    <li><a href="{{ route('admin.members.index') }}">Membres</a></li>
-                    <li><a href="{{ route('admin.admins.index') }}">Administrateurs</a></li>
+                    <li>
+                        <a href="{{ route('admin.members.index') }}" class="{{ Request::is('admin/members*') ? 'mm-active' : '' }}">
+                            Membres
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.admins.index') }}" class="{{ Request::is('admin/admins*') ? 'mm-active' : '' }}">
+                            Administrateurs
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -45,7 +53,7 @@
             </li>
 
             {{-- Témoignages --}}
-            <li class="{{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('admin.feedbacks.index') }}" 
                     class="ai-icon {{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}" 
@@ -55,7 +63,7 @@
                     <i class="fas fa-comment-dots "></i>
                     <span class="nav-text">Témoignages</span>
                 </a>                
-            </li>
+            </li> --}}
 
             {{-- Contact --}}
             <li class="{{ Request::is('admin/contacts*') ? 'mm-active' : '' }}">
@@ -71,7 +79,7 @@
             </li>
 
             {{-- Médias --}}
-            <li class="{{ Request::is('admin/medias*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ Request::is('admin/medias*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('admin.medias.index') }}" 
                     class="ai-icon {{ Request::is('admin/medias*') ? 'mm-active' : '' }}" 
@@ -81,10 +89,10 @@
                     <i class="fas fa-photo-video"></i>
                     <span class="nav-text">Médias</span>
                 </a>                
-            </li>
+            </li> --}}
 
             {{-- Faqs --}}
-            <li class="{{ Request::is('admin/faqs*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ Request::is('admin/faqs*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('admin.faqs.index') }}" 
                     class="ai-icon {{ Request::is('admin/faqs*') ? 'mm-active' : '' }}" 
@@ -94,10 +102,10 @@
                     <i class="fas fa-question-circle"></i>
                     <span class="nav-text">Faqs</span>
                 </a>                
-            </li>
+            </li> --}}
 
             {{-- Tarifs --}}
-            <li class="{{ Request::is('admin/pricings*') ? 'mm-active' : '' }}">
+            {{-- <li class="{{ Request::is('admin/pricings*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('admin.pricings.index') }}" 
                     class="ai-icon {{ Request::is('admin/pricings*') ? 'mm-active' : '' }}" 
@@ -107,7 +115,7 @@
                     <i class="flaticon-381-price-tag"></i>
                     <span class="nav-text">Tarifs</span>
                 </a>                
-            </li>
+            </li> --}}
 
             {{-- Code de réduction --}}
             <li class="{{ Request::is('admin/reductions*') ? 'mm-active' : '' }}">
@@ -120,6 +128,43 @@
                     <i class="fa fa-percent"></i>
                     <span class="nav-text">Réductions</span>
                 </a>                
+            </li>
+
+            
+
+            {{-- Site internet --}}
+            <li class="{{ Request::is('admin/feedbacks*') || Request::is('admin/medias*') || Request::is('admin/faqs*') || Request::is('admin/pricings*') ? 'mm-active' : '' }}">
+                <a 
+                    class="has-arrow ai-icon" 
+                    href="javascript:void()" 
+                    aria-expanded="false"
+                    title="Site internet"
+                >
+                    <i class="flaticon-381-internet"></i>
+                    <span class="nav-text">Site internet</span>
+                </a>
+                <ul aria-expanded="false">
+                    <li>
+                        <a href="{{ route('admin.feedbacks.index') }}" class="{{ Request::is('admin/feedbacks*') ? 'mm-active' : '' }}">
+                            Témoignages
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.medias.index') }}" class="{{ Request::is('admin/medias*') ? 'mm-active' : '' }}">
+                            Médias
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.faqs.index') }}" class="{{ Request::is('admin/faqs*') ? 'mm-active' : '' }}">
+                            Faqs
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('admin.pricings.index') }}" class="{{ Request::is('admin/pricings*') ? 'mm-active' : '' }}">
+                            Tarifs
+                        </a>
+                    </li>
+                </ul>
             </li>
 
             {{-- Calendrier --}}
