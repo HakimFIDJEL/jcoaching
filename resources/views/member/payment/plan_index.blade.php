@@ -67,7 +67,7 @@
                                 {{-- Cards --}}
                                 <div class="col-8 d-flex gap-2 flex-wrap w-100">
                                     @foreach($pricings as $pricing)
-                                            <div class=" col card pricing-selection pt-4 pb-4 pl-2 pr-2 border" data-pricing-id="{{ $pricing->id }}">
+                                            <div class=" col card pricing-selection pt-4 pb-4 pl-2 pr-2 border" data-pricing="{{ $pricing }}">
                                                 <div class="card-header d-flex flex-column align-items-start">
                                                     <h5 class="card-title">{{ $pricing->title }}</h5>
                                                     <div class="card-description">
@@ -109,7 +109,7 @@
                                 {{-- /Cards --}}
                             </div>
                         </div>
-                        <div id="wizard_nutrition" class="tab-pane" role="tabpanel">
+                        <div id="wizard_nutrition" class="tab-pane" role="tabpanel" data-nutrition-price="{{ $nutrition_price }}">
                             <div class="row mt-4 mb-4">
                                 {{-- Cards --}}
                                 <div class="col-4 d-flex gap-2 w-100 flex-column">
@@ -165,42 +165,69 @@
                                                             Votre panier
                                                         </span>
                                                     </h4>
-                                                    <ul class="list-group mb-3">
-                                                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                    <ul class="list-group mb-3" id="wizard-cart-list">
+                                                        <li 
+                                                            class="list-group-item justify-content-between lh-condensed" 
+                                                            id="cart-pricing" 
+                                                            style="display: none;"
+                                                        >
                                                             <div>
-                                                                <h6 class="my-0">Product name</h6>
-                                                                <small class="text-muted">Brief description</small>
+                                                                <h6 class="my-0 title">
+                                                                    {{-- Title of pricing --}}
+                                                                </h6>
+                                                                <small class="text-muted subtitle">
+                                                                    {{-- Subtitle of pricing --}}
+                                                                </small>
                                                             </div>
-                                                            <span class="text-muted">$12</span>
+                                                            <span class="text-muted price" style="white-space: nowrap;">
+                                                                {{-- Price of pricing --}}
+                                                            </span>
                                                         </li>
-                                                        <li class="list-group-item d-flex justify-content-between lh-condensed">
+                                                        <li 
+                                                            class="list-group-item justify-content-between lh-condensed"
+                                                            id="cart-nutrition"
+                                                            style="display: none;"
+                                                        >
                                                             <div>
-                                                                <h6 class="my-0">Second product</h6>
-                                                                <small class="text-muted">Brief description</small>
+                                                                <h6 class="my-0 title">Option nutrition</h6>
+                                                                <small class="text-muted subtitle">
+                                                                    Un suivi nutritionnel personnalisé pour vous aider à atteindre vos objectifs.
+                                                                </small>
                                                             </div>
-                                                            <span class="text-muted">$8</span>
+                                                            <span class="text-muted price" style="white-space: nowrap;">
+                                                                {{ $nutrition_price }} €
+                                                            </span>
                                                         </li>
-                                                        <li class="list-group-item d-flex justify-content-between lh-condensed">
-                                                            <div>
-                                                                <h6 class="my-0">Third item</h6>
-                                                                <small class="text-muted">Brief description</small>
-                                                            </div>
-                                                            <span class="text-muted">$5</span>
-                                                        </li>
-                                                        <li class="list-group-item d-flex justify-content-between active">
+                                                        <li 
+                                                            class="list-group-item justify-content-between active"
+                                                            id="cart-reduction"
+                                                            style="display: none;"
+                                                        >
                                                             <div class="text-white">
-                                                                <h6 class="my-0 text-white">Promo code</h6>
-                                                                <small>EXAMPLECODE</small>
+                                                                <h6 class="my-0 text-white title" style="white-space: nowrap;">
+                                                                    Code de réduction
+                                                                </h6>
+                                                                <small class="subtitle">
+                                                                    {{-- Code de réduction --}}
+                                                                </small>
                                                             </div>
-                                                            <span class="text-white">-$5</span>
+                                                            <span class="text-white price">
+                                                                - {{-- Réduction en euro et en pourcentage --}}
+                                                            </span>
                                                         </li>
-                                                        <li class="list-group-item d-flex justify-content-between">
-                                                            <span>Total (USD)</span>
-                                                            <strong>$20</strong>
+                                                        <li 
+                                                            class="list-group-item d-flex justify-content-between text-white"
+                                                            id="cart-total"
+                                                        >
+                                                            <span>Total (EUR)</span>
+                                                            <strong class="price">
+                                                                {{-- Total --}}
+                                                            </strong>
                                                         </li>
                                                     </ul>
             
-                                                    <form action="" method="">
+                                                    <form action="{{ route('member.payment.reduction') }}" method="POST" id="cart-reduction-form">
+                                                        @csrf
                                                         <div class="input-group">
                                                             <input 
                                                                 type="text" 
@@ -210,17 +237,33 @@
                                                                 name="code"
                                                             >
                                                             <button type="submit" class="input-group-text">
-                                                                Recevoir
+                                                                <span class="cart-form-text">
+                                                                    Appliquer
+                                                                </span>
+                                                                <span class="spinner-border spinner-border-sm cart-form-loader" style="display: none;"></span>
                                                             </button>
                                                         </div>
                                                     </form>
+
+                                                    <a href="javascript:void(0);" id="cart-reduction-remove" class="btn btn-danger w-100" style="display: none;">
+                                                        <span>
+                                                            Supprimer le code de réduction
+                                                        </span>
+                                                        <i class="fa fa-times ms-2"></i>
+                                                    </a>
                                                 </div>
                                                 <div class="col-lg-8 order-lg-1">
                                                     <h4 class="mb-3">
                                                         Vos informations
                                                     </h4>
                                                     <hr class="mb-4">
-                                                    <form action="" method="">
+                                                    <form action="{{ route('member.payment.plan.payment') }}" method="POST" id="cart-payment-form">
+                                                        @csrf
+                                                        <input type="hidden" name="pricing_id" id="pricing_id" value="">
+                                                        <input type="hidden" name="nutrition_option" id="nutrition_option" value="">
+                                                        <input type="hidden" name="reduction_id" id="reduction_id" value="">
+                                                        <input type="hidden" name="total_price" id="total_price" value="">
+
                                                         <div class="row">
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="lastname" class="form-label">

@@ -27,6 +27,7 @@ use App\Http\Controllers\admin\PlanController as AdminPlanController;
 use App\Http\Controllers\admin\ReductionController as AdminReductionController;
 use App\Http\Controllers\admin\SettingController as AdminSettingController;
 use App\Http\Controllers\admin\TrashController as AdminTrashController;
+use App\Http\Controllers\admin\OrderController as AdminOrderController;
 
 
 //      Member Controllers
@@ -355,6 +356,10 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
     });
 
     // ORDERS - TODO
+    Route::prefix("/orders")->name("orders.")->controller(AdminOrderController::class)->group(function(){
+        Route::get('/', 'index')->name('index');
+        Route::get('/delete/{order}', 'delete')->name('delete');
+    });
 
 });
 
@@ -415,7 +420,12 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
         Route::get('/plan', 'plan_index')->name('plan.index');
         Route::get('/workout', 'workout_index')->name('workout.index');
 
+        Route::get('/success', 'success')->name('success');
+        Route::get('/cancel', 'cancel')->name('cancel');
+
         Route::post('/reduction', 'get_reduction')->name('reduction');
+        Route::post('/plan', 'plan_payment')->name('plan.payment');
+        Route::post('/workout', 'workout_payment')->name('workout.payment');
 
     });
 });

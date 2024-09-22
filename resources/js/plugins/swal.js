@@ -53,6 +53,17 @@ $(document).on('click', '.warning-row', function(e) {
 
 });
 
+$(document).on('click', '.read-description', function(e) {
+    let description = $(this).data('description');
+    swal.fire({
+        title: 'Description',
+        text: description,
+        icon: 'info',
+        showCancelButton: false,
+        confirmButtonText: 'Fermer',
+    });
+});
+
 window.Swal = Swal;
 
 export default swal;

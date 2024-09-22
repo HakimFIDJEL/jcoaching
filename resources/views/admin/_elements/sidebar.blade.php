@@ -167,6 +167,19 @@
                 </ul>
             </li>
 
+            {{-- Ordres d'achats --}}
+            <li class="{{ Request::is('admin/orders*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('admin.orders.index') }}" 
+                    class="ai-icon {{ Request::is('admin/orders*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Ordres d'achats"
+                >
+                    <i class="flaticon-381-price-tag"></i>
+                    <span class="nav-text">Ordres d'achats</span>
+                </a>
+            </li>
+
             {{-- Calendrier --}}
             <li class="{{ Request::is('admin/calendar*') ? 'mm-active' : '' }}">
                 <a 
