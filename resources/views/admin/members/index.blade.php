@@ -87,7 +87,7 @@
                             </td>
                             <td>
                                 @if($user->email_verified_at)
-                                    <span class="badge bg-primary">
+                                    <span class="badge bg-success">
                                         <span>
                                             Oui
                                         </span>
@@ -104,7 +104,7 @@
                             </td>
                             <td>
                                 @if($user->hasCurrentPlan())
-                                    <span class="badge bg-primary">
+                                    <span class="badge bg-success">
                                         <span>
                                             Oui
                                         </span>

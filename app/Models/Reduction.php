@@ -35,4 +35,9 @@ class Reduction extends Model
     {
         return $this->online && $this->start_date <= now() && $this->end_date >= now();
     }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'reduction_users');
+    }
 }

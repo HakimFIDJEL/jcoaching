@@ -55,6 +55,7 @@
                         <th>Réduction</th>
                         <th>Date de début</th>
                         <th>Date de fin</th>
+                        <th>Utilisateurs</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -67,15 +68,15 @@
                             </td>
                             {{-- Statut --}}
                             <td>
-                                @if($reduction->online == 1)
+                                @if($reduction->online)
                                     <span class="badge bg-success">
                                         <span>
                                             En ligne
                                         </span>
                                         <i class="fas fa-check ms-1"></i>
                                     </span>
-                                @else
-                                    <span class="badge bg-danger">
+                                @else 
+                                    <span class="badge bg-secondary">
                                         <span>
                                             Hors ligne
                                         </span>
@@ -89,7 +90,10 @@
                             </td>
                             {{-- Pourcentage --}}
                             <td>
-                                <div class="progress">
+                                <div 
+                                    class="progress"
+                                    title="{{ $reduction->percentage }}% de réduction"
+                                >
                                     <div 
                                         class="progress-bar bg-primary" 
                                         role="progressbar" 
@@ -110,9 +114,15 @@
                             <td>
                                 {{ Carbon\Carbon::parse($reduction->end_date)->format('d/m/y') }}
                             </td>
+                            {{-- Nombre d'utilisateurs --}}
+                            <td>
+                                {{ $reduction->users->count() }}
+                            </td>
                             {{-- Action --}}
                             <td>
                                 <div class="d-flex">
+
+                                    <a title="Voir les membres associés au code de réduction" href="{{ route('admin.reductions.members', ['reduction' => $reduction]) }}" class="btn btn-outline-success shadow btn-xs sharp me-1"><i class="fa fa-users"></i></a>
                                     <a title="Modifier le code de réduction" href="{{ route('admin.reductions.edit', ['reduction' => $reduction]) }}" class="btn btn-outline-primary shadow btn-xs sharp me-1"><i class="fa fa-pencil"></i></a>
                                     <a title="Mettre à la corbeille le code de réduction" href="{{ route('admin.reductions.soft-delete', ['reduction' => $reduction]) }}" class="btn btn-outline-danger shadow btn-xs sharp warning-row"><i class="fa fa-trash"></i></a>
                                 </div>												

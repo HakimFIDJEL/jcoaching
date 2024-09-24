@@ -1,23 +1,24 @@
 import swal from '../../plugins/swal';
 import notyf from '../../plugins/notyf';
 
-let pricing;
 let reduction;
-let nutrition_price = $("#wizard_nutrition").data('nutrition-price');
-let nutrition_option = 0;
+let workout_price = $("#wizard_selection").data('workout-price');
+let workouts = 1;
 
 let cartContainer = $("#wizard-cart-list");
-let cartPricing = cartContainer.find('#cart-pricing');
-let cartNutrition = cartContainer.find('#cart-nutrition');
+let cartWorkouts = cartContainer.find('#cart-workouts');
 let cartReduction = cartContainer.find('#cart-reduction');
 let cartTotal = cartContainer.find('#cart-total');
 
-let cartReductionForm = $('#cart-reduction-form');
+let AddWorkoutButton = $('#wizard-workout-increment');
+let RemoveWorkoutButton = $('#wizard-workout-decrement');
+let WorkoutDisplayText = $("#workout-display-text");
+let WorkoutDisplayPrice = $("#workout-display-price");
 
+let cartReductionForm = $('#cart-reduction-form');
 let cartPaymentForm = $('#cart-payment-form');
 
-let cartPaymentFormInputPricing = cartPaymentForm.find('input[type="hidden"]#pricing_id');
-let cartPaymentFormInputNutrition = cartPaymentForm.find('input[type="hidden"]#nutrition_option');
+let cartPaymentFormInputWorkouts = cartPaymentForm.find('input[type="hidden"]#workouts');
 let cartPaymentFormInputReduction = cartPaymentForm.find('input[type="hidden"]#reduction_id');
 let cartPaymentFormInputTotalPrice = cartPaymentForm.find('input[type="hidden"]#total_price');
 
@@ -29,57 +30,40 @@ $(document).ready(function() {
     setTimeout(function() {
         $('#smartwizard').smartWizard("goToStep", 0);
         $("#smartwizard").find('.nav-link').removeClass('done');
+        RemoveWorkoutButton.prop('disabled', true);
         enableFormButton();
         enableReductionButton();
     }, 0);
         
-    // Sélection d'un abonnement - DONE
-    $(document).on('click', '.pricing-selection button', function() {
-        let card = $(this).closest('.pricing-selection');
-        
-        // Ajouter la classe 'border-primary' à la card sélectionnée et la retirer des autres
-        card.addClass('border-primary').siblings().removeClass('border-primary');
-        
-        // Récupérer l'ID du pricing sélectionné
-        pricing = card.data('pricing');
-        
-        // Désactiver le bouton cliqué
-        $(this).prop('disabled', true);
-        
-        // Réactiver les autres boutons dans toutes les autres cards
-        $('.pricing-selection').not(card).find('button').prop('disabled', false);
+ 
+    // Ajout d'une séance 
+    $(document).on('click', '#wizard-workout-increment', function() {
+        workouts++;
+        updateCartWorkoutList();
 
-        updateCartPricingList(card.data('pricing'));
-    });
-
-    // Sélection et désélection de l'option nutrition - DONE
-    $(document).on('click', '.nutrition-selection button', function() {
-        let card = $(this).closest('.nutrition-selection');
-
-        if(nutrition_option == 0) {
-            card.addClass('border-primary');
-            $(this).text('Déselectionner');
-            $(this).removeClass('btn-primary').addClass('btn-secondary');
-            nutrition_option = 1;
-        } else {
-            card.removeClass('border-primary');
-            $(this).text('Sélectionner');
-            $(this).removeClass('btn-secondary').addClass('btn-primary');
-            nutrition_option = 0;
+        if(workouts > 1) {
+            RemoveWorkoutButton.prop('disabled', false);
         }
-
-        updateCartNutritionList();
     });
 
-    // Suppression de la réduction - DONE
-    $(document).on('click', '#cart-reduction-remove', function() {
-        reduction = null;
-        updateCartReductionList();
-        $("#cart-reduction-form").css('display', 'block');
-        $(this).css('display', 'none');
-    })
+    // Suppression d'une séance
+    $(document).on('click', '#wizard-workout-decrement', function() {
+        if(workouts > 1) {
+            workouts--;
+            updateCartWorkoutList();
 
-    // Soumission du formulaire de réduction - DONE
+            if(workouts === 1) {
+                RemoveWorkoutButton.prop('disabled', true);
+            }
+
+        } else {
+            notyf.error('Vous devez sélectionner au moins une séance.');
+        }
+    });
+    
+   
+
+    // Ajout de la réduction - DONE
     $(document).on('submit', '#cart-reduction-form', function(e) {
         e.preventDefault();
 
@@ -127,6 +111,14 @@ $(document).ready(function() {
 
     });
 
+    // Suppression de la réduction - DONE
+    $(document).on('click', '#cart-reduction-remove', function() {
+        reduction = null;
+        updateCartReductionList();
+        $("#cart-reduction-form").css('display', 'block');
+        $(this).css('display', 'none');
+    })
+
     // Validation du formulaire de paiement
     $(document).on('submit', '#cart-payment-form', function(e) {
         disableFormButton();
@@ -136,37 +128,29 @@ $(document).ready(function() {
     // Validation avant de changer d'étape
     $('#smartwizard').on("leaveStep", function(e, anchorObject, currentStepIndex, nextStepIndex, stepDirection) {
         // Si on essaie de quitter la première étape sans avoir sélectionné d'abonnement
-        if (currentStepIndex === 0 && !pricing) {
+        if (currentStepIndex === 0 && workouts === 0) {
             swal.fire({
                 icon: 'error',
-                title: 'Sélection d\'abonnement',
-                text: 'Veuillez sélectionner un abonnement avant de continuer.',
+                title: 'Sélection de séance',
+                text: 'Veuillez sélectionner au moins une séance pour continuer.',
                 showConfirmButton: false,
                 showCancelButton: false,
                 timer: 2500
             });
             return false;  // Bloquer la navigation si aucune sélection
         }
+
+        updateCartWorkoutList();
     });
     
 });
 
-function updateCartPricingList(pricing) {
-    cartPricing.find('.title').text(pricing.title);
-    cartPricing.find('.subtitle').text(pricing.subtitle);
-    cartPricing.find('.price').text(pricing.price + ' €');
-    cartPricing.css('display', 'flex');
 
-    updatePrice();
-}
-
-function updateCartNutritionList() {
-    if(nutrition_option == 1) {
-        cartNutrition.css('display', 'flex');
-    } else {
-        cartNutrition.hide();
-    }
-
+function updateCartWorkoutList() {
+    WorkoutDisplayText.text(workouts);
+    WorkoutDisplayPrice.text(workouts * workout_price + ' €');
+    cartWorkouts.find('.subtitle').text(workouts + ' séance' + (workouts > 1 ? 's' : ''));
+    cartWorkouts.find('.price').text(workouts * workout_price + ' €');
     updatePrice();
 }
 
@@ -208,11 +192,7 @@ function disableFormButton() {
 }
 
 function updatePrice() {
-    if(nutrition_option == 1) {
-        cartPricingValue = pricing.price + nutrition_price;
-    } else {
-        cartPricingValue = pricing.price;
-    }
+    cartPricingValue = workouts * workout_price;
     
     if(reduction) {
         cartPricingValue = cartPricingValue - (cartPricingValue * reduction.percentage / 100);
@@ -225,8 +205,7 @@ function updatePrice() {
     cartTotal.find('.price').text(total + ' €');
 
     // Mise à jour des valeurs du formulaire de paiement
-    cartPaymentFormInputPricing.val(pricing.id);
-    cartPaymentFormInputNutrition.val(nutrition_option);
+    cartPaymentFormInputWorkouts.val(workouts);
     cartPaymentFormInputReduction.val(reduction ? reduction.id : '');
     cartPaymentFormInputTotalPrice.val(total);
 }

@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use ZipArchive;
+
 
 // Models
 use App\Models\User;
+use App\Models\UserDocument;
 
 // Requests
 use App\Http\Requests\member\account\UpdateRequest;
@@ -28,6 +31,10 @@ class AccountController extends Controller
 
     public function security() {
         return view('member.account.security')->with(['member' => Auth::user()]);
+    }
+
+    public function documents() {
+        return view('member.account.documents')->with(['member' => Auth::user()]);
     }
 
     public function update(UpdateRequest $request) {
@@ -87,5 +94,27 @@ class AccountController extends Controller
         $user = Auth::user();
         $path = $user->pfp_path;
         return Storage::download($path);
+    }
+
+    // DOWNLOAD DOCUMENTS - DONE
+    public function downloadDocuments() {
+
+        $zip = new ZipArchive;
+        $user = Auth::user();
+        $zipFileName = $user->firstname.'_'.$user->lastname.'_documents.zip';
+       
+
+        if ($zip->open(public_path($zipFileName), ZipArchive::CREATE) === TRUE) {
+            
+            foreach ($user->documents as $document) {
+                $zip->addFile(storage_path('app/'.$document->path), $document->filename);
+            }
+            $zip->close();
+
+            return response()->download(public_path($zipFileName))->deleteFileAfterSend(true);
+        } else {
+            return "Failed to create the zip file.";
+        };
+
     }
 }

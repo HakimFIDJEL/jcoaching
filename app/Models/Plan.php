@@ -20,6 +20,7 @@ class Plan extends Model
 
     protected $fillable = [
         'user_id',
+        'order_id',
         'pricing_id',
         'start_date',
         'expiration_date',
@@ -45,6 +46,10 @@ class Plan extends Model
 
     public function getDaysLeft() {
         return intval(now()->diffInDays($this->expiration_date));
+    }
+
+    public function order() {
+        return $this->belongsTo(Order::class);
     }
 
     

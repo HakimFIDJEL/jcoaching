@@ -48,7 +48,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="current_password" class="form-label">Mot de passe actuel</label>
+                        <label for="current_password" class="form-label">
+                            Mot de passe actuel
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <div class="input-group">
                             <input 
                                 type="password" 
@@ -70,7 +75,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="password" class="form-label">Nouveau mot de passe</label>
+                        <label for="password" class="form-label">
+                            Nouveau mot de passe
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <div class="input-group">
                             <input 
                                 type="password" 
@@ -88,7 +98,12 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label for="password_confirmation" class="form-label">Confirmez votre nouveau mot de passe</label>
+                    <label for="password_confirmation" class="form-label">
+                        Confirmez votre nouveau mot de passe
+                        <span class="text-muted">
+                            *
+                        </span>
+                    </label>
                     <input 
                         type="password" 
                         class="form-control @error('password_confirmation') is-invalid @enderror" 

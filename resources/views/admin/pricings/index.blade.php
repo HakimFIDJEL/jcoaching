@@ -65,9 +65,19 @@
                             <td>#{{ $pricing->id }}</td>
                             <td>
                                 @if($pricing->online)
-                                    <span class="badge bg-primary">En ligne</span>
+                                    <span class="badge bg-success">
+                                        <span>
+                                            En ligne
+                                        </span>
+                                        <i class="fas fa-check ms-1"></i>
+                                    </span>
                                 @else 
-                                    <span class="badge bg-secondary">Hors ligne</span>
+                                    <span class="badge bg-secondary">
+                                        <span>
+                                            Hors ligne
+                                        </span>
+                                        <i class="fas fa-times ms-1"></i>
+                                    </span>
                                 @endif
                             </td>
                             <td>{{ $pricing->title }}</td>

@@ -51,7 +51,12 @@
             <div class="row">
                 <div class="col-8">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Libellé</label>
+                        <label for="name" class="form-label">
+                            Libellé
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('label') is-invalid @enderror" 
@@ -71,7 +76,7 @@
                             id="online" 
                             name="online"
                             value="1"
-                            checked={{ $media->online ? 'checked' : '' }}
+                            {{ $media->online ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">
@@ -81,7 +86,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="file" class="form-label">Média</label>
+                        <label for="file" class="form-label">
+                            Média
+                            <span class="text-muted">
+                                * (1 fichier maximum - formats jpg, jpeg, png, mp4 et webm acceptés)
+                            </span>
+                        </label>
                         <input 
                             type="file"
                             class="filepond"

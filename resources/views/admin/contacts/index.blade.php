@@ -56,19 +56,19 @@
                             <td>#{{ $contact->id }}</td>
                             <td>
                                 @if($contact->read_at)
-                                    <span class="badge bg-primary">
-                                        <span class="me-1">
+                                    <span class="badge bg-success">
+                                        <span>
                                             Lu
                                         </span>
-                                        <i class="fa fa-check"></i>
+                                        <i class="fa fa-check ms-1"></i>
                                     </span>
                                     
                                 @else 
                                     <span class="badge bg-secondary">
-                                        <span class="me-1">
+                                        <span>
                                             Non lu
                                         </span>
-                                        <i class="fa fa-times"></i>
+                                        <i class="fa fa-times ms-1"></i>
                                     </span>
                                 @endif
                             </td>

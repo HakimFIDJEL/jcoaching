@@ -50,7 +50,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="question" class="form-label">Question</label>
+                        <label for="question" class="form-label">
+                            Question
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('question') is-invalid @enderror" 
@@ -70,7 +75,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="answer" class="form-label">Réponse</label>
+                        <label for="answer" class="form-label">
+                            Réponse
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
 
                         {{-- Richeditor --}}
                         <textarea 
@@ -95,7 +105,7 @@
                             id="online" 
                             name="online"
                             value="1"
-                            checked={{ old('online') ? 'checked' : '' }}
+                            {{ old('online') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">

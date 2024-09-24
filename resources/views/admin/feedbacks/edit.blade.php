@@ -50,7 +50,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Nom complet</label>
+                        <label for="name" class="form-label">
+                            Nom complet
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('name') is-invalid @enderror" 
@@ -65,7 +70,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="job" class="form-label">Emploi / Métier</label>
+                        <label for="job" class="form-label">
+                            Emploi / Métier
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('job') is-invalid @enderror" 
@@ -84,7 +94,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="message" class="form-label">Témoignage</label>
+                        <label for="message" class="form-label">
+                            Témoignage
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
 
                         {{-- Richeditor --}}
                         <textarea 
@@ -109,7 +124,7 @@
                             id="online" 
                             name="online"
                             value="1"
-                            @if($feedback->online == 1) checked @endif
+                            {{ $feedback->online ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">

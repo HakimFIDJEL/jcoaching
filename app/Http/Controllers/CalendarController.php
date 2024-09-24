@@ -177,6 +177,7 @@ class CalendarController extends Controller
                         Workout::create([
                             'user_id' => $user->id,
                             'plan_id' => $user->currentPlan->id,
+                            'order_id'=> $user->currentPlan->order_id,
                             'date'    => null,
                             'status'  => false,
                         ]);

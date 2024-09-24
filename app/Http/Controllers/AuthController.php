@@ -253,7 +253,7 @@ class AuthController extends Controller
     }
 
     // Get Reset Password
-    public function reset(String $password_token)
+    public function reset(String $password_token = null)
     {
         if(!$password_token) {
             return redirect()->route('auth.password.forget')->with(['error' => 'Token invalide']);

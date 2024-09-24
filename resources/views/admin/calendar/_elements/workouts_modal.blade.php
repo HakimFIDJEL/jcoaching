@@ -13,6 +13,9 @@
                     <div class="mb-3">
                         <label for="nbr_sessions" class="form-label">
                             Nombre de séances
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <input 
                             type="number" 

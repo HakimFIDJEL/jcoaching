@@ -49,7 +49,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="firstname" class="form-label">Prénom</label>
+                        <label for="firstname" class="form-label">
+                            Prénom
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('firstname') is-invalid @enderror" 
@@ -64,7 +69,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="lastname" class="form-label">Nom</label>
+                        <label for="lastname" class="form-label">
+                            Nom
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('lastname') is-invalid @enderror" 
@@ -80,7 +90,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Téléphone</label>
+                        <label for="phone" class="form-label">
+                            Téléphone
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('phone') is-invalid @enderror" 
@@ -93,7 +108,12 @@
                     </div>
                 </div>
                 <div class="col">
-                    <label for="email" class="form-label">Adresse e-mail</label>
+                    <label for="email" class="form-label">
+                        Adresse e-mail
+                        <span class="text-muted">
+                            *
+                        </span>
+                    </label>
                     <input 
                         type="email" 
                         class="form-control @error('email') is-invalid @enderror" 
@@ -108,7 +128,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3 form-group position-relative">
-                        <label for="address" class="form-label">Adresse</label>
+                        <label for="address" class="form-label">
+                            Adresse
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('address') is-invalid @enderror" 
@@ -125,7 +150,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="city" class="form-label">Ville</label>
+                        <label for="city" class="form-label">
+                            Ville
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('city') is-invalid @enderror" 
@@ -141,7 +171,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="postal_code" class="form-label">Code postal</label>
+                        <label for="postal_code" class="form-label">
+                            Code postal
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('postal_code') is-invalid @enderror" 
@@ -155,7 +190,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="country" class="form-label">Pays</label>
+                        <label for="country" class="form-label">
+                            Pays
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="text" 
                             class="form-control @error('pays') is-invalid @enderror" 
@@ -171,7 +211,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="address_complement" class="form-label">Complément d'adresse (facultatif)</label>
+                        <label for="address_complement" class="form-label">
+                            Complément d'adresse
+                            <span class="text-muted fw-light">
+                                (facultatif)
+                            </span>
+                        <label>
                         <textarea 
                             class="form-control @error('address_complement') is-invalid @enderror" 
                             name="address_complement" 

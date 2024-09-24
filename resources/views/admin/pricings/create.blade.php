@@ -60,7 +60,12 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label for="title" class="form-label">Titre</label>
+                                <label for="title" class="form-label">
+                                    Titre
+                                    <span class="text-muted">
+                                        *
+                                    </span>
+                                </label>
                                 <input 
                                     type="text" 
                                     class="form-control @error('title') is-invalid @enderror" 
@@ -75,7 +80,12 @@
                         </div>
                         <div class="col">
                             <div class="mb-3">
-                                <label for="subtitle" class="form-label">Sous-titre</label>
+                                <label for="subtitle" class="form-label">
+                                    Sous-titre
+                                    <span class="text-muted">
+                                        *
+                                    </span>
+                                </label>
                                 <input 
                                     type="text" 
                                     class="form-control @error('subtitle') is-invalid @enderror" 
@@ -91,7 +101,12 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label for="description" class="form-label">Description</label>
+                                <label for="description" class="form-label">
+                                    Description
+                                    <span class="text-muted">
+                                        *
+                                    </span>
+                                </label>
     
                                 <textarea 
                                     class="form-control editor @error('description') is-invalid @enderror" 
@@ -115,7 +130,7 @@
                                     id="online" 
                                     name="online"
                                     value="1"
-                                    checked={{ old('online') ? 'checked' : '' }}
+                                    {{ old('online') ? 'checked' : '' }}
                                 >
                                 <label class="custom-control-label" for="online">En ligne ?</label>
                                 <div class="text-muted font-weight-light">
@@ -127,13 +142,18 @@
                     <div class="row">
                         <div class="col">
                             <div class="mb-3">
-                                <label for="nbr_sessions" class="form-label">Nombre de sessions</label>
+                                <label for="nbr_sessions" class="form-label">
+                                    Nombre de séances
+                                    <span class="text-muted">
+                                        *
+                                    </span>
+                                </label>
                                 <input
                                     type="number"
                                     class="form-control @error('nbr_sessions') is-invalid @enderror"
                                     id="nbr_sessions"
                                     name="nbr_sessions"
-                                    placeholder="Entrez le nombre de sessions"
+                                    placeholder="Entrez le nombre de séances"
                                     required
                                     value="{{ old('nbr_sessions') }}"
                                 >
@@ -141,7 +161,12 @@
                         </div>
                         <div class="col">
                             <div class="mb-3">
-                                <label for="price" class="form-label">Prix</label>
+                                <label for="price" class="form-label">
+                                    Prix
+                                    <span class="text-muted">
+                                        *
+                                    </span>
+                                </label>
                                 <input
                                     type="number"
                                     step="0.01"
@@ -165,7 +190,10 @@
                         <div class="col-3 d-flex justify-content-end">
                             <a href="javascript:void(0);" class="btn btn-outline-primary mt-2" id="add-feature">
                                 <span>
-                                    Ajouter une spécificité
+                                    Ajouter une spécificité 
+                                    <span class="text-muted">
+                                        *
+                                    </span>
                                 </span>
                                 <i class="fas fa-plus ms-2"></i>
                             </a>
@@ -175,26 +203,6 @@
                     {{-- Features --}}
                     <div id="features-container">
 
-                        {{-- <div class="row mb-3 feature-row" data-feature-id="1">
-                            <div class="col">
-                                <div>
-                                    <label for="feature_1" class="form-label">Spécificité 1</label>
-                                    <input 
-                                        type="text" 
-                                        class="form-control" 
-                                        id="feature_1" 
-                                        name="features[]" 
-                                        value="Spécificité existante 1" 
-                                        required
-                                    >
-                                </div>
-                            </div>
-                            <div class="col-1 d-flex align-items-end justify-content-end">
-                                <a href="javascript:void(0);" title="Supprimer la spécificité" class="btn btn-outline-danger mt-2 remove-feature">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                            </div>
-                        </div> --}}
 
 
                         

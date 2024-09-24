@@ -15,7 +15,12 @@
         @csrf
 
         <div class="mb-3">
-            <label for="email_token" class="form-label">Code de vérification</label>
+            <label for="email_token" class="form-label">
+                Code de vérification
+                <span class="text-muted">
+                    *
+                </span>
+            </label>
             <input 
                 type="text" 
                 class="form-control @error('email_token') is-invalid @enderror" 
@@ -29,7 +34,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary w-100 mb-2">Vérifier l'adresse e-mail</button>
+            <button type="submit" class="btn btn-primary w-100">Vérifier l'adresse e-mail</button>
             <a href="{{ route('auth.logout') }}" class="btn btn-outline-primary w-100">Déconnexion</a>
         </div>
         <div class="mt-3 text-right">

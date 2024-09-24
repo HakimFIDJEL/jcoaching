@@ -12,7 +12,12 @@
         @csrf
 
         <div class="mb-3">
-            <label for="email" class="form-label">Adresse e-mail</label>
+            <label for="email" class="form-label">
+                Adresse e-mail
+                <span class="text-muted">
+                    *
+                </span>
+            </label>
             <input 
                 type="email" 
                 class="form-control @error('email') is-invalid @enderror" 
@@ -25,7 +30,12 @@
             >
         </div>
         <div class="mb-3">
-            <label for="password" class="form-label">Mot de passe</label>
+            <label for="password" class="form-label">
+                Mot de passe
+                <span class="text-muted">
+                    *
+                </span>
+            </label>
             <div class="input-group">
                 <input 
                     type="password" 
@@ -55,7 +65,7 @@
 
         </div>
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary w-100 mb-2">Se connecter</button>
+            <button type="submit" class="btn btn-primary w-100 ">Se connecter</button>
             <a href="{{ route('auth.register') }}" class="btn btn-outline-primary w-100">Inscription</a>
         </div>
         <div class="mt-3 text-right">

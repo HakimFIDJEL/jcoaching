@@ -27,7 +27,7 @@
             <h4 class="mb-0">
                 Ajouter un code de réduction
             </h4>
-            <a href="{{ route('admin.feedbacks.index') }}" class="btn btn-secondary ">
+            <a href="{{ route('admin.reductions.index') }}" class="btn btn-secondary ">
                 <i class="fa fa-arrow-left me-2"></i>
                 <span>
                     Retour
@@ -52,7 +52,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="code" class="form-label">Code de réduction</label>
+                        <label for="code" class="form-label">
+                            Code de réduction
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <div class="input-group">
                             <input 
                                 type="text" 
@@ -86,7 +91,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="percentage" class="form-label">Pourcentage de réduction</label>
+                        <label for="percentage" class="form-label">
+                            Pourcentage de réduction
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="number" 
                             class="form-control @error('percentage') is-invalid @enderror" 
@@ -105,7 +115,12 @@
             <div class="row">
                 <div class="col">
                     <div class="mb-3">
-                        <label for="start_date" class="form-label">Date de début</label>
+                        <label for="start_date" class="form-label">
+                            Date de début
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="date" 
                             class="form-control @error('start_date') is-invalid @enderror" 
@@ -119,7 +134,12 @@
                 </div>
                 <div class="col">
                     <div class="mb-3">
-                        <label for="end_date" class="form-label">Date de fin</label>
+                        <label for="end_date" class="form-label">
+                            Date de fin
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
                         <input 
                             type="date" 
                             class="form-control @error('end_date') is-invalid @enderror" 
@@ -143,7 +163,7 @@
                             id="online" 
                             name="online"
                             value="1"
-                            @if(old('online') == 1) checked @endif
+                            {{ old('online') ? 'checked' : '' }}
                         >
                         <label class="custom-control-label" for="online">En ligne ?</label>
                         <div class="text-muted font-weight-light">

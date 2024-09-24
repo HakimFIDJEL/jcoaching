@@ -44,6 +44,8 @@
                         <th>ID</th>
                         <th>Statut</th>
                         <th>Utilisateur</th>
+                        <th>Relation - Type</th>
+                        <th>Relation - ID</th>
                         <th>Prix</th>
                         <th>Date</th>
                         <th>Actions</th>
@@ -93,7 +95,49 @@
                                     {{ $order->user->firstname }} {{ $order->user->lastname }}
                                 </a>
                             </td>
-                            <td>{{ $order->total_price }} &euro;</td>
+                            <td>
+                                @if($order->type == 'workout')
+                                    <span class="badge bg-success">
+                                        <span>
+                                            Séance (s)
+                                        </span>
+                                        <i class="fas fa-dumbbell ms-1"></i>
+                                    </span>
+                                @elseif($order->type == 'plan')
+                                    <span class="badge bg-primary">
+                                        <span>
+                                            Abonnement
+                                        </span>
+                                        <i class="fas fa-file-alt ms-1"></i>
+                                    </span>
+                                @else
+                                    <span class="badge bg-warning">
+                                        <span>
+                                            Inconnu
+                                        </span>
+                                        <i class="fas fa-question ms-1"></i>
+                                    </span>
+                                @endif
+                            </td>
+                            <td>
+                                @if($order->type == 'workout')
+                                    [
+                                        @foreach($order->workouts as $workout)
+                                            #{{ $workout->id }} 
+                                        @endforeach
+                                    ]
+                                @elseif($order->type == 'plan')
+                                    #{{ $order->plan->id }}
+                                @else
+                                    Inconnu
+                                @endif
+                            </td>
+                            <td>
+                                <span class="badge bg-primary text-black">
+
+                                    {{ $order->total_price }} &euro;
+                                </span>
+                            </td>
                             <td>{{ $order->created_at->format('d/m/y - H:i') }}</td>
                             <td>
                                 <div class="d-flex">

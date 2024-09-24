@@ -13,6 +13,9 @@
                     <div class="mb-3">
                         <label for="pricing_id" class="form-label">
                             Tarif
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <select 
                             class="default-select form-control wide mb-3" 
@@ -31,6 +34,9 @@
                     <div class="mb-3">
                         <label for="nutrition_option" class="form-label">
                             Option nutrition ?
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <select 
                             class="default-select form-control wide mb-3" 
@@ -49,6 +55,9 @@
                     <div class="mb-3">
                         <label for="start_date" class="form-label">
                             Date de début
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <input 
                             type="date" 
@@ -56,7 +65,7 @@
                             name="start_date" 
                             id="start_date"
                             required
-                        >
+                        />
                     </div>
 
 

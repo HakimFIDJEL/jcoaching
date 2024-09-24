@@ -55,7 +55,7 @@
     
 <div class="d-flex align-items-center mb-5 gap-5 justify-content-between">
     <div class="col d-flex align-items-center gap-3 p-0 flex-wrap">
-
+        {{-- Informations --}}
         <a 
             href="{{ route('member.account.index') }}" 
             class="btn d-flex align-items-center @if(Route::currentRouteName() == 'member.account.index') btn-primary @else btn-outline-primary @endif"
@@ -65,6 +65,8 @@
             </span>
             <i class="fas fa-user-edit ms-2"></i>
         </a>
+
+        {{-- Photo de profil --}}
         <a 
             href="{{ route('member.account.pfp') }}" 
             class="btn d-flex align-items-center @if(Route::currentRouteName() == 'member.account.pfp') btn-primary @else btn-outline-primary @endif"
@@ -74,6 +76,19 @@
             </span>
             <i class="fas fa-portrait ms-2"></i>
         </a>
+
+        {{-- Documents --}}
+        <a 
+            href="{{ route('member.account.documents') }}" 
+            class="btn d-flex align-items-center @if(Route::currentRouteName() == 'member.account.documents') btn-primary @else btn-outline-primary @endif"
+        >
+            <span>
+                Documents
+            </span>
+            <i class="fas fa-file-alt ms-2"></i>
+        </a>
+        
+        {{-- Sécurité --}}
         <a 
             href="{{ route('member.account.security') }}" 
             class="btn d-flex align-items-center @if(Route::currentRouteName() == 'member.account.security') btn-primary @else btn-outline-primary @endif"
@@ -83,6 +98,7 @@
             </span>
             <i class="fas fa-key ms-2"></i>
         </a>
+
     </div>
     <div class="col-2 d-flex justify-content-end p-0">
         <a href="{{ route('member.index') }}" class="btn btn-secondary ">

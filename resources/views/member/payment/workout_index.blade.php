@@ -1,6 +1,6 @@
 @extends('member._elements.layout')
 
-@section('title', 'Souscrire à un abonnement')
+@section('title', 'Acheter des séances')
 
 @section('styles')
 <link href="{{ asset('backoffice/vendor/jquery-smartwizard/dist/css/smart_wizard.min.css') }}" rel="stylesheet">
@@ -13,7 +13,7 @@
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="{{ route('member.index') }}">Dashboard</a></li>
         <li class="breadcrumb-item"><a href="{{ route('member.plans.index') }}">Paiement</a></li>
-        <li class="breadcrumb-item active"><a href="javascript:void(0)">Abonnement</a></li>
+        <li class="breadcrumb-item active"><a href="javascript:void(0)">Séances</a></li>
     </ol>
 </div>
 {{-- /Breadcrumbs --}}
@@ -24,7 +24,7 @@
         <div class="card border-primary border">
             <div class="card-header border-bottom border-primary">
                 <h4 class="card-title mt-1 mb-1" style="text-transform: none">  
-                    Souscrire à un abonnement
+                    Acheter des séances
                 </h4>
             </div>
 
@@ -35,98 +35,45 @@
                         <li><a class="nav-link" href="#wizard_selection"> 
                             <span>1</span> 
                         </a></li>
-                        <li><a class="nav-link" href="#wizard_nutrition">
-                            <span>2</span>
-                        </a></li>
                         <li><a class="nav-link" href="#wizard_payment">
-                            <span>3</span>
+                            <span>2</span>
                         </a></li>
                     </ul>
 
                     <div class="tab-content p-2">
-                        <div id="wizard_selection" class="tab-pane" role="tabpanel">
-                            <div class="row mt-4 mb-4">
-                                {{-- Content --}}
-                                <div class="col-4">
-                                    <div class="card-title d-flex justify-content-between w-100 align-items-center">
-                                        <h4 class="mb-0">
-                                            Les abonnements
-                                        </h4>
-                                    </div>
-                                    <div class="card-description">
-                                        <p class="text-muted  mb-0 font-weight-light">
-                                            Nous proposons plusieurs abonnements pour répondre à vos besoins, choisissez celui qui vous convient le mieux. 
-                                            <br />
-                                            <br />
-                                            Un abonnement est valable 30 jours et vous offre un nombre plus qu'avantageux de séances tout en vous laissant la possibilité de choisir l'option de suivi nutritionnel.
-                                        </p>
-                                    </div>
-                                </div>
-                                {{-- /Content --}}
-
-                                {{-- Cards --}}
-                                <div class="col-8 d-flex gap-2 flex-wrap w-100">
-                                    @foreach($pricings as $pricing)
-                                            <div class=" col card pricing-selection pt-4 pb-4 pl-2 pr-2 border" data-pricing="{{ $pricing }}">
-                                                <div class="card-header d-flex flex-column align-items-start">
-                                                    <h5 class="card-title">{{ $pricing->title }}</h5>
-                                                    <div class="card-description">
-                                                        <div class="text-muted mb-0 font-weight-light">
-                                                            {{ $pricing->subtitle }}
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body pt-0 pb-0">
-                                                    <ul class="list-unstyled d-flex flex-column gap-2">
-                                                        <li class="">
-                                                            <i class="fa fa-check me-2"></i>
-                                                            <span>
-                                                                {{ $pricing->nbr_sessions }} séances
-                                                            </span>
-                                                        </li>
-                                                        @foreach($pricing->features as $feature)
-                                                            <li class="">
-                                                                <i class="fa fa-check me-2"></i>
-                                                                <span>
-                                                                    {{ $feature->label }}
-                                                                </span>
-                                                            </li>
-                                                        @endforeach
-                                                    </ul>
-                                                </div>
-                                                <div class="card-footer">
-                                                    <div class="d-flex justify-content-between gap-2 align-items-end">
-                                                        <button class="btn btn-primary select-btn">Sélectionner</button>
-                                                        <div class="price text-muted font-weight-light">
-                                                            <span class="price-value">{{ $pricing->price }} €</span>
-                                                            <span class="price-duration">/30 jours</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                    @endforeach
-                                </div>
-                                {{-- /Cards --}}
-                            </div>
-                        </div>
-                        <div id="wizard_nutrition" class="tab-pane" role="tabpanel" data-nutrition-price="{{ $nutrition_price }}">
+                        <div id="wizard_selection" class="tab-pane" role="tabpanel" data-workout-price="{{ $workout_price }}">
                             <div class="row mt-4 mb-4">
                                 {{-- Cards --}}
                                 <div class="col-4 d-flex gap-2 w-100 flex-column">
-                                    <div class="col card nutrition-selection pt-4 pb-4 pl-2 pr-2 border">
+                                    <div class="col card nutrition-selection pt-4 pb-4 pl-2 pr-2 border border-primary">
                                         <div class="card-header d-flex flex-column align-items-start">
-                                            <h5 class="card-title">Nutrition</h5>
+                                            <h5 class="card-title">Séances</h5>
                                             <div class="card-description">
                                                 <div class="text-muted mb-0 font-weight-light">
-                                                    Je choisis de bénéficier d'un suivi nutritionnel
+                                                    Je choisis le nombre de séances que je souhaite acheter.
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="card-footer">
-                                            <div class="d-flex justify-content-between gap-2 align-items-end">
-                                                <button class="btn btn-primary select-btn">Sélectionner</button>
+                                            <div class="d-flex justify-content-between gap-2 align-items-center">
+
+                                                <div class="input-group">
+                                                    <button class="btn btn-primary select-btn" id="wizard-workout-decrement" disabled>
+                                                        <i class="fa fa-minus"></i>
+                                                    </button>
+                                                    <div class="input-group-text bg-transparent border-primary border-top border-bottom">
+                                                        <span class="text-center text-white" id="workout-display-text">
+                                                            1
+                                                        </span>
+                                                    </div>
+                                                    <button class="btn btn-primary select-btn" id="wizard-workout-increment">
+                                                        <i class="fa fa-plus"></i>
+                                                    </button>
+                                                </div>
+
+
                                                 <div class="price text-muted font-weight-light">
-                                                    <span class="price-value">+ {{ $nutrition_price }} €</span>
+                                                    <span class="price-value" style="white-space: nowrap;" id="workout-display-price">{{ $workout_price }} €</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -137,16 +84,17 @@
                                 <div class="col-8 pt-4 pb-4">
                                     <div class="card-title d-flex justify-content-between w-100 align-items-center">
                                         <h4 class="mb-0">
-                                            Suivi nutritionnel
+                                            Séances de coaching sportif
                                         </h4>
                                     </div>
                                     <div class="card-description">
                                         <p class="text-muted  mb-0 font-weight-light">
-                                            La nutrition est clé pour vos résultats. En plus des séances, je vous guide sur cet aspect essentiel.
+                                            <strong>Les séances</strong> sont des rendez-vous individuels avec un coach sportif.
                                             <br />
-                                            Si vos apports égalent vos besoins, vous ne perdrez pas de poids. Ensemble, optimisons tout pour avancer.
+                                            N'hésitez plus et commencez dès maintenant à vous entraîner à domicile avec un coach sportif professionnel pour atteindre vos objectifs.
                                             <br />
-                                            « Ne remplacez pas vos habitudes, créons-en de nouvelles. »
+                                            <br />
+                                            « Le sport est un art, le sport est une science, le sport est une discipline. »
                                         </p>
                                     </div>
                                 </div>
@@ -171,35 +119,19 @@
                                                     <hr>
                                                     <ul class="list-group mb-3" id="wizard-cart-list">
                                                         <li 
-                                                            class="list-group-item justify-content-between lh-condensed" 
-                                                            id="cart-pricing" 
-                                                            style="display: none;"
+                                                            class="list-group-item justify-content-between lh-condensed d-flex" 
+                                                            id="cart-workouts" 
                                                         >
                                                             <div>
                                                                 <h6 class="my-0 title">
-                                                                    {{-- Title of pricing --}}
+                                                                    Séances
                                                                 </h6>
                                                                 <small class="text-muted subtitle">
-                                                                    {{-- Subtitle of pricing --}}
+                                                                    {{-- Quantity of workouts --}}
                                                                 </small>
                                                             </div>
                                                             <span class="text-muted price" style="white-space: nowrap;">
-                                                                {{-- Price of pricing --}}
-                                                            </span>
-                                                        </li>
-                                                        <li 
-                                                            class="list-group-item justify-content-between lh-condensed"
-                                                            id="cart-nutrition"
-                                                            style="display: none;"
-                                                        >
-                                                            <div>
-                                                                <h6 class="my-0 title">Option nutrition</h6>
-                                                                <small class="text-muted subtitle">
-                                                                    Un suivi nutritionnel personnalisé pour vous aider à atteindre vos objectifs.
-                                                                </small>
-                                                            </div>
-                                                            <span class="text-muted price" style="white-space: nowrap;">
-                                                                {{ $nutrition_price }} €
+                                                                {{-- Price of workouts --}}
                                                             </span>
                                                         </li>
                                                         <li 
@@ -265,10 +197,9 @@
                                                         </span>
                                                     </h4>
                                                     <hr class="mb-4">
-                                                    <form action="{{ route('member.payment.plan.payment') }}" method="POST" id="cart-payment-form">
+                                                    <form action="{{ route('member.payment.workout.payment') }}" method="POST" id="cart-payment-form">
                                                         @csrf
-                                                        <input type="hidden" name="pricing_id" id="pricing_id" value="">
-                                                        <input type="hidden" name="nutrition_option" id="nutrition_option" value="">
+                                                        <input type="hidden" name="workouts" id="workouts" value="">
                                                         <input type="hidden" name="reduction_id" id="reduction_id" value="">
                                                         <input type="hidden" name="total_price" id="total_price" value="">
 
@@ -421,6 +352,7 @@
                                                         <hr class="mb-4">
             
                                                         <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
+                                                            
                                                             <span class="align-items-center gap-3 justify-content-center span-form-text " style="display: flex;">
                                                                 <span>
                                                                     Continuer vers le paiement
@@ -428,6 +360,9 @@
                                                                 <i class="fa fa-angle-right"></i>
                                                             </span>
                                                             <span class="spinner-border spinner-border-sm span-form-loader" style="display: none;"></span>
+                                                            
+
+
                                                         </button>
                                                     </form>
                                                 </div>
@@ -454,5 +389,5 @@
     <script src="{{ asset('backoffice/vendor/jquery-smartwizard/dist/js/jquery.smartWizard.js') }}" defer></script>
     <script src="{{ asset('backoffice/vendor/jquery-nice-select/js/jquery.nice-select.min.js') }}" defer></script>
     @vite('resources/js/plugins/smartwizard.js')
-    @vite('resources/js/pages/member/plan_index.js')
+    @vite('resources/js/pages/member/workout_index.js')
 @endsection

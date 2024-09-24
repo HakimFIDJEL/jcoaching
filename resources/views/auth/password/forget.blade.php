@@ -12,7 +12,12 @@
         @csrf
 
         <div class="mb-3">
-            <label for="email" class="form-label">Adresse e-mail</label>
+            <label for="email" class="form-label">
+                Adresse e-mail
+                <span class="text-muted">
+                    *
+                </span>
+            </label>
             <input 
                 type="email" 
                 class="form-control @error('email') is-invalid @enderror" 
@@ -26,7 +31,7 @@
         </div>
 
         <div class="d-grid gap-2">
-            <button type="submit" class="btn btn-primary w-100 mb-2">Valider</button>
+            <button type="submit" class="btn btn-primary w-100">Valider</button>
             <a href="{{ route('auth.login') }}" class="btn btn-outline-primary w-100">Connexion</a>
         </div>
     </form>

@@ -13,6 +13,9 @@
                     <div class="mb-3">
                         <label for="nbr_sessions" class="form-label">
                             Début de la période de repos
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <input 
                             type="datetime-local" 
@@ -26,6 +29,9 @@
                     <div class="mb-3">
                         <label for="nbr_sessions" class="form-label">
                             Fin de la période de repos
+                            <span class="text-muted">
+                                *
+                            </span>
                         </label>
                         <input 
                             type="datetime-local" 

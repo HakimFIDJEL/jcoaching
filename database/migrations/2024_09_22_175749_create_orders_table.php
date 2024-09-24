@@ -13,11 +13,19 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id')->constrained()->onDelete('cascade');
-            $table->integer('stripe_session_id')->nullable();
-            $table->float('total_price');
-            $table->text('description');
+            $table->string('type'); // 'workout' ou 'plan'
             $table->integer('status')->default(0);
+
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->string('stripe_session_id')->nullable();
+            $table->foreignId('reduction_id')->nullable()->constrained();
+
+            // Champs pour la relation polymorphique
+            // $table->unsignedBigInteger('orderable_id');
+            // $table->string('orderable_type');
+
+            $table->decimal('total_price', 8, 2);
+            $table->text('description');
             $table->timestamps();
         });
     }

@@ -1,6 +1,6 @@
 @extends('member._elements.layout')
 
-@section('title', 'Modifier ' . $member->firstname . ' ' . $member->lastname)
+@section('title', 'Mon profil')
 
 
 @section('content')

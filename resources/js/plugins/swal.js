@@ -57,12 +57,13 @@ $(document).on('click', '.read-description', function(e) {
     let description = $(this).data('description');
     swal.fire({
         title: 'Description',
-        text: description,
+        html: description, 
         icon: 'info',
         showCancelButton: false,
         confirmButtonText: 'Fermer',
     });
 });
+
 
 window.Swal = Swal;
 

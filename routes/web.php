@@ -59,7 +59,7 @@ Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(
     Route::prefix('/password')->name('password.')->group(function()
     {
         Route::get('/forget', 'forget')->name('forget');
-        Route::get('/reset/{password_token}', 'reset')->name('reset');
+        Route::get('/reset/{password_token?}', 'reset')->name('reset');
         Route::get('/change', 'change')->name('change');
 
         Route::post('/forget', 'forgetPost')->name('toForget');
@@ -254,6 +254,9 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/', 'index')->name('index');
         Route::get('/create', 'create')->name('create');
         Route::get('/edit/{reduction}', 'edit')->name('edit');
+        Route::get('/members/{reduction}', 'members')->name('members');
+        Route::get('/link/{user}/{reduction}', 'link')->name('link');
+        Route::get('/unlink/{user}/{reduction}', 'unlink')->name('unlink');
         Route::get('/soft-delete/{reduction}', 'softDelete')->name('soft-delete');
         Route::get('/restore/{id}', 'restore')->name('restore');
         Route::get('/delete/{id}', 'delete')->name('delete');
@@ -355,7 +358,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
 
     });
 
-    // ORDERS - TODO
+    // ORDERS - DONE
     Route::prefix("/orders")->name("orders.")->controller(AdminOrderController::class)->group(function(){
         Route::get('/', 'index')->name('index');
         Route::get('/delete/{order}', 'delete')->name('delete');
@@ -406,12 +409,14 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
         Route::get('/', 'index')->name('index');
         Route::get('/pfp', 'pfp')->name('pfp'); 
         Route::get('/security', 'security')->name('security'); 
+        Route::get('/documents', 'documents')->name('documents');
 
         Route::post('/update', 'update')->name('update');
         Route::post('/update-password', 'updatePassword')->name('update-password');
         Route::post('/update-pfp', 'updatePfp')->name('update-pfp');
 
         Route::get('/download-pfp', 'downloadPfp')->name('download-pfp');
+        Route::get('/download-documents', 'downloadDocuments')->name('download-documents');
     });
 
     // PAYMENT - DOING

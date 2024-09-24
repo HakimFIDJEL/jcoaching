@@ -16,6 +16,7 @@ class Workout extends Model
 
     protected $fillable = [
         'user_id',
+        'order_id',
         'plan_id',
         'date',
         'status',
@@ -60,6 +61,10 @@ class Workout extends Model
                         ->where('end_date', '>', $newEnd);
                 });
         })->exists();
+    }
+
+    public function order() {
+        return $this->belongsTo(Order::class);
     }
 
 

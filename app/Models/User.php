@@ -77,6 +77,24 @@ class User extends Authenticatable
         ];
     }
 
+    public function hasUsedReduction($reductionId) {
+        return $this->reductions()->where('reduction_id', $reductionId)->exists();
+    }
+
+    public function getDateOfUsageReduction($reductionId) {
+        return $this->reductions()
+                    ->where('reduction_id', $reductionId)
+                    ->withPivot('created_at')  // Récupère le champ `created_at` de la table pivot
+                    ->first()
+                    ->pivot
+                    ->created_at
+                    ->format('d/m/y - H:i');
+    }
+    
+    public function reductions() {
+        return $this->belongsToMany(Reduction::class, 'reduction_users');
+    }
+
     public function orders() {
         return $this->hasMany(Order::class);
     }

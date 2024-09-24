@@ -33,6 +33,9 @@
                             <strong>
                                 {{ Auth::user()->currentPlan()->first()->pricing->title }}
                             </strong>
+                            @if(Auth::user()->currentPlan()->first()->nutrition_option)
+                                avec <strong>suivi nutritionnel</strong>
+                            @endif
                             , il reste
                             <strong>
                                 {{ Auth::user()->currentPlan()->first()->getDaysLeft() }}
@@ -41,7 +44,7 @@
                             <strong>
                                 {{ Auth::user()->currentPlan()->first()->sessions_left }}
                             </strong> 
-                            séances à effectuer avant expiration.
+                            séances à planifier / effectuer avant expiration.
                         </div>
                     </div>  
                 @else 

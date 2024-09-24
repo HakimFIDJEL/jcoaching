@@ -46,13 +46,18 @@
     
             <div class="row">
                 <div class="col">
-                    <label for="pfp" class="form-label">Photo de profil</label>
+                    <label for="pfp" class="form-label">
+                        Photo de profil
+                        <span class="text-muted fw-light">
+                            (1 fichier maximum - formats jpg, jpeg et png acceptés)
+                        </span>
+                    </label>
                     <input 
                         type="file"
                         class="filepond"
                         id="pfp"
                         name="pfp"
-                        accept="image/*, video/*"
+                        accept="image/*"
                         data-max-files="1"
                         @if($admin->pfp_path)
                             data-documents="{{ json_encode([[
