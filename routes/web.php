@@ -373,7 +373,10 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
     // MAIN
     Route::get('/', [MemberMainController::class, 'index'])->name('index');
 
-    // PLANS - DOING
+    // NUTRITION - DOING
+    Route::get('/nutrition', [MemberMainController::class, 'nutrition'])->name('nutrition');
+
+    // PLANS - DONE
     Route::prefix("/plans")->name("plans.")->controller(MemberPlanController::class)->group(function(){
         Route::get('/', 'index')->name('index');
     });
@@ -424,6 +427,8 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
 
         Route::get('/plan', 'plan_index')->name('plan.index');
         Route::get('/workout', 'workout_index')->name('workout.index');
+        
+        Route::get('/invoice', 'invoice')->name('invoice');
 
         Route::get('/success', 'success')->name('success');
         Route::get('/cancel', 'cancel')->name('cancel');

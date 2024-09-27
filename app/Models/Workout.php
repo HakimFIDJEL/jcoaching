@@ -27,6 +27,16 @@ class Workout extends Model
         return $this->belongsTo(Plan::class);
     }
 
+    protected static function booted()
+    {
+        static::created(function ($workout) {
+            if($workout->plan_id) {
+                $workout->order_id = $workout->plan->order_id;
+                $workout->save();
+            }
+        });
+    }
+
     public function user() {
         return $this->belongsTo(User::class);
     }

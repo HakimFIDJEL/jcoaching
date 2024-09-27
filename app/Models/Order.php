@@ -10,13 +10,37 @@ class Order extends Model
     use HasFactory;
 
     protected $fillable = [
-        'type',
-        'status',
-        'user_id',
-        'stripe_session_id',
-        'reduction_id',
-        'total_price',
+        'reference',
+
+        'product_type',
+        'product_name',
+        'product_quantity',
+        'product_price',
+
+        'price_ht',
+        'price_ttc',
+        'taxes',
+        'currency',
         'description',
+
+        'user_id',
+        'customer_firstname',
+        'customer_lastname',
+        'customer_email',
+        'customer_phone',
+        'customer_address',
+        'customer_city',
+        'customer_postal_code',
+        'customer_country',
+
+        'payment_method',
+        'stripe_session_id',
+        'status',
+        'reduction_id',
+        'ip_address',
+        
+        'cgv_terms_accepted_at',
+        'rgpd_terms_accepted_at',
     ];
 
     public function user() {
@@ -33,6 +57,10 @@ class Order extends Model
 
     public function workouts() {
         return $this->hasMany(Workout::class);
+    }
+
+    public function invoice() {
+        return $this->hasOne(Invoice::class);
     }
 
 }

@@ -1932,7 +1932,7 @@ textarea.form-control {
   height: 1em;
   margin-top: 0.25em;
   vertical-align: top;
-  background-color: #f9f9f9;
+  background-color: var(--bs-body-bg);
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
@@ -1940,7 +1940,7 @@ textarea.form-control {
   appearance: none;
   color-adjust: exact; }
   .form-check-input[type="checkbox"] {
-    border-radius: 0.25em; }
+    border-radius: 0em; }
   .form-check-input[type="radio"] {
     border-radius: 50%; }
   .form-check-input:active {

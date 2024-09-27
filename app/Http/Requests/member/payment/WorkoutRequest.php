@@ -30,9 +30,12 @@ class WorkoutRequest extends FormRequest
             'address' => ['required', 'string', 'max:191'],
             'city' => ['required', 'string', 'max:191'],
             'postal_code' => ['required', 'string', 'max:191'],
+            'country' => ['required', 'string', 'max:191'],
             'workouts' => ['required', 'numeric'],
             'reduction_id' => ['nullable', 'integer', 'exists:reductions,id'],
             'total_price' => ['required', 'numeric'],
+            'cgv_terms' => ['required', 'accepted'],
+            'rgpd_terms' => ['required', 'accepted'],
         ];
     }
 
@@ -73,6 +76,10 @@ class WorkoutRequest extends FormRequest
             'postal_code.string' => 'Le champ code postal doit être une chaîne de caractères.',
             'postal_code.max' => 'Le champ code postal ne doit pas dépasser :max caractères.',
 
+            'country.required' => 'Le champ pays est requis.',
+            'country.string' => 'Le champ pays doit être une chaîne de caractères.',
+            'country.max' => 'Le champ pays ne doit pas dépasser :max caractères.',
+
             'workouts.required' => 'Le champ nombre de séances est requis.',
             'workouts.numeric' => 'Le champ nombre de séances doit être un nombre.',
 
@@ -81,6 +88,12 @@ class WorkoutRequest extends FormRequest
 
             'total_price.required' => 'Le champ prix total est requis.',
             'total_price.numeric' => 'Le champ prix total doit être un nombre.',
+
+            'cgv_terms.required' => 'Vous devez accepter les conditions générales de vente.',
+            'cgv_terms.accepted' => 'Vous devez accepter les conditions générales de vente.',
+
+            'rgpd_terms.required' => 'Vous devez accepter la politique de confidentialité.',
+            'rgpd_terms.accepted' => 'Vous devez accepter la politique de confidentialité.',
         ];
     }
 }

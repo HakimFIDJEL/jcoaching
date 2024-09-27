@@ -36,6 +36,24 @@
                     <span class="nav-text">Calendrier</span>
                 </a>                
             </li>
+
+            @if(Auth::user()->hasCurrentPlan())
+                @if(Auth::user()->currentPlan->nutrition_option)
+
+                    <li class="{{ Request::is('member/nutrition*') ? 'mm-active' : '' }}">
+                        <a 
+                            href="{{ route('member.nutrition') }}" 
+                            class="ai-icon {{ Request::is('member/nutrition*') ? 'mm-active' : '' }}" 
+                            aria-expanded="false"
+                            title="Nutrition"
+                        >
+                            <i class="fa fa-utensils" style="font-weight: 900 !important;"></i>
+                            <span class="nav-text">Idée repas</span>
+                        </a>
+                    </li>
+
+                @endif
+            @endif
             
         </ul>
 

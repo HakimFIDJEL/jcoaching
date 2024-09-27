@@ -419,6 +419,51 @@
                                                             </div>
                                                         </div>
                                                         <hr class="mb-4">
+
+                                                        {{-- Checkboxes --}}
+                                                        <div class="mb-3">
+                                                            {{-- CGV --}}
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input 
+                                                                    class="custom-control-input" 
+                                                                    type="checkbox" 
+                                                                    value="1" 
+                                                                    id="cgv_terms" 
+                                                                    name="cgv_terms"
+                                                                    required
+                                                                >
+                                                                <label class="custom-control-label
+                                                                    @error('cgv_terms') is-invalid @enderror" 
+                                                                    for="cgv_terms"
+                                                                >
+                                                                    J'ai lu et j'accepte les 
+                                                                    <a href="javascript:void(0);" target="_blank" class="text-decoration-underline">
+                                                                        conditions générales
+                                                                    </a>
+                                                                </label>
+                                                            </div>
+
+                                                            {{-- RGPD --}}
+                                                            <div class="custom-control custom-checkbox">
+                                                                <input 
+                                                                    class="custom-control-input" 
+                                                                    type="checkbox" 
+                                                                    value="1" 
+                                                                    id="rgpd_terms" 
+                                                                    name="rgpd_terms"
+                                                                    required
+                                                                >
+                                                                <label class="custom-control-label
+                                                                    @error('rgpd_terms') is-invalid @enderror" 
+                                                                    for="rgpd_terms"
+                                                                >
+                                                                    J'ai lu et j'accepte la 
+                                                                    <a href="javascript:void(0);" target="_blank" class="text-decoration-underline">
+                                                                        politique de confidentialité
+                                                                    </a>
+                                                                </label>
+                                                            </div>
+                                                        </div>
             
                                                         <button class="btn btn-primary btn-lg btn-block d-flex align-items-center justify-content-center" type="submit">
                                                             <span class="align-items-center gap-3 justify-content-center span-form-text " style="display: flex;">

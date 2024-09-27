@@ -35,8 +35,27 @@ class CalendarController extends Controller
             $users = User::members()->get();
             
             if($user) {
-                $workouts_visible = Workout::with('user:id,lastname,firstname')->where('user_id', $user->id)->get();
-                $workouts_locked  = Workout::where('user_id', '!=' , $user->id)->get();
+                // $workouts_visible = Workout::with('user:id,lastname,firstname')->where('user_id', $user->id)->get();
+                // $workouts_locked  = Workout::where('user_id', '!=' , $user->id)->get();
+
+                $workouts_visible = Workout::with('user:id,lastname,firstname', 'plan')
+                    ->where('user_id', $user->id)
+                    ->where(function($query) {
+                        $query->whereNull('plan_id') 
+                            ->orWhereHas('plan', function($query) {
+                                $query->where('expiration_date', '>', now());
+                            });
+                    })
+                    ->get();
+                $workouts_locked = Workout::with('user:id,lastname,firstname', 'plan')
+                    ->where('user_id', '!=' , $user->id)
+                    ->where(function($query) {
+                        $query->whereNull('plan_id') 
+                            ->orWhereHas('plan', function($query) {
+                                $query->where('expiration_date', '>', now());
+                            });
+                    })
+                    ->get();
 
                 return view('admin.members.calendar.index')->with(
                     [
@@ -50,9 +69,18 @@ class CalendarController extends Controller
                 );
             } else {
 
-                $workouts_visible = Workout::with('user:id,lastname,firstname')->get();
+                // $workouts_visible = Workout::with('user:id,lastname,firstname')->get();
+                
+                $workouts_visible = Workout::with('user:id,lastname,firstname', 'plan')
+                    ->where(function($query) {
+                        $query->whereNull('plan_id') 
+                        ->orWhereHas('plan', function($query) {
+                            $query->where('expiration_date', '>', now());
+                        });
+                    })
+                    ->get();
                 $workouts_locked  = collect([]);
-
+                    
                 return view('admin.calendar.index')->with(
                     [
                         'workouts_visible'  => $workouts_visible, 
@@ -64,9 +92,28 @@ class CalendarController extends Controller
                 );
             }
         } else {
-            $workouts_visible = Workout::with('user:id,lastname,firstname')->where('user_id', Auth::user()->id)->get();
-            $workouts_locked  = Workout::where('user_id', '!=' ,Auth::user()->id)->get();
+            // $workouts_visible = Workout::with('user:id,lastname,firstname')->where('user_id', Auth::user()->id)->get();
+            // $workouts_locked  = Workout::where('user_id', '!=' ,Auth::user()->id)->get();
 
+            $workouts_visible = Workout::with('user:id,lastname,firstname', 'plan')
+                ->where('user_id', Auth::user()->id)
+                ->where(function($query) {
+                    $query->whereNull('plan_id') 
+                        ->orWhereHas('plan', function($query) {
+                            $query->where('expiration_date', '>', now());
+                        });
+                })
+                ->get();
+            $workouts_locked = Workout::with('user:id,lastname,firstname', 'plan')
+                ->where('user_id', '!=' , Auth::user()->id)
+                ->where(function($query) {
+                    $query->whereNull('plan_id') 
+                        ->orWhereHas('plan', function($query) {
+                            $query->where('expiration_date', '>', now());
+                        });
+                })
+                ->get();
+                
             return view('member.calendar.index')->with(
                 [
                     'workouts_visible'  => $workouts_visible, 

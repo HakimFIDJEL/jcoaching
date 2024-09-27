@@ -11,9 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('workouts', function (Blueprint $table) {
-            $table->unsignedBigInteger('order_id')->nullable();
-            $table->foreign('order_id')->references('id')->on('orders')->onDelete('set null');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->string('company_siret')->nullable();
         });
     }
 
@@ -22,9 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('workouts', function (Blueprint $table) {
-            $table->dropForeign(['order_id']);
-            $table->dropColumn('order_id');
+        Schema::table('settings', function (Blueprint $table) {
+            $table->dropColumn('company_siret');
         });
     }
 };
