@@ -1,4 +1,4 @@
-@extends('admin._elements.layout')
+@extends('member._elements.layout')
 
 @section('title', 'Ordres d\'achats')
 
@@ -8,7 +8,7 @@
 {{-- Breadcrumbs --}}
 <div class="row page-titles mb-0">
     <ol class="breadcrumb">
-        <li class="breadcrumb-item"><a href="{{ route('admin.index') }}">Dashboard</a></li>
+        <li class="breadcrumb-item"><a href="{{ route('member.index') }}">Dashboard</a></li>
         <li class="breadcrumb-item active"><a href="javascript:void(0)">Ordres d'achats</a></li>
     </ol>
 </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="card-description">
             <p class="text-muted  mb-0 font-weight-light">
-                Depuis cet espace, vous pouvez consulter les ordres d'achats des clients.
+                Depuis cet espace, vous pouvez consulter vos ordres d'achats.
             </p>
         </div>
     </div>
@@ -43,10 +43,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Statut</th>
-                        <th>Utilisateur</th>
-                        <th>Relation - Type</th>
-                        <th>Relation - ID</th>
-                        <th>Prix HT</th>
+                        <th>Produit</th>
+                        <th>Quantité</th>
+                        <th>Réduction</th>
                         <th>Prix TTC</th>
                         <th>Date</th>
                         <th>Actions</th>
@@ -92,52 +91,27 @@
                                 @endswitch
                             </td>
                             <td>
-                                <a href="{{ route('admin.members.edit', ['user' => $order->user]) }}" class="text-decoration-underline">
-                                    {{ $order->user->firstname }} {{ $order->user->lastname }}
-                                </a>
+                                {{ $order->product_name }}
                             </td>
                             <td>
-                                @if($order->product_type == 'workout')
-                                    <span class="badge bg-success">
-                                        <span>
-                                            Séance (s)
-                                        </span>
-                                        <i class="fas fa-dumbbell ms-1"></i>
-                                    </span>
-                                @elseif($order->product_type == 'plan')
+                                {{ $order->product_quantity }}
+                            </td>
+                            <td>
+                                @if($order->reduction)
                                     <span class="badge bg-primary">
                                         <span>
-                                            Abonnement
+                                            {{ $order->reduction->percentage }} &percnt;
                                         </span>
-                                        <i class="fas fa-file-alt ms-1"></i>
+                                        <i class="fa fa-check ms-1"></i>
                                     </span>
                                 @else
-                                    <span class="badge bg-warning">
+                                    <span class="badge bg-secondary">
                                         <span>
-                                            Inconnu
+                                            Aucune
                                         </span>
-                                        <i class="fas fa-question ms-1"></i>
+                                        <i class="fa fa-times ms-1"></i>
                                     </span>
                                 @endif
-                            </td>
-                            <td>
-                                @if($order->product_type == 'workout')
-                                    [
-                                        @foreach($order->workouts as $workout)
-                                            #{{ $workout->id }} 
-                                        @endforeach
-                                    ]
-                                @elseif($order->product_type == 'plan')
-                                    #{{ $order->plan->id }}
-                                @else
-                                    Inconnu
-                                @endif
-                            </td>
-                            <td>
-                                <span class="badge bg-primary text-black">
-
-                                    {{ $order->price_ht }} &euro;
-                                </span>
                             </td>
                             <td>
                                 <span class="badge bg-primary text-black">
@@ -148,11 +122,9 @@
                             <td>{{ $order->created_at->format('d/m/y - H:i') }}</td>
                             <td>
                                 <div class="d-flex">
-                                    <a title="Lire la description de l'ordre d'achat" href="javascript:void(0);" class="btn btn-outline-primary shadow btn-xs sharp mr-1 read-description" data-description="{{ $order->description }}"><i class="fa fa-eye"></i></a>
                                     @if($order->invoice)
                                         <a title="Visualiser la facture" href="{{ asset('storage/' . str_replace('public/', '', $order->invoice->path) ) }}" target="_blank" class="btn btn-outline-secondary shadow btn-xs sharp mr-1"><i class="fa fa-file-pdf"></i></a>
                                     @endif
-                                    <a title="Supprimer l'ordre d'achat" href="{{ route('admin.orders.delete', ['order' => $order]) }}" class="btn btn-outline-danger shadow btn-xs sharp delete-row"><i class="fa fa-trash"></i></a>
                                 </div>												
                             </td>
                         </tr>

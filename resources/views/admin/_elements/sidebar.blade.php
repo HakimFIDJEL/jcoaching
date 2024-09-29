@@ -9,7 +9,7 @@
                     aria-expanded="false"
                     title="Tableau de bord"
                 >
-                    <i class="flaticon-381-network"></i>
+                    <i class="flaticon-381-networking"></i>
                     <span class="nav-text">Tableau de bord</span>
                 </a>                
             </li>

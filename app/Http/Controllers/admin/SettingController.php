@@ -15,6 +15,7 @@ use App\Http\Requests\admin\settings\CompanyRequest;
 use App\Http\Requests\admin\settings\SocialsRequest;
 use App\Http\Requests\admin\settings\NutritionRequest;
 use App\Http\Requests\admin\settings\PricingRequest;
+use App\Http\Requests\admin\settings\ColorRequest;
 
 // Mails
 use App\Mail\NutritionMail;
@@ -56,6 +57,23 @@ class SettingController extends Controller
         return redirect()->back()->with(['success' => 'Les membres ont été notifiés avec succès.']);
     }
 
+    public function colorsReset() {
+
+        $setting = Setting::first();
+        if(!$setting) {
+            $setting = Setting::create();
+        }
+
+        $setting->update([
+            'primary_color' => null,
+            'secondary_color' => null,
+            'background_color' => null,
+            'font_color' => null,
+        ]);
+
+        return redirect()->back()->with(['success' => 'Les couleurs ont été réinitialisées avec succès.']);
+    }
+
     // Download the company logo - DONE
     public function downloadLogo() {
         $setting = Setting::first();
@@ -68,7 +86,8 @@ class SettingController extends Controller
     // Update the company - DONE
     public function updateCompany(CompanyRequest $request) {
         $data = $request->validated();
-    
+
+
         $setting = Setting::first();
         if(!$setting) {
             $setting = Setting::create();
@@ -133,5 +152,18 @@ class SettingController extends Controller
         $setting->update($data);
 
         return redirect()->back()->with(['success' => 'Les prix ont été mis à jour avec succès.']);
+    }
+
+    public function updateColors(ColorRequest $request) {
+        $data = $request->validated();
+
+        $setting = Setting::first();
+        if(!$setting) {
+            $setting = Setting::create();
+        }
+
+        $setting->update($data);
+
+        return redirect()->back()->with(['success' => 'Les couleurs ont été mises à jour avec succès.']);
     }
 }

@@ -35,6 +35,7 @@ use App\Http\Controllers\member\MainController as MemberMainController;
 use App\Http\Controllers\member\PlanController as MemberPlanController;
 use App\Http\Controllers\member\AccountController as MemberAccountController;
 use App\Http\Controllers\member\PaymentController as MemberPaymentController;
+use App\Http\Controllers\member\OrderController as MemberOrderController;
 
 
 // MAIN ROUTES
@@ -272,11 +273,13 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/', 'index')->name('index');
         Route::get('/notify', 'notify')->name('notify');
         Route::get('/download-logo', 'downloadLogo')->name('download-logo');
+        Route::get('/colors-reset', 'colorsReset')->name('colors-reset');
 
         Route::post('/update-company', 'updateCompany')->name('update-company');
         Route::post('/update-socials', 'updateSocials')->name('update-socials');
         Route::post('/update-nutrition', 'updateNutrition')->name('update-nutrition');
         Route::post('/update-pricings', 'updatePricings')->name('update-pricings');
+        Route::post('/update-colors', 'updateColors')->name('update-colors');
     });
 
     // CHATBOX - DONE
@@ -422,7 +425,13 @@ Route::prefix("/member")->middleware([MemberMiddleware::class])->name("member.")
         Route::get('/download-documents', 'downloadDocuments')->name('download-documents');
     });
 
-    // PAYMENT - DOING
+    // ORDERS - DONE
+    Route::prefix("/orders")->name("orders.")->controller(MemberOrderController::class)->group(function(){
+
+        Route::get('/', 'index')->name('index');
+    });
+
+    // PAYMENT - DONE
     Route::prefix("/payment")->name("payment.")->controller(MemberPaymentController::class)->group(function(){
 
         Route::get('/plan', 'plan_index')->name('plan.index');

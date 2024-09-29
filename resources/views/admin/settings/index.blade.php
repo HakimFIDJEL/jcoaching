@@ -16,6 +16,7 @@
                 <a href="#socials" data-bs-toggle="pill" class="nav-link">Réseaux sociaux</a>
                 <a href="#nutrition" data-bs-toggle="pill" class="nav-link">Nutrition</a>
                 <a href="#pricings" data-bs-toggle="pill" class="nav-link">Prix</a>
+                <a href="#colors" data-bs-toggle="pill" class="nav-link">Charte graphique</a>
             </li>
             {{-- <li class="nav-item">
                 <a href="#v-pills-profile" data-bs-toggle="pill" class="nav-link">Profile</a>
@@ -52,7 +53,12 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="company_name" class="form-label">Nom (facultatif)</label>
+                                        <label for="company_name" class="form-label">
+                                            Nom
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
                                         <input 
                                             type="text" 
                                             class="form-control @error('company_name') is-invalid @enderror" 
@@ -65,7 +71,12 @@
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="company_address" class="form-label">Adresse (facultatif)</label>
+                                        <label for="company_address" class="form-label">
+                                            Adresse 
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
                                         <input 
                                             type="text" 
                                             class="form-control @error('company_address') is-invalid @enderror" 
@@ -82,7 +93,12 @@
                                 
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="company_logo" class="form-label">Logo (facultatif)</label>
+                                        <label for="company_logo" class="form-label">
+                                            Logo
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
                                         <input 
                                             type="file" 
                                             class="filepond" 
@@ -100,9 +116,14 @@
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mb-3">
                                 <div class="col">
-                                    <label for="company_phone" class="form-label">Téléphone (facultatif)</label>
+                                    <label for="company_phone" class="form-label">
+                                        Téléphone
+                                        <span class="text-muted fw-light">
+                                            (facultatif)
+                                        </span>
+                                    </label>
                                     <input 
                                         type="text" 
                                         class="form-control @error('company_phone') is-invalid @enderror" 
@@ -113,7 +134,12 @@
                                     >
                                 </div>
                                 <div class="col">
-                                    <label for="company_email" class="form-label">Adresse mail (facultatif)</label>
+                                    <label for="company_email" class="form-label">
+                                        Adresse mail
+                                        <span class="text-muted fw-light">
+                                            (facultatif)
+                                        </span>
+                                    </label>
                                     <input 
                                         type="text" 
                                         class="form-control @error('company_email') is-invalid @enderror" 
@@ -122,6 +148,28 @@
                                         placeholder="Entrez l'adresse mail de la société" 
                                         value="{{ $setting->company_email ?? old('company_email') }}"
                                     >
+                                </div>  
+                            </div>
+                              
+                            <div class="row mb-3">
+                                <div class="col">
+                                        {{-- Siret --}}
+                                        <label for="company_siret" class="form-label">
+                                            Siret
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+
+                                        <input 
+                                            type="text" 
+                                            class="form-control @error('company_siret') is-invalid @enderror" 
+                                            id="company_siret" 
+                                            name="company_siret" 
+                                            placeholder="Entrez le numéro de Siret de la société" 
+                                            value="{{ $setting->company_siret ?? old('company_siret') }}"
+                                        >
+
                                 </div>
                             </div>
 
@@ -183,7 +231,10 @@
                                         <label for="company_facebook" class="form-label">
                                             <i class="fab fa-facebook me-2"></i>
                                             <span>
-                                                Facebook (facultatif)
+                                                Facebook
+                                                <span class="text-muted fw-light">
+                                                    (facultatif)
+                                                </span>
                                             </span>
                                         </label>
                                         <input 
@@ -201,7 +252,10 @@
                                         <label for="company_instagram" class="form-label">
                                             <i class="fab fa-instagram me-2"></i>
                                             <span>
-                                                Instagram (facultatif)
+                                                Instagram
+                                                <span class="text-muted fw-light">
+                                                    (facultatif)
+                                                </span>
                                             </span>
                                         </label>
                                         <input 
@@ -221,7 +275,10 @@
                                         <label for="company_youtube" class="form-label">
                                             <i class="fab fa-youtube me-2"></i>
                                             <span>
-                                                Youtube (facultatif)
+                                                Youtube
+                                                <span class="text-muted fw-light">
+                                                    (facultatif)
+                                                </span>
                                             </span>
                                         </label>
                                         <input 
@@ -239,7 +296,10 @@
                                         <label for="company_linkedin" class="form-label">
                                             <i class="fab fa-linkedin me-2"></i>
                                             <span>
-                                                LinkedIn (facultatif)
+                                                LinkedIn
+                                                <span class="text-muted fw-light">
+                                                    (facultatif)
+                                                </span>
                                             </span>
                                         </label>
                                         <input 
@@ -259,7 +319,10 @@
                                         <label for="company_twitter" class="form-label">
                                             <i class="fab fa-twitter me-2"></i>
                                             <span>
-                                                Twitter (facultatif)
+                                                Twitter
+                                                <span class="text-muted fw-light">
+                                                    (facultatif)
+                                                </span>
                                             </span>
                                         </label>
                                         <input 
@@ -320,7 +383,12 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="nutrition_title" class="form-label">Idée nutrition</label>
+                                        <label for="nutrition_title" class="form-label">
+                                            Idée nutrition
+                                            <span class="text-muted">
+                                                *
+                                            </span>
+                                        </label>
                                         <textarea 
                                             class="form-control editor @error('nutrition_idea') is-invalid @enderror" 
                                             name="nutrition_idea" 
@@ -359,7 +427,6 @@
                 </div>
             </div>
 
-
             <div id="pricings" class="tab-pane fade">
                 <div class="card border-primary">
                     {{-- Card Header --}}
@@ -387,7 +454,12 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="nutrition_title" class="form-label">Option nutrition *</label>
+                                        <label for="nutrition_title" class="form-label">
+                                            Option nutrition
+                                            <span class="text-muted">
+                                                *    
+                                            </span>
+                                        </label>
                                         <div class="input-group">
                                             <input 
                                                 type="number" 
@@ -407,7 +479,12 @@
                                 </div>
                                 <div class="col">
                                     <div class="mb-3">
-                                        <label for="nutrition_title" class="form-label">Séance *</label>
+                                        <label for="nutrition_title" class="form-label">
+                                            Séance
+                                            <span class="text-muted">
+                                                *    
+                                            </span>
+                                        </label>
                                         <div class="input-group">
                                             <input 
                                                 type="number" 
@@ -439,6 +516,136 @@
                                 <i class="fas fa-edit ms-2"></i>
                             </button>
                         </div>
+                        {{-- /Card Footer --}}
+
+                    </form>
+                </div>
+            </div>
+
+            <div id="colors" class="tab-pane fade">
+                <div class="card border-primary">
+                    {{-- Card Header --}}
+                    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+                        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+                            <h4 class="mb-0">
+                                La charte graphique
+                            </h4>
+                        </div>
+                        <div class="card-description">
+                            <p class="text-muted  mb-0 font-weight-light">
+                                Les couleurs de la charte graphique
+                            </p>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('admin.settings.update-colors') }}" method="POST">
+                        @csrf
+
+                        {{-- /Card Header --}}
+
+                        {{-- Card body --}}
+                        <div class="card-body mb-2 mt-2">
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="primary_color" class="form-label">
+                                            Couleur principale
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+
+                                        <input 
+                                            type="color" 
+                                            class="form-control @error('primary_color') is-invalid @enderror" 
+                                            id="primary_color" 
+                                            name="primary_color" 
+                                            value="{{ $setting->primary_color ?? old('primary_color') }}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="secondary_color" class="form-label">
+                                            Couleur secondaire
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+
+                                        <input 
+                                            type="color" 
+                                            class="form-control @error('secondary_color') is-invalid @enderror" 
+                                            id="secondary_color" 
+                                            name="secondary_color" 
+                                            value="{{ $setting->secondary_color ?? old('secondary_color') }}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="background-color" class="form-label">
+                                            Couleur de fond
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+
+                                        <input 
+                                            type="color" 
+                                            class="form-control @error('background_color') is-invalid @enderror" 
+                                            id="background_color" 
+                                            name="background_color" 
+                                            value="{{ $setting->background_color ?? old('background_color') }}"
+                                        >
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="font_color" class="form-label">
+                                            Couleur du texte
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+
+                                        <input 
+                                            type="color" 
+                                            class="form-control @error('font_color') is-invalid @enderror" 
+                                            id="font_color" 
+                                            name="font_color" 
+                                            value="{{ $setting->font_color ?? old('font_color') }}"
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        {{-- /Card body --}}
+
+                        {{-- Card Footer --}}
+                        <div class="card-footer border-top border-primary">
+                            <div class="d-flex justify-content-between gap-2 align-items-center w-100 align-items-center">
+                                <button type="submit" class="btn btn-primary w-100">
+                                    <span>
+                                        Enregistrer
+                                    </span>
+                                    <i class="fas fa-edit ms-2"></i>
+                                </button>
+                                <a href="{{ route('admin.settings.colors-reset') }}" class="btn btn-secondary w-100 warning-row">
+                                    <span>
+                                        Réinitialiser par défaut
+                                    </span>
+                                    <i class="fas fa-undo ms-2"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        
                         {{-- /Card Footer --}}
 
                     </form>

@@ -29,6 +29,7 @@ class CompanyRequest extends FormRequest
             'company_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'company_phone' => ['nullable', 'string', 'max:255'],
             'company_email' => ['nullable', 'string', 'email', 'max:255'],
+            'company_siret' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -55,6 +56,9 @@ class CompanyRequest extends FormRequest
             'company_email.string' => 'L\'adresse email de la société doit être une chaîne de caractères.',
             'company_email.email' => 'L\'adresse email de la société doit être une adresse email valide.',
             'company_email.max' => 'L\'adresse email de la société ne doit pas dépasser 255 caractères.',
+
+            'company_siret.string' => 'Le numéro SIRET de la société doit être une chaîne de caractères.',
+            'company_siret.max' => 'Le numéro SIRET de la société ne doit pas dépasser 255 caractères.',
         ];
     }
 }

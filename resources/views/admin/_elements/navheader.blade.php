@@ -1,6 +1,15 @@
 <div class="nav-header">
-    <a href="{{ route('admin.index') }}" class="brand-logo">
-        <img class="logo-abbr" src="./images/logo.png" alt="Logo">
+    <a href="{{ route('admin.index') }}" class="brand-logo p-2">
+
+        @if($company_logo)
+            <img 
+                class="logo-abbr h-100 w-100" style="object-fit: contain"
+                src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
+                alt="Logo"
+            >
+        @else
+            {{ $company_name }}
+        @endif
         {{-- <svg class="logo-abbr"  width="54" height="54" viewBox="0 0 54 54" fill="none">
             <rect class="svg-logo-rect" width="54" height="54" rx="14" fill="#0E8A74"/>
             <path class="svg-logo-path" d="M13 17H24.016L31.802 34.544L38.33 17H40.948L31.972 40.8H23.54L13 17Z" fill="white"/>

@@ -9,12 +9,45 @@ Author : Ngetemplates
 /* ------------------------------
   General
 ---------------------------------*/
+
+:root {
+  --blue: #007bff;
+  --indigo: #6610f2;
+  --purple: #6f42c1;
+  --pink: #e83e8c;
+  --red: #dc3545;
+  --orange: #fd7e14;
+  --yellow: #ffc107;
+  --green: #28a745;
+  --teal: #20c997;
+  --cyan: #17a2b8;
+  --white: #fff;
+  --gray: #6c757d;
+  --gray-dark: #343a40;
+  --primary: #edcc36;
+  --secondary: #2C3E50;
+  --success: #5cb85c;
+  --info: #5bc0de;
+  --warning: #f0ad4e;
+  --danger: #d9534f;
+  --light: #f7f7f7;
+  --dark: #212529;
+  --background: #090909;
+  --breakpoint-xs: 0;
+  --breakpoint-sm: 576px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 992px;
+  --breakpoint-xl: 1200px;
+  --font-family-sans-serif: 'Raleway';
+  --font-family-monospace: 'Raleway'; }
+
+  
 body {
   margin: 0;
   padding: 0;
   font-size: 16px;
   font-family: 'Raleway', sans-serif;
-  background: #090909;
+  background: var(--background);
   color: #dddddd;
 }
 
@@ -103,7 +136,7 @@ img {
   width: 100%;
   height: 100%;
   z-index: 9999;
-  background-color: #090909;
+  background-color: var(--background);
 }
 
 .loader .loading {
@@ -114,7 +147,7 @@ img {
 }
 
 .loader .loading .aloader {
-  background: #edcc36;
+  background: var(--primary);
 }
 
 /* ------------------------------
@@ -122,8 +155,8 @@ img {
 ---------------------------------*/
 .button {
   padding: 12px 30px;
-  background: #edcc36;
-  color: #090909;
+  background: var(--primary);
+  color: var(--background);
   font-size: 13px;
   letter-spacing: 1px;
   border-radius: 0;
@@ -134,7 +167,7 @@ img {
 
 .button:hover {
   background: #ffffff;
-  color: #090909;
+  color: var(--background);
   border-color: transparent;
 }
 
@@ -152,7 +185,7 @@ img {
 .navbar .container {
   padding-top: 25px;
   padding-bottom: 25px;
-  border-bottom: 1px solid #edcc36;
+  border-bottom: 1px solid var(--primary);
 }
 .navbar .navbar-brand {
   text-align: left;
@@ -194,7 +227,7 @@ img {
   text-transform: uppercase;
 }
 .navbar .navbar-nav li a:hover {
-  color: #edcc36;
+  color: var(--primary);
 }
 .navbar .navbar-nav li .button {
   color: #fff;
@@ -213,7 +246,7 @@ img {
 }
 
 .navbar-fixed {
-  background: #090909;
+  background: var(--background);
 }
 
 /* ------------------------------
@@ -240,7 +273,7 @@ img {
   display: block;
   font-weight: 700;
   letter-spacing: 1px;
-  color: #edcc36;
+  color: var(--primary);
 }
 
 /* ------------------------------
@@ -271,7 +304,7 @@ gallery
 }
 .gallery h2 {
   text-align: center;
-  background: #090909;
+  background: var(--background);
   display: inline-block;
   padding: 25px;
   margin: auto;
@@ -283,7 +316,7 @@ gallery
 .gallery .divider {
   height: 5px;
   width: 100%;
-  background: #edcc36;
+  background: var(--primary);
   position: relative;
   top: -84px;
 }
@@ -295,7 +328,7 @@ gallery
   padding-top: 140px;
 }
 .pricing .content {
-  border: 2px solid #edcc36;
+  border: 2px solid var(--primary);
   padding: 40px;
 }
 .pricing .content ul {
@@ -305,7 +338,7 @@ gallery
   padding: 8px 0;
 }
 .pricing .content ul li i {
-  color: #edcc36;
+  color: var(--primary);
   margin-right: 15px;
 }
 
@@ -328,10 +361,10 @@ gallery
 .contact i {
   height: 60px;
   width: 60px;
-  background: #edcc36;
+  background: var(--primary);
   text-align: center;
   line-height: 60px;
-  color: #090909;
+  color: var(--background);
   font-size: 25px;
   margin-bottom: 20px;
 }
@@ -342,15 +375,15 @@ gallery
   width: 100%;
 }
 .contact .open {
-  background: #edcc36;
-  color: #090909;
+  background: var(--primary);
+  color: var(--background);
   height: 100%;
   text-align: center;
-  border: 25px double #090909;
+  border: 25px double var(--background);
   padding-top: 18%;
 }
 .contact .open h3 {
-  color: #090909;
+  color: var(--background);
 }
 .contact .open span {
   font-size: 22px;
@@ -365,7 +398,7 @@ gallery
   padding: 150px 0;
 }
 .testimonial .swiper-button-next, .testimonial .swiper-button-prev {
-  color: #edcc36;
+  color: var(--primary);
 }
 .testimonial .swiper-button-next::after, .testimonial .swiper-button-prev::after {
   font-size: 30px;
@@ -396,8 +429,8 @@ footer {
   padding: 35px 0 35px;
   font-size: 16px;
   font-weight: 500;
-  background: #edcc36;
-  color: #090909;
+  background: var(--primary);
+  color: var(--background);
 }
 footer ul li {
   display: inline-block;
@@ -405,7 +438,7 @@ footer ul li {
 }
 footer ul li a i {
   font-size: 20px;
-  color: #090909;
+  color: var(--background);
 }
 footer .cp {
   text-align: right;
@@ -416,7 +449,7 @@ footer .cp {
 ---------------------------------*/
 @media (max-width: 991px) {
   .navbar .navbar-collapse {
-    background: #090909;
+    background: var(--background);
     padding-bottom: 25px;
   }
 
@@ -425,7 +458,7 @@ footer .cp {
   }
 
   .navbar .container {
-    background: #090909;
+    background: var(--background);
   }
 
   .intro .col-md {

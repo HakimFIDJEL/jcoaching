@@ -13,7 +13,7 @@
             <i class="fa fa-check-circle text-success"></i>
         </h1>
         <p class="fw-light">
-            Votre paiement a bien été effectué, merci d'avoir fait confiance à nos services, vous pouvez maintenant accéder à votre espace membre.
+            Votre paiement a bien été effectué, merci d'avoir fait confiance à nos services, vous pouvez maintenant accéder à votre espace membre. Un mail de confirmation vous a été envoyé, ce-dernier joint la facture correspondante.
         </p>
         <div>
             <a class="btn btn-primary" href="{{ route('main.account') }}">

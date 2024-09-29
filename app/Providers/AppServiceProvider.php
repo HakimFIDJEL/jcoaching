@@ -18,6 +18,7 @@ use App\Models\Plan;
 use App\Models\Pricing;
 use App\Models\Reduction;
 use App\Models\Workout;
+use App\Models\Setting;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +37,39 @@ class AppServiceProvider extends ServiceProvider
     {
         Schema::defaultStringLength(191);
 
+        View::composer('*', function ($view) {
+            
+            $company_logo = Setting::first()->company_logo;
+            $company_name = Setting::first()->company_name;
+
+            $company_facebook = Setting::first()->company_facebook;
+            $company_instagram = Setting::first()->company_instagram;
+            $company_twitter = Setting::first()->company_twitter;
+            $company_linkedin = Setting::first()->company_linkedin;
+            $company_youtube = Setting::first()->company_youtube;
+
+            $primary_color = Setting::first()->primary_color;
+            $secondary_color = Setting::first()->secondary_color;
+            $background_color = Setting::first()->background_color;
+            $font_color = Setting::first()->font_color;
+
+            $view->with([
+                'company_logo' => $company_logo,
+                'company_name' => $company_name,
+
+                'company_facebook' => $company_facebook,
+                'company_instagram' => $company_instagram,
+                'company_twitter' => $company_twitter,
+                'company_linkedin' => $company_linkedin,
+                'company_youtube' => $company_youtube,
+
+                'primary_color' => $primary_color,
+                'secondary_color' => $secondary_color,
+                'background_color' => $background_color,
+                'font_color' => $font_color,
+            ]);
+        });
+
         // Send all users to the admin views
         View::composer('admin.*', function ($view) {
             // Vérification supplémentaire pour éviter les erreurs
@@ -47,6 +81,7 @@ class AppServiceProvider extends ServiceProvider
                 foreach ($chatboxs as $chatbox) {
                     $unread_messages_view += $chatbox->unreadMessages()->count();
                 }
+
 
                 $trash_members = User::onlyTrashed()->where('role', 'member')->count();
                 $trash_admins = User::onlyTrashed()->where('role', 'admin')->count();
@@ -63,6 +98,7 @@ class AppServiceProvider extends ServiceProvider
                 $view->with([
                     'members_view' => $members_view,
                     'unread_messages_view' => $unread_messages_view,
+
                     'trash_members' => $trash_members,
                     'trash_admins' => $trash_admins,
                     'trash_contacts' => $trash_contacts,

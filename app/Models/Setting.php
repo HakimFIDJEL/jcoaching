@@ -15,19 +15,21 @@ class Setting extends Model
         'company_logo',
         'company_phone',
         'company_email',
+        'company_siret',
+
         'company_facebook',
         'company_twitter',
         'company_instagram',
         'company_linkedin',
         'company_youtube',
-        'facebook',
-        'twitter',
-        'instagram',
-        'linkedin',
-        'pinterest',
-        'youtube',
+
         'nutrition_idea',
         'nutrition_price',
-        'workout_price'
+        'workout_price',
+
+        'primary_color',
+        'secondary_color',
+        'background_color',
+        'font_color',
     ];
 }

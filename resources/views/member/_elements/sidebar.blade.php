@@ -1,6 +1,8 @@
 <div class="deznav">
     <div class="deznav-scroll">
         <ul class="metismenu" id="menu">
+
+            {{-- Tableau de bord --}}
             <li class="{{ Request::is('member') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('member.index') }}" 
@@ -13,6 +15,7 @@
                 </a>                
             </li>
 
+            {{-- Abonnements --}}
             <li class="{{ Request::is('member/plans*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('member.plans.index') }}" 
@@ -25,6 +28,7 @@
                 </a>                
             </li>
 
+            {{-- Calendrier --}}
             <li class="{{ Request::is('member/calendar*') ? 'mm-active' : '' }}">
                 <a 
                     href="{{ route('member.calendar.index') }}" 
@@ -37,6 +41,20 @@
                 </a>                
             </li>
 
+            {{-- Ordres d'achats --}}
+            <li class="{{ Request::is('member/orders*') ? 'mm-active' : '' }}">
+                <a 
+                    href="{{ route('member.orders.index') }}" 
+                    class="ai-icon {{ Request::is('member/orders*') ? 'mm-active' : '' }}" 
+                    aria-expanded="false"
+                    title="Ordres d'achats"
+                >
+                    <i class="flaticon-381-price-tag"></i>
+                    <span class="nav-text">Ordres d'achats</span>
+                </a>
+            </li>
+
+            {{-- Nutrition --}}
             @if(Auth::user()->hasCurrentPlan())
                 @if(Auth::user()->currentPlan->nutrition_option)
 

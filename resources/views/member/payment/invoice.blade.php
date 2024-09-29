@@ -85,19 +85,29 @@
     <div class="invoice-container">
         <!-- Header avec Logo et Détails de l'Entreprise -->
         <div class="header">
-            {{-- <div class="logo">
+            <div class="logo">
                 @if($settings->company_logo)
-                    <img 
-                        src="{{ asset('storage/' . str_replace('public/', '', $settings->company_logo) ) }}"
-                        alt="Logo de l'entreprise" 
-                        style="max-width: 100%;"
-                    >
+                    @php
+                        $logoPath = public_path(str_replace('public/', 'storage/', $settings->company_logo));
+                        if (file_exists($logoPath)) {
+                            $logoData = base64_encode(file_get_contents($logoPath));
+                            $logoExtension = pathinfo($logoPath, PATHINFO_EXTENSION);
+                        } else {
+                            $logoData = null;
+                        }
+                    @endphp
+                    @if($logoData)
+                        <img 
+                            src="data:image/{{ $logoExtension }};base64,{{ $logoData }}"
+                            style="max-width: 150px;"
+                        >
+                    @else
+                        <h2>{{ $settings->company_name ?? '' }}</h2>
+                    @endif
                 @else
-                    <h2>
-                        {{ $settings->company_name }}
-                    </h2>
+                    <h2>{{ $settings->company_name ?? '' }}</h2>
                 @endif
-            </div> --}}
+            </div>
             <div class="company-details">
                 <h2>{{ $settings->company_name ?? '' }}</h2>
                 <p>
@@ -125,7 +135,8 @@
         <div class="invoice-details">
             <h3>Facture</h3>
             <p><strong>Numéro de Facture :</strong> {{ $invoice->invoice_number }}</p>
-            <p><strong>Date :</strong> {{ $invoice->created_at->format('d/m/Y') }}</p>
+            <p><strong>Date de la Facture :</strong> {{ $invoice->created_at->format('d/m/Y') }}</p>
+            <p><strong>Date de la Prestation :</strong> {{ $order->created_at->format('d/m/Y') }}</p>
         </div>
 
         <!-- Détails du Client -->
@@ -135,6 +146,11 @@
             <p><strong>Adresse :</strong> {{ $order->customer_address }}, {{ $order->customer_postal_code }} {{ $order->customer_city }}</p>
             <p><strong>Email :</strong> {{ $order->customer_email }}</p>
             <p><strong>Téléphone :</strong> {{ $order->customer_phone }}</p>
+        </div>
+
+        <!-- Conditions de Paiement -->
+        <div class="payment-terms">
+            <p><strong>Conditions de Paiement :</strong> Paiement effectué instantanément via Stripe. Aucune pénalité de retard n'est applicable.</p>
         </div>
 
         <!-- Tableau des Produits/Services -->
@@ -182,13 +198,12 @@
         <div class="footer">
             <p><strong>Mentions Légales :</strong></p>
             <p>
-                Société : {{ $settings->company_name }}
-                <br>
+                Société : {{ $settings->company_name }}<br>
                 @if($settings->company_address)
-                Adresse : {{ $settings->company_address }}<br>
+                    Adresse : {{ $settings->company_address }}<br>
                 @endif
                 @if($settings->company_siret)
-                SIRET : {{ $settings->company_address }}<br>
+                    SIRET : {{ $settings->company_siret }}<br>
                 @endif
                 TVA Intracommunautaire : TVA non applicable, article 293 B du CGI
             </p>
@@ -199,7 +214,6 @@
                 En cas de litige, les tribunaux compétents seront ceux du lieu de résidence de l'auto-entrepreneur.
             </p>
         </div>
-
     </div>
 </body>
 </html>
