@@ -157,6 +157,8 @@ class SettingController extends Controller
     public function updateColors(ColorRequest $request) {
         $data = $request->validated();
 
+        
+
         $setting = Setting::first();
         if(!$setting) {
             $setting = Setting::create();

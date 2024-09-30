@@ -174,7 +174,8 @@ img {
 /* ------------------------------
   navbar
 ---------------------------------*/
-.navbar {
+
+/* .navbar {
   top: 0;
   position: fixed;
   width: 100%;
@@ -247,7 +248,7 @@ img {
 
 .navbar-fixed {
   background: var(--background);
-}
+} */
 
 /* ------------------------------
   intro
@@ -422,32 +423,16 @@ gallery
   color: #fff;
 }
 
-/* ------------------------------
-  footer
----------------------------------*/
-footer {
-  padding: 35px 0 35px;
-  font-size: 16px;
-  font-weight: 500;
-  background: var(--primary);
-  color: var(--background);
-}
-footer ul li {
-  display: inline-block;
-  margin-right: 10px;
-}
-footer ul li a i {
-  font-size: 20px;
-  color: var(--background);
-}
-footer .cp {
-  text-align: right;
-}
 
 /* ------------------------------
   responsive
 ---------------------------------*/
 @media (max-width: 991px) {
+
+  .navbar .collapse:not(.show) {
+    display: none !important;
+  }
+  
   .navbar .navbar-collapse {
     background: var(--background);
     padding-bottom: 25px;

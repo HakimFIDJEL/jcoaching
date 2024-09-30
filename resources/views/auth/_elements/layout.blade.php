@@ -5,9 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        {{-- Favicon with company_logo --}}
+        <link rel="icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
+
+        {{-- Title --}}
+
         <title>
-            {{ env('APP_NAME') }} - @yield('title')
+            {{ $company_name ?? env('APP_NAME') }} - @yield('title')
         </title>
+        
         
         {{-- Import CSS --}}
         <link rel="stylesheet" href="{{ asset('backoffice/css/style.css') }}">
@@ -17,6 +24,8 @@
         @vite('resources/css/magnific-popup.css')
         @vite('resources/css/style.css')
         @yield('styles')
+
+        @include('_elements.color')
 
     </head>
     <body class="min-vh-100 d-flex flex-column">

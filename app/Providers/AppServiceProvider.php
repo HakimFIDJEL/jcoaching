@@ -41,6 +41,9 @@ class AppServiceProvider extends ServiceProvider
             
             $company_logo = Setting::first()->company_logo;
             $company_name = Setting::first()->company_name;
+            $company_address = Setting::first()->company_address;
+            $company_phone = Setting::first()->company_phone;
+            $company_email = Setting::first()->company_email;
 
             $company_facebook = Setting::first()->company_facebook;
             $company_instagram = Setting::first()->company_instagram;
@@ -56,6 +59,9 @@ class AppServiceProvider extends ServiceProvider
             $view->with([
                 'company_logo' => $company_logo,
                 'company_name' => $company_name,
+                'company_address' => $company_address,
+                'company_phone' => $company_phone,
+                'company_email' => $company_email,
 
                 'company_facebook' => $company_facebook,
                 'company_instagram' => $company_instagram,

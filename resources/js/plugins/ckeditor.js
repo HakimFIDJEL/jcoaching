@@ -1,13 +1,13 @@
-import { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph } from 'ckeditor5';
+import { ClassicEditor, Essentials, Bold, Italic, Font, Paragraph, FontColor } from 'ckeditor5';
 import 'ckeditor5/ckeditor5.css';
 
 // Configuration de ckEditor5
 ClassicEditor
     .create(document.querySelector('textarea.editor'), {
-        plugins: [ Essentials, Bold, Italic, Font, Paragraph ],
+        plugins: [ Essentials, Bold, Italic, Font, Paragraph, FontColor ],
         toolbar: {
             items: [
-                'undo', 'redo', '|', 'bold', 'italic', '|', 
+                'undo', 'redo', '|', 'bold', 'italic', '|', 'fontColor'
             ]
         },
         // Font color is var(--bs-body-color)

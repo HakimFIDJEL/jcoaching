@@ -38,9 +38,27 @@ use App\Http\Controllers\member\PaymentController as MemberPaymentController;
 use App\Http\Controllers\member\OrderController as MemberOrderController;
 
 
-// MAIN ROUTES
-Route::get('/', [MainController::class, 'index'])->name('main.index');
-Route::get('/account', [MainController::class, 'account'])->name('main.account');
+// ADMIN ROUTES
+Route::prefix("/")->controller(MainController::class)->name("main.")->group(function(){
+
+    // MAIN - DONE
+    Route::get('/', 'index')->name('index');
+
+    // ABOUT - DONE
+    Route::get('/about', 'about')->name('about');
+
+    // MEDIA - DONE
+    Route::get('/media', 'media')->name('media');
+
+    // PRICINGS - DONE
+    Route::get('/pricings', 'pricings')->name('pricings');
+
+    // CONTACT - DONE
+    Route::get('/contact', 'contact')->name('contact');
+
+    // ACCOUNT - DONE
+    Route::get('/account', 'account')->name('account');
+});
 
 // AUTH ROUTES
 Route::prefix('/auth')->name('auth.')->controller(AuthController::class)->group(function()

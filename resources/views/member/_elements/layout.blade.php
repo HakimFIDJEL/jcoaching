@@ -5,9 +5,16 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
+        {{-- Favicon with company_logo --}}
+        <link rel="icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
+
+        {{-- Title --}}
+
         <title>
-            {{ env('APP_NAME') }} - @yield('title')
+            {{ $company_name ?? env('APP_NAME') }} - @yield('title')
         </title>
+        
         
         {{-- Import CSS --}}
         {{-- @vite('resources/css/bootstrap.css')
@@ -68,6 +75,8 @@
 
 
         @yield('scripts')
+
+        @include('_elements.color')
     </body>
     
 </html>

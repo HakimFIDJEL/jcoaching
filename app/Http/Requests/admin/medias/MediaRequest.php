@@ -25,7 +25,7 @@ class MediaRequest extends FormRequest
     {
         return [
             'label' => ['required', 'string', 'max:191'],
-            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,gif,svg,mp4,webm', 'max:2048'],
+            'file' => ['required', 'file', 'mimes:jpeg,png,jpg,mp4,webm', 'max:2048'],
             'online' => ['required', 'boolean'],
         ];
     }
