@@ -98,7 +98,7 @@
                             </td>
                             <td>
                                 @if($order->product_type == 'workout')
-                                    <span class="badge bg-success">
+                                    <span class="badge bg-secondary">
                                         <span>
                                             Séance (s)
                                         </span>
@@ -124,11 +124,11 @@
                                 @if($order->product_type == 'workout')
                                     [
                                         @foreach($order->workouts as $workout)
-                                            #{{ $workout->id }} 
+                                            #{{ $workout->id ?? 'Inconnu' }} 
                                         @endforeach
                                     ]
                                 @elseif($order->product_type == 'plan')
-                                    #{{ $order->plan->id }}
+                                    #{{ $order->plan->id ?? 'Inconnu' }}
                                 @else
                                     Inconnu
                                 @endif

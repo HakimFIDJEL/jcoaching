@@ -8,7 +8,7 @@
                 <img 
                     src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
                     alt="Logo"
-                    style="max-height: 50px; max-width: 50px;"
+                    style="max-height: 50px;"
                 >
             @else
                 {{ $company_name }}

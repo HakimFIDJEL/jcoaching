@@ -48,16 +48,27 @@ Route::prefix("/")->controller(MainController::class)->name("main.")->group(func
     Route::get('/about', 'about')->name('about');
 
     // MEDIA - DONE
-    Route::get('/media', 'media')->name('media');
+    Route::get('/galerie', 'galerie')->name('galerie');
 
     // PRICINGS - DONE
     Route::get('/pricings', 'pricings')->name('pricings');
 
     // CONTACT - DONE
     Route::get('/contact', 'contact')->name('contact');
+    Route::post('/contact', 'contactPost')->name('contact-post');
 
     // ACCOUNT - DONE
     Route::get('/account', 'account')->name('account');
+
+    Route::prefix('/legal')->name('legal.')->group(function()
+    {
+        Route::get('/mentions-legales', 'mentions')->name('mentions');
+        Route::get('/politique-de-confidentialite', 'privacy')->name('privacy');
+        Route::get('/conditions-generales-d-utilisation', 'terms')->name('terms');
+        Route::get('/conditions-generales-de-vente', 'sales')->name('sales');
+        Route::get('/cookies', 'cookies')->name('cookies');
+
+    });
 });
 
 // AUTH ROUTES
@@ -291,6 +302,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::get('/', 'index')->name('index');
         Route::get('/notify', 'notify')->name('notify');
         Route::get('/download-logo', 'downloadLogo')->name('download-logo');
+        Route::get('/download-icon', 'downloadIcon')->name('download-icon');
         Route::get('/colors-reset', 'colorsReset')->name('colors-reset');
 
         Route::post('/update-company', 'updateCompany')->name('update-company');
@@ -298,6 +310,7 @@ Route::prefix("/admin")->middleware([AdminMiddleware::class])->name("admin.")->g
         Route::post('/update-nutrition', 'updateNutrition')->name('update-nutrition');
         Route::post('/update-pricings', 'updatePricings')->name('update-pricings');
         Route::post('/update-colors', 'updateColors')->name('update-colors');
+        Route::post('/update-others', 'updateOthers')->name('update-others');
     });
 
     // CHATBOX - DONE

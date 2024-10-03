@@ -50,7 +50,7 @@
                                                         <span class="d-none d-sm-inline mr-2">Répondre</span>
                                                         <i class="fa fa-reply"></i> 
                                                     </a>
-                                                    <a href="{{ route('admin.contacts.soft-delete', ['contact' => $contact]) }}" class="btn btn-danger px-3 my-1 me-2 delete-row">
+                                                    <a href="{{ route('admin.contacts.soft-delete', ['contact' => $contact]) }}" class="btn btn-danger px-3 my-1 me-2 warning-row">
                                                         <span class="d-none d-sm-inline mr-2">Mettre à la corbeille</span>
                                                         <i class="fa fa-trash"></i>
                                                     </a>
@@ -63,7 +63,7 @@
                                                 </div>
                                             </div>
                                             <div class="read-content-body">
-                                                <p>{{ $contact->message }}</p>
+                                                <p>{!! $contact->message !!}</p>
                                             </div>
                                             <hr>
                                             

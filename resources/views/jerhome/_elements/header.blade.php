@@ -7,7 +7,7 @@
             <img 
                 src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
                 alt="Logo"
-                style="max-height: 50px; max-width: 50px;"
+                style="max-height: 50px;"
                 title="{{ $company_name }}"
             >
         @else
@@ -64,9 +64,9 @@
 
             <li class="nav-item">
                 <a 
-                    href="{{ route('main.media') }}" 
+                    href="{{ route('main.galerie') }}" 
                     style="text-transform: uppercase;"
-                    @if(Route::currentRouteName() == 'main.media') 
+                    @if(Route::currentRouteName() == 'main.galerie') 
                         class="btn btn-link fw-bold text-primary"
                     @else
                         class="btn btn-link fw-bold"
@@ -76,9 +76,9 @@
                 </a>
             </li>
 
+
             <li class="nav-item">
                 <a 
-                    class="btn btn-link fw-bold" 
                     href="{{ route('main.pricings') }}" 
                     style="text-transform: uppercase;"
                     @if(Route::currentRouteName() == 'main.pricings') 
@@ -102,6 +102,21 @@
                     @endif    
                 >
                     Contact
+                </a>
+            </li>
+
+            {{-- hide when desktop --}}
+            <li class="nav-item d-block d-lg-none">
+                <a 
+                    href="{{ route('auth.login') }}" 
+                    style="text-transform: uppercase;"
+                    @if(Route::currentRouteName() == 'auth.login') 
+                        class="btn btn-link fw-bold text-primary"
+                    @else
+                        class="btn btn-link fw-bold"    
+                    @endif    
+                >
+                    Connexion
                 </a>
             </li>
         </ul>

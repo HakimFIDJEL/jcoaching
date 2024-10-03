@@ -1,6 +1,9 @@
 <div class="footer">
 		
     <div class="copyright">
-        <p><strong> {{  env('APP_NAME')  }}  </strong> © {{ date('Y') }} All Rights Reserved</p>
+        <p>
+            {{ $company_name ?? env('APP_NAME') }}
+            © {{ date('Y') }} Tous droits réservés
+        </p>
     </div>
 </div>

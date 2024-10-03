@@ -27,7 +27,7 @@
             </h4>
             <a 
                 href="{{ route('admin.pricings.create') }}"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary"
             >
                 <span>
                     Ajouter un tarif

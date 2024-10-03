@@ -16,6 +16,7 @@ use App\Http\Requests\admin\settings\SocialsRequest;
 use App\Http\Requests\admin\settings\NutritionRequest;
 use App\Http\Requests\admin\settings\PricingRequest;
 use App\Http\Requests\admin\settings\ColorRequest;
+use App\Http\Requests\admin\settings\OtherRequest;
 
 // Mails
 use App\Mail\NutritionMail;
@@ -83,6 +84,15 @@ class SettingController extends Controller
         return Storage::download($setting->company_logo);
     }
 
+    // Download the company icon - DONE
+    public function downloadIcon() {
+        $setting = Setting::first();
+        if(!$setting) {
+            return redirect()->back()->with(['error' => 'Aucune icône de société trouvée.']);
+        }
+        return Storage::download($setting->company_icon);
+    }
+
     // Update the company - DONE
     public function updateCompany(CompanyRequest $request) {
         $data = $request->validated();
@@ -93,6 +103,7 @@ class SettingController extends Controller
             $setting = Setting::create();
         }
     
+        // Update the company logo
         if ($request->hasFile('company_logo')) {
             if ($setting->company_logo) {
                 Storage::delete($setting->company_logo);
@@ -105,6 +116,21 @@ class SettingController extends Controller
                 Storage::delete($setting->company_logo);
             }
             $data['company_logo'] = null;
+        }
+
+        // Update the company icon
+        if ($request->hasFile('company_icon')) {
+            if ($setting->company_icon) {
+                Storage::delete($setting->company_icon);
+            }
+            $path = $request->file('company_icon')->store('public/settings');
+            $data['company_icon'] = $path;
+        } else {
+
+            if ($setting->company_icon) {
+                Storage::delete($setting->company_icon);
+            }
+            $data['company_icon'] = null;
         }
     
         $setting->update($data);
@@ -154,10 +180,9 @@ class SettingController extends Controller
         return redirect()->back()->with(['success' => 'Les prix ont été mis à jour avec succès.']);
     }
 
+    // Update the colors - DONE
     public function updateColors(ColorRequest $request) {
         $data = $request->validated();
-
-        
 
         $setting = Setting::first();
         if(!$setting) {
@@ -167,5 +192,19 @@ class SettingController extends Controller
         $setting->update($data);
 
         return redirect()->back()->with(['success' => 'Les couleurs ont été mises à jour avec succès.']);
+    }
+
+    // Update others - DONE
+    public function updateOthers(OtherRequest $request) {
+        $data = $request->all();
+
+        $setting = Setting::first();
+        if(!$setting) {
+            $setting = Setting::create();
+        }
+
+        $setting->update($data);
+
+        return redirect()->back()->with(['success' => 'Les informations ont été mises à jour avec succès.']);
     }
 }

@@ -63,6 +63,9 @@
                     <div class="card-body">
                         <div class="mb-3">
                             <label class="form-label">Séances à planifier</label>
+                            <p class="fw-light text-muted" style="line-height: 1.2">
+                                Glissez-déposez les séances à planifier dans le calendrier.
+                            </p>
                             <hr>
                             <ul class="list-group gap-2 draggable-container">
                                 @foreach($fullcalendar_workouts_visible->where('date', null)->sortByDesc('id') as $workout)

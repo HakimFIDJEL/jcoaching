@@ -2,6 +2,10 @@
 
 @section('title', 'Inscription')
 
+
+@section('meta_title', "Inscription - JerHomeCoaching")
+@section('meta_description', "Rejoins JerHomeCoaching dès maintenant ! Crée ton compte et profite de ta première séance gratuite avec Jérôme, ton coach sportif perso.")
+
 @section('content')
 
 <div class="p-4 shadow card border-primary mb-3" style="max-width: 600px; width: 100%;">
@@ -233,6 +237,31 @@
                 </div>
             </div>
         </div>
+
+        <div class="row">
+            <div class="mb-3">
+                <div class="custom-control custom-checkbox">
+                    <input 
+                        class="custom-control-input" 
+                        type="checkbox" 
+                        value="1" 
+                        id="privacy_terms" 
+                        name="privacy_terms"
+                        required
+                    >
+                    <label class="custom-control-label 
+                        @error('privacy_terms') is-invalid @enderror" 
+                        for="privacy_terms"
+                    >
+                        J'ai lu et j'accepte la 
+                        <a href="{{ route('main.legal.privacy') }}" target="_blank" class="text-decoration-underline text-white">
+                            politique de confidentialité
+                        </a>
+                    </label>
+                </div>
+            </div>
+        </div>
+
         <div class="d-grid gap-2 mt-2">
             <button type="submit" class="btn btn-primary w-100">S'inscrire</button>
             <a href="{{ route('auth.login') }}" class="btn btn-outline-primary w-100">Connexion</a>

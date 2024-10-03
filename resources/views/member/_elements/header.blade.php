@@ -56,6 +56,12 @@
                                     Profil
                                 </span>
                             </a>
+                            <a class="dropdown-item ai-icon" href="{{ route('main.index') }}">
+                                <i class="fa fa-home me-2"></i>
+                                <span>
+                                    Retour au site
+                                </span>
+                            </a>
                             <a class="dropdown-item ai-icon" href="{{ route('auth.logout') }}">
                                 <i class="fa fa-power-off me-2"></i>
                                 <span>

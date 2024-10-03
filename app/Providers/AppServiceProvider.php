@@ -40,10 +40,17 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             
             $company_logo = Setting::first()->company_logo;
+            $company_icon = Setting::first()->company_icon;
             $company_name = Setting::first()->company_name;
             $company_address = Setting::first()->company_address;
             $company_phone = Setting::first()->company_phone;
             $company_email = Setting::first()->company_email;
+            $company_siret = Setting::first()->company_siret;
+            $company_tva = Setting::first()->company_tva;
+
+            $meta_title = Setting::first()->meta_title;
+            $meta_description = Setting::first()->meta_description;
+
 
             $company_facebook = Setting::first()->company_facebook;
             $company_instagram = Setting::first()->company_instagram;
@@ -58,10 +65,16 @@ class AppServiceProvider extends ServiceProvider
 
             $view->with([
                 'company_logo' => $company_logo,
+                'company_icon' => $company_icon,
                 'company_name' => $company_name,
                 'company_address' => $company_address,
                 'company_phone' => $company_phone,
                 'company_email' => $company_email,
+                'company_siret' => $company_siret,
+                'company_tva' => $company_tva,
+
+                'meta_title' => $meta_title,
+                'meta_description' => $meta_description,
 
                 'company_facebook' => $company_facebook,
                 'company_instagram' => $company_instagram,

@@ -16,6 +16,8 @@ class Setting extends Model
         'company_phone',
         'company_email',
         'company_siret',
+        'company_tva',
+        'company_icon',
 
         'company_facebook',
         'company_twitter',
@@ -31,5 +33,8 @@ class Setting extends Model
         'secondary_color',
         'background_color',
         'font_color',
+        
+        'meta_title',
+        'meta_description',
     ];
 }

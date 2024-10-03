@@ -15,6 +15,7 @@ class Contact extends Model
         'lastname',
         'firstname',
         'email',
+        'phone',
         'subject',
         'message',
         'read_at',

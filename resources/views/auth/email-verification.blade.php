@@ -38,7 +38,7 @@
             <a href="{{ route('auth.logout') }}" class="btn btn-outline-primary w-100">Déconnexion</a>
         </div>
         <div class="mt-3 text-right">
-            <a href="{{ route('auth.email-verification.resend', ['user_token' => $user_token]) }}" class="btn btn-link">Renvoyer le code de vérification</a>
+            <a href="{{ route('auth.email-verification.resend', ['user_token' => $user_token]) }}" class="text-decoration-underline text-white">Renvoyer le code de vérification</a>
         </div>
     </form>
 </div>

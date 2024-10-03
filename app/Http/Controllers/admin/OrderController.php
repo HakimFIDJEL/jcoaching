@@ -22,15 +22,22 @@ class OrderController extends Controller
         $invoice = $order->invoice;
 
         if($order->product_type == 'plan') {
-            $workouts = $order->plan->workouts;
-            foreach($workouts as $workout) {
-                $workout->forceDelete();
+
+            $plan = $order->plan;
+            if($plan) {
+                $workouts = $order->plan->workouts;
+                foreach($workouts as $workout) {
+                    $workout->forceDelete();
+                }
+                $order->plan->forceDelete();
             }
-            $order->plan->forceDelete();
+
         } elseif($order->product_type == 'workout') {
             $workouts = $order->workouts;
-            foreach($workouts as $workout) {
-                $workout->forceDelete();
+            if($workouts) {
+                foreach($workouts as $workout) {
+                    $workout->forceDelete();
+                }
             }
         }
 

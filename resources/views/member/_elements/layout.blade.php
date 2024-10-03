@@ -6,8 +6,12 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <meta name="csrf-token" content="{{ csrf_token() }}">
         {{-- Favicon with company_logo --}}
-        <link rel="icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
-        <link rel="shortcut icon" href="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}" type="image/x-icon" />
+        <link rel="icon" href="{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}" type="image/x-icon" />
+
+         {{-- Meta title & meta description --}}
+        <meta name="title" content="@yield('meta_title', $meta_title)">
+        <meta name="description" content="@yield('meta_description', $meta_description)">
 
         {{-- Title --}}
 
@@ -75,6 +79,33 @@
 
 
         @yield('scripts')
+
+        <script type="application/ld+json">
+            {
+              "@context": "https://schema.org",
+              "@type": "LocalBusiness",
+              "name": "{{ $company_name }}",
+              "image": "{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}",
+              "@id": "{{ url('/') }}",
+              "url": "{{ url('/') }}",
+              "telephone": "{{ $company_phone }}",
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "{{ $company_address }}",
+                "addressLocality": "Villeneuve d'Ascq",
+                "postalCode": "59650",
+                "addressCountry": "FR"
+              },
+              "openingHours": "Mo-Su 10:00-19:00",
+              "sameAs": [
+                "{{ $company_facebook }}",
+                "{{ $company_twitter }}",
+                "{{ $company_instagram }}",
+                "{{ $company_linkedin }}",
+                "{{ $company_youtube }}",
+              ]
+            }
+        </script>
 
         @include('_elements.color')
     </body>

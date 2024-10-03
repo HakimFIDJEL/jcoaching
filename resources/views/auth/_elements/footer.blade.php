@@ -29,7 +29,7 @@
                 <div class="cp d-flex justify-content-end">
                     <span>
                         {{ $company_name ?? env('APP_NAME') }}
-                        © {{ date('Y') }} All Right Reserved 
+                        © {{ date('Y') }} Tous droits réservés
                     </span>
                 </div>
             </div>

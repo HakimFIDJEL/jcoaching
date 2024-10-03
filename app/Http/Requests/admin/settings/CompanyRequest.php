@@ -27,9 +27,11 @@ class CompanyRequest extends FormRequest
             'company_name' => ['nullable', 'string', 'max:255'],
             'company_address' => ['nullable', 'string', 'max:255'],
             'company_logo' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'company_icon' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
             'company_phone' => ['nullable', 'string', 'max:255'],
             'company_email' => ['nullable', 'string', 'email', 'max:255'],
             'company_siret' => ['nullable', 'string', 'max:255'],
+            'company_tva' => ['nullable', 'string', 'max:255'],
         ];
     }
 
@@ -50,6 +52,10 @@ class CompanyRequest extends FormRequest
             'company_logo.mimes' => 'Le logo de la société doit être une image de type: jpeg, png, jpg.',
             'company_logo.max' => 'Le logo de la société ne doit pas dépasser 2 Mo.',
 
+            'company_icon.image' => 'L\'icône de la société doit être une image.',
+            'company_icon.mimes' => 'L\'icône de la société doit être une image de type: jpeg, png, jpg.',
+            'company_icon.max' => 'L\'icône de la société ne doit pas dépasser 2 Mo.',
+
             'company_phone.string' => 'Le numéro de téléphone de la société doit être une chaîne de caractères.',
             'company_phone.max' => 'Le numéro de téléphone de la société ne doit pas dépasser 255 caractères.',
 
@@ -59,6 +65,9 @@ class CompanyRequest extends FormRequest
 
             'company_siret.string' => 'Le numéro SIRET de la société doit être une chaîne de caractères.',
             'company_siret.max' => 'Le numéro SIRET de la société ne doit pas dépasser 255 caractères.',
+
+            'company_tva.string' => 'Le numéro TVA de la société doit être une chaîne de caractères.',
+            'company_tva.max' => 'Le numéro TVA de la société ne doit pas dépasser 255 caractères.',
         ];
     }
 }

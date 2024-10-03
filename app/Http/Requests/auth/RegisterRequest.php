@@ -32,6 +32,7 @@ class RegisterRequest extends FormRequest
             'postal_code' => 'required|string|max:10',
             'address_complement' => 'nullable|string|max:250',
             'country' => 'required|string|max:50',
+            'privacy_terms' => 'required|accepted',
         ];
     }
 
@@ -85,6 +86,9 @@ class RegisterRequest extends FormRequest
             'country.required' => 'Le pays est requis',
             'country.string' => 'Le pays doit être une chaîne de caractères',
             'country.max' => 'Le pays ne doit pas dépasser 50 caractères',
+
+            'privacy_terms.required' => 'Vous devez accepter la politique de confidentialité',
+            'privacy_terms.accepted' => 'Vous devez accepter la politique de confidentialité',
         ];
     }
 }

@@ -26,7 +26,7 @@
             </h4>
             <a 
                 href="{{ route('admin.reductions.create') }}"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary"
             >
                 <span>
                     Ajouter un code de réduction

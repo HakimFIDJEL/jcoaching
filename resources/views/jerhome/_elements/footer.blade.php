@@ -1,9 +1,9 @@
 {{-- Boostrap footer --}}
-<footer class="bg-primary text-black">
-    <div class="container">
-        <div class="row d-flex justify-content-between align-items-center py-4">
+<footer class="bg-primary text-black py-5">
+    <div class="container d-flex flex-column gap-5 w-100">
+        <div class="row d-flex justify-content-between align-items-center gap-2">
             <div class="col-md col-sm-6">
-                <ul class="d-flex gap-3 mb-0">
+                <ul class="d-flex gap-3 mb-0 justify-content-lg-start justify-content-center">
                     @if($company_facebook)
                         <li><a href="{{ $company_facebook }}" target="_blank" class="text-black fs-20"><i class="la la-facebook"></i></a></li>
                     @endif
@@ -26,41 +26,31 @@
                 </ul>
             </div>
             <div class="col-md col-sm-6">
-                <div class="cp d-flex justify-content-end">
+                <div class="cp d-flex justify-content-lg-end justify-content-center">
+                    {{-- center when responsive --}}
                     <span>
                         {{ $company_name ?? env('APP_NAME') }}
-                        © {{ date('Y') }} All Right Reserved 
+                        © {{ date('Y') }} Tous droits réservés
                     </span>
                 </div>
             </div>
         </div>
 
-        {{-- TODO : Rajouter toutes les pages + mentions légales --}}
-        <div class="row d-flex justify-content-between py-4">
-            {{-- Logo --}}
-            @if($company_logo)
-                <div class="col-md col-sm-2 pr-5 pb-5">
-                    <img 
-                        src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
-                        alt="Logo"
-                        title="{{ $company_name }}"
-                        class="img-fluid"
-                    >
-                </div>
-            @endif
+        <div class="row d-flex justify-content-between flex-column gap-4">
+            
 
             {{-- Links --}}
-            <div class="col-md col-sm-5">
+            <div class="col-md col-sm-5 d-flex flex-column">
 
                 {{-- Small title --}}
-                <h6 class="text-black mb-4">Liens rapides</h6>
+                <h6 class="text-black mb-1">Liens rapides</h6>
 
                 {{-- Links --}}
 
-                <ul class="d-flex gap-3 mb-0 flex-column">
+                <ul class="d-flex gap-4 mb-0 flex-row flex-wrap" style="row-gap: 0.5rem !important;">
                     <li><a href="{{ route('main.index') }}" class="text-black fw-light">Accueil</a></li>
                     <li><a href="{{ route('main.about') }}" class="text-black fw-light">À propos</a></li>
-                    <li><a href="{{ route('main.media') }}" class="text-black fw-light">Galerie</a></li>
+                    <li><a href="{{ route('main.galerie') }}" class="text-black fw-light">Galerie</a></li>
                     <li><a href="{{ route('main.pricings') }}" class="text-black fw-light">Tarifs</a></li>
                     <li><a href="{{ route('main.contact') }}" class="text-black fw-light">Contact</a></li>
                     <li><a href="{{ route('main.account') }}" class="text-black fw-light">Connexion</a></li>
@@ -68,17 +58,17 @@
             </div>
 
             {{-- Links --}}
-            <div class="col-md col-sm-5">
+            <div class="col-md col-sm-5 d-flex flex-column">
                 {{-- Small title --}}
-                <h6 class="text-black mb-4">Mentions légales</h6>
+                <h6 class="text-black mb-1">Mentions légales</h6>
 
                 {{-- Links --}}
-                <ul class="d-flex gap-3 mb-0 flex-column">
-                    <li><a href="" class="text-black fw-light">Mentions légales</a></li>
-                    <li><a href="" class="text-black fw-light">Politique de confidentialité</a></li>
-                    <li><a href="" class="text-black fw-light">Conditions générales d'utilisation</a></li>
-                    <li><a href="" class="text-black fw-light">Conditions générales de ventes</a></li>
-                    <li><a href="" class="text-black fw-light">Politique de cookies</a></li>
+                <ul class="d-flex gap-4 mb-0 flex-row flex-wrap" style="row-gap: 0.5rem !important;">
+                    <li><a href="{{ route('main.legal.mentions') }}" class="text-black fw-light">Mentions légales</a></li>
+                    <li><a href="{{ route('main.legal.privacy') }}" class="text-black fw-light">Politique de confidentialité</a></li>
+                    <li><a href="{{ route('main.legal.terms') }}" class="text-black fw-light">Conditions générales d'utilisation</a></li>
+                    <li><a href="{{ route('main.legal.sales') }}" class="text-black fw-light">Conditions générales de ventes</a></li>
+                    <li><a href="{{ route('main.legal.cookies') }}" class="text-black fw-light">Politique de cookies</a></li>
                 </ul>
             </div>
 

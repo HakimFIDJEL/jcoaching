@@ -17,6 +17,7 @@
                 <a href="#nutrition" data-bs-toggle="pill" class="nav-link">Nutrition</a>
                 <a href="#pricings" data-bs-toggle="pill" class="nav-link">Prix</a>
                 <a href="#colors" data-bs-toggle="pill" class="nav-link">Charte graphique</a>
+                <a href="#others" data-bs-toggle="pill" class="nav-link">Autres</a>
             </li>
             {{-- <li class="nav-item">
                 <a href="#v-pills-profile" data-bs-toggle="pill" class="nav-link">Profile</a>
@@ -89,8 +90,8 @@
                                 </div>
                             </div>
 
+                            {{-- Company Logo --}}
                             <div class="row">
-                                
                                 <div class="col">
                                     <div class="mb-3">
                                         <label for="company_logo" class="form-label">
@@ -109,6 +110,33 @@
                                             @if($setting->company_logo)
                                                 data-documents="{{ json_encode([[
                                                     'source' => asset('storage/' . str_replace('public/', '', $setting->company_logo)),
+                                                ]]) }}"
+                                            @endif      
+                                        >
+                                    </div>
+                                </div>
+                            </div>
+
+                            {{-- Company Icon --}}
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-3">
+                                        <label for="company_icon" class="form-label">
+                                            Icône
+                                            <span class="text-muted fw-light">
+                                                (facultatif)
+                                            </span>
+                                        </label>
+                                        <input 
+                                            type="file" 
+                                            class="filepond" 
+                                            id="company_icon" 
+                                            name="company_icon" 
+                                            accept="image/*, video/*"
+                                            data-max-files="1" 
+                                            @if($setting->company_icon)
+                                                data-documents="{{ json_encode([[
+                                                    'source' => asset('storage/' . str_replace('public/', '', $setting->company_icon)),
                                                 ]]) }}"
                                             @endif      
                                         >
@@ -169,7 +197,24 @@
                                             placeholder="Entrez le numéro de Siret de la société" 
                                             value="{{ $setting->company_siret ?? old('company_siret') }}"
                                         >
+                                </div>
+                                <div class="col">
+                                    {{-- TVA --}}
+                                    <label for="company_tva" class="form-label">
+                                        TVA
+                                        <span class="text-muted fw-light">
+                                            (facultatif)
+                                        </span>
+                                    </label>
 
+                                    <input 
+                                        type="text" 
+                                        class="form-control @error('company_tva') is-invalid @enderror" 
+                                        id="company_tva" 
+                                        name="company_tva" 
+                                        placeholder="Entrez le numéro de TVA de la société" 
+                                        value="{{ $setting->company_tva ?? old('company_tva') }}"
+                                    >
                                 </div>
                             </div>
 
@@ -178,17 +223,25 @@
 
                         {{-- Card Footer --}}
                         <div class="card-footer border-top border-primary">
-                            <div class="d-flex justify-content-between gap-2 align-items-center w-100 align-items-center">
-                                <button type="submit" class="btn btn-primary w-100">
-                                    <span>
-                                        Enregistrer
-                                    </span>
-                                    <i class="fas fa-edit ms-2"></i>
-                                </button>
+                            <button type="submit" class="btn btn-primary w-100">
+                                <span>
+                                    Enregistrer
+                                </span>
+                                <i class="fas fa-edit ms-2"></i>
+                            </button>
+                            <div class="d-flex justify-content-between gap-2 align-items-center w-100 align-items-center mt-2">
                                 @if($setting->company_logo)
                                     <a href="{{ route('admin.settings.download-logo') }}" class="btn btn-secondary w-100">
                                         <span>
                                             Télécharger le logo
+                                        </span>
+                                        <i class="fas fa-download ms-2"></i>
+                                    </a>
+                                @endif
+                                @if($setting->company_icon)
+                                    <a href="{{ route('admin.settings.download-icon') }}" class="btn btn-secondary w-100">
+                                        <span>
+                                            Télécharger l'icône
                                         </span>
                                         <i class="fas fa-download ms-2"></i>
                                     </a>
@@ -651,6 +704,90 @@
                     </form>
                 </div>
             </div>
+
+            <div id="others" class="tab-pane fade">
+                <div class="card border-primary">
+                    {{-- Card Header --}}
+                    <div class="card-header border-bottom border-primary flex-column align-items-start p-4">
+                        <div class="card-title d-flex justify-content-between w-100 align-items-center">
+                            <h4 class="mb-0">
+                                Autres informations
+                            </h4>
+                        </div>
+                        <div class="card-description">
+                            <p class="text-muted  mb-0 font-weight-light">
+                                Autres informations sur l'entreprise ou le site
+                            </p>
+                        </div>
+                    </div>
+
+                    <form action="{{ route('admin.settings.update-others') }}" method="POST">
+                        @csrf
+
+                        {{-- /Card Header --}}
+
+                        {{-- Card body --}}
+                        <div class="card-body mb-2 mt-2">
+
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="meta_title" class="form-label">
+                                        Méta titre
+                                        <span class="text-muted">
+                                            *
+                                        </span>
+                                    </label>
+                                    <input 
+                                        type="text" 
+                                        class="form-control @error('meta_title') is-invalid @enderror" 
+                                        id="meta_title" 
+                                        name="meta_title" 
+                                        placeholder="Entrez le méta titre du site"
+                                        required
+                                        value="{{ $setting->meta_title ?? old('meta_title') }}"
+                                    >
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label for="meta_title" class="form-label">
+                                        Méta description
+                                        <span class="text-muted">
+                                            *    
+                                        </span>
+                                    </label>
+                                    <textarea 
+                                        class="form-control @error('meta_description') is-invalid @enderror" 
+                                        name="meta_description" 
+                                        id="meta_description" 
+                                        rows="2" 
+                                        style="resize: none;" 
+                                        placeholder="Entrez la méta description du site"
+                                        required
+                                    >{{ $setting->meta_description ?? old('meta_description') }}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+                        {{-- /Card body --}}
+
+                        {{-- Card Footer --}}
+                        <div class="card-footer border-top border-primary">
+                            <button type="submit" class="btn btn-primary w-100">
+                                <span>
+                                    Enregistrer
+                                </span>
+                                <i class="fas fa-edit ms-2"></i>
+                            </button>
+                        </div>
+                        {{-- /Card Footer --}}
+
+                    </form>
+                </div>
+            </div>
+
+
+            
         </div>
     </div>
 </div>

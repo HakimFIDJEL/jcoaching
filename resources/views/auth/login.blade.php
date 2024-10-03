@@ -2,6 +2,10 @@
 
 @section('title', 'Connexion')
 
+
+@section('meta_title', "Connexion - JerHomeCoaching")
+@section('meta_description', "Connecte-toi à ton espace membre JerHomeCoaching pour accéder à tes séances, ton planning et ton suivi personnalisé.")
+
 @section('content')
 
 <div class="p-4 shadow card border-primary mb-3" style="max-width: 400px; width: 100%;">
@@ -69,7 +73,7 @@
             <a href="{{ route('auth.register') }}" class="btn btn-outline-primary w-100">Inscription</a>
         </div>
         <div class="mt-3 text-right">
-            <a href="{{ route('auth.password.forget') }}" class="btn btn-link">Mot de passe oublié ?</a>
+            <a href="{{ route('auth.password.forget') }}" class="text-decoration-underline text-white ">Mot de passe oublié ?</a>
         </div>
     </form>
 </div>

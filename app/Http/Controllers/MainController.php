@@ -9,12 +9,23 @@ use Illuminate\Support\Facades\Mail;
 
 use App\Mail\auth\RegisterMail;
 
+// Models
 use App\Models\Pricing;
 use App\Models\Media;
 use App\Models\Feedback;
 use App\Models\Faq;
 use App\Models\Setting;
+use App\Models\Contact;
+use App\Models\User;
 
+// Requests
+use App\Http\Requests\ContactRequest;
+
+// Jobs
+use App\Jobs\SendEmailJob;
+
+// Mail
+use App\Mail\ContactMail;
 
 class MainController extends Controller
 {
@@ -39,11 +50,12 @@ class MainController extends Controller
     }
 
     // Media - Done
-    public function media()
+    public function galerie()
     {
+         
         $medias = Media::all();
 
-        return view('jerhome.media')->with([
+        return view('jerhome.galerie')->with([
             'medias' => $medias,
         ]);
     }
@@ -65,7 +77,26 @@ class MainController extends Controller
     // Contact - Done
     public function contact()
     {
-        return view('jerhome.contact');
+        $faqs = Faq::all();
+        return view('jerhome.contact')->with([
+            'faqs' => $faqs,
+        ]);
+    }
+
+    public function contactPost(ContactRequest $request) {
+        $data = $request->validated();
+
+        // Create Contact
+        $contact = Contact::create($data);
+
+        // Send Email
+        $admins = User::admins()->get();
+
+        foreach($admins as $admin) {
+            SendEmailJob::dispatch(new ContactMail($contact, $admin->email));
+        }
+
+        return redirect()->route('main.contact')->with(['success' => 'Votre message a bien été envoyé']);
     }
 
 
@@ -87,4 +118,37 @@ class MainController extends Controller
             return redirect()->route('main.index')->with(['error' => 'Vous n\'avez pas de rôle']);
         }
     }
+
+
+    // Mentions Légales - DONE
+    public function mentions()
+    {
+        return view('jerhome.legal.mentions');
+    }
+
+    // Politique de confidentialité - DONE
+    public function privacy()
+    {
+        return view('jerhome.legal.privacy');
+    }
+
+    // Conditions Générales de Vente - DONE
+    public function sales()
+    {
+        return view('jerhome.legal.sales');
+    }
+
+    // Conditions Générales d'Utilisation - DONE
+    public function terms()
+    {
+        return view('jerhome.legal.terms');
+    }
+
+    // Cookies - DONE
+    public function cookies()
+    {
+        return view('jerhome.legal.cookies');
+    }
+
+
 }

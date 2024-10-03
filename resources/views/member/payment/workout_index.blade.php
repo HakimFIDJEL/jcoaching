@@ -368,8 +368,8 @@
                                                                     for="cgv_terms"
                                                                 >
                                                                     J'ai lu et j'accepte les 
-                                                                    <a href="javascript:void(0);" target="_blank" class="text-decoration-underline">
-                                                                        conditions générales
+                                                                    <a href="{{ route('main.legal.sales') }}" target="_blank" class="text-decoration-underline">
+                                                                        conditions générales de ventes
                                                                     </a>
                                                                 </label>
                                                             </div>
@@ -389,7 +389,7 @@
                                                                     for="rgpd_terms"
                                                                 >
                                                                     J'ai lu et j'accepte la 
-                                                                    <a href="javascript:void(0);" target="_blank" class="text-decoration-underline">
+                                                                    <a href="{{ route('main.legal.privacy') }}" target="_blank" class="text-decoration-underline">
                                                                         politique de confidentialité
                                                                     </a>
                                                                 </label>

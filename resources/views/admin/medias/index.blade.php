@@ -28,7 +28,7 @@
             </h4>
             <a 
                 href="{{ route('admin.medias.create') }}"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary"
             >
                 <span>
                     Ajouter un média

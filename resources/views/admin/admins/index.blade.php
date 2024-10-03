@@ -26,7 +26,7 @@
             </h4>
             <a 
                 href="{{ route('admin.admins.create') }}"
-                class="btn btn-primary btn-sm"
+                class="btn btn-primary"
             >
                 <span>
                     Ajouter un administrateur
