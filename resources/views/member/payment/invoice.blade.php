@@ -205,7 +205,7 @@
                 @if($settings->company_siret)
                     SIRET : {{ $settings->company_siret }}<br>
                 @endif
-                TVA Intracommunautaire : TVA non applicable, article 293 B du CGI
+                TVA Intracommunautaire : {{ $settings->company_tva ?? 'TVA non applicable, article 293 B du CGI' }} 
             </p>
             <p>
                 Les paiements sont effectués instantanément via Stripe. Aucune pénalité de retard n'est applicable.

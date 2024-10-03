@@ -51,6 +51,10 @@
                         @php
                             $currentLetter = '';
                         @endphp
+
+                        @if($members_view->count() == 0)
+                            <li class="name-first-letter">Aucun membre</li>
+                        @endif
                     
                         @foreach ($members_view->sortBy('lastname') as $member)
                             @php
