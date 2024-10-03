@@ -22,7 +22,7 @@
 
 
         <div class="row align-items-center pt-4">
-            <div class="col-md-6">
+            <div class="col-md-6 pb-lg-0 pb-4">
                 <img src="{{ asset('media/img3.png') }}" class="img-fluid rounded" alt="Photo de Jérôme">
             </div>
             <div class="col-md-6">
@@ -250,7 +250,7 @@
     </section>
 
     <!-- Section vidéo améliorée -->
-    <section class="pb-5">
+    {{-- <section class="pb-5">
         <div class="container">
             <h5 class="text-primary fw-bold">
                 Découvrez en plus sur moi
@@ -264,7 +264,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> --}}
 
 
 

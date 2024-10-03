@@ -64,7 +64,7 @@
                                 </ul>
                             </div>
                             <div class="card-footer">
-                                <div class="d-flex justify-content-between gap-2 align-items-end">
+                                <div class="d-flex justify-content-between gap-2 align-items-start align-items-lg-end flex-column flex-lg-row">
                                     <button class="btn btn-primary select-btn read-description" data-description="{!! $pricing->description !!}">En savoir plus</button>
                                     <div class="price text-muted font-weight-light">
                                         <span class="price-value">{{ $pricing->price }} €</span>

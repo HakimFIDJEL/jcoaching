@@ -1,9 +1,9 @@
 {{-- Boostrap footer --}}
 <footer class="py-4">
     <div class="container w-100 d-flex align-items-center justify-content-center" style="max-width: 100%;">
-        <div class="row d-flex justify-content-between align-items-center py-4 w-100">
-            <div class="col-md col-sm-6">
-                <ul class="d-flex gap-3 mb-0">
+        <div class="row d-flex justify-content-lg-between justify-content-center align-items-center py-4 w-100">
+            <div class="col-lg-6 col-12">
+                <ul class="d-flex gap-3 mb-0 justify-content-center justify-content-lg-start">
                     @if($company_facebook)
                         <li><a href="{{ $company_facebook }}" target="_blank" class="text-white fs-20"><i class="la la-facebook"></i></a></li>
                     @endif
@@ -25,8 +25,8 @@
                     @endif
                 </ul>
             </div>
-            <div class="col-md col-sm-6">
-                <div class="cp d-flex justify-content-end">
+            <div class="col-lg-6 col-12">
+                <div class="cp d-flex justify-content-center justify-content-lg-end">
                     <span>
                         {{ $company_name ?? env('APP_NAME') }}
                         © {{ date('Y') }} Tous droits réservés

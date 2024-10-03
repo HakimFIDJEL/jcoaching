@@ -16,7 +16,7 @@
         @csrf
 
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="firstname" class="form-label">
                         Prénom
@@ -36,7 +36,7 @@
                     >
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="lastname" class="form-label">
                         Nom
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="phone" class="form-label">
                         Téléphone
@@ -76,7 +76,7 @@
                     >
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <label for="email" class="form-label">
                     Adresse e-mail
                     <span class="text-muted">
@@ -95,7 +95,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3 form-group position-relative">
                     <label for="address" class="form-label">
                         Adresse
@@ -117,7 +117,7 @@
                     </div> --}}
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="city" class="form-label">
                         Ville
@@ -138,7 +138,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="postal_code" class="form-label">
                         Code postal
@@ -157,7 +157,7 @@
                     >
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="country" class="form-label">
                         Pays
@@ -194,7 +194,7 @@
             >{{ old('address_complement') }}</textarea>
         </div>
         <div class="row">
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="password" class="form-label">
                         Mot de passe
@@ -218,7 +218,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-lg-6 col-12">
                 <div class="mb-3">
                     <label for="password_confirmation" class="form-label">
                         Confirmer le mot de passe

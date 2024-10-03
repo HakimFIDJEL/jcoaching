@@ -70,7 +70,7 @@
         <form action="{{ route('main.contact-post') }}" method="POST" class="mt-4 pt-2" id="contactForm">
             @csrf
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-12">
                     <div class="mb-3">
                         <label for="firstname" class="form-label">
                             Prénom
@@ -82,7 +82,7 @@
                             name="firstname" placeholder="Entrez votre prénom" required value="{{ old('firstname') }}">
                     </div>
                 </div>
-                <div class="col">
+                <div class="col-lg-6 col-12">
                     <div class="mb-3">
                         <label for="lastname" class="form-label">
                             Nom
@@ -96,7 +96,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-12">
                     <div class="mb-3">
                         <label for="phone" class="form-label">
                             Téléphone
@@ -109,19 +109,21 @@
                             value="{{ old('phone') }}">
                     </div>
                 </div>
-                <div class="col">
-                    <label for="email" class="form-label">
-                        Adresse e-mail
-                        <span class="text-muted">
-                            *
-                        </span>
-                    </label>
-                    <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
-                        name="email" placeholder="Entrez votre e-mail" required value="{{ old('email') }}">
+                <div class="col-lg-6 col-12">
+                    <div class="mb-3">
+                        <label for="email" class="form-label">
+                            Adresse e-mail
+                            <span class="text-muted">
+                                *
+                            </span>
+                        </label>
+                        <input type="email" class="form-control @error('email') is-invalid @enderror" id="email"
+                            name="email" placeholder="Entrez votre e-mail" required value="{{ old('email') }}">
+                    </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-12">
                     <div class="mb-3">
                         <label for="subject" class="form-label">
                             Sujet
@@ -135,7 +137,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
+                <div class="col-lg-6 col-12">
                     <div class="mb-3">
                         <label for="message" class="form-label">
                             Message
