@@ -264,43 +264,6 @@
                             </div>
                         </div>
                     @endforeach
-
-                    {{-- <div class="swiper-slide">
-						<div class="content">
-							<p>Lorem ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum placeat ab, ex iste reprehenderit ipsa commodi reicien ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum </p>
-							<div class="text">
-								<h5>John Doe</h5>
-								<span>Directur</span>
-							</div>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="content">
-							<p>Lorem ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum placeat ab, ex iste reprehenderit ipsa commodi reicien ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum </p>
-							<div class="text">
-								<h5>Mario</h5>
-								<span>Marketing</span>
-							</div>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="content">
-							<p>Lorem ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum placeat ab, ex iste reprehenderit ipsa commodi reicien ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum </p>
-							<div class="text">
-								<h5>Wesley</h5>
-								<span>Programming</span>
-							</div>
-						</div>
-					</div>
-					<div class="swiper-slide">
-						<div class="content">
-							<p>Lorem ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum placeat ab, ex iste reprehenderit ipsa commodi reicien ipsum, dolor sit amet consectetur, adipisicing elit. Voluptas quis vel asperiores incidunt illum </p>
-							<div class="text">
-								<h5>Rami</h5>
-								<span>Designer</span>
-							</div>
-						</div>
-					</div> --}}
                 </div>
                 <div class="swiper-button-prev prev-slide"></div>
                 <div class="swiper-button-next next-slide"></div>

@@ -1,3 +1,16 @@
+// jquery
+import $ from 'jquery';
+
+// magnific popup
+import 'magnific-popup';
+import 'magnific-popup/dist/magnific-popup.css';
+
+// swiper slider
+import Swiper from 'swiper';
+import { Navigation, Pagination } from 'swiper/modules';
+import 'swiper/swiper-bundle.css';
+
+
 (function() {
 
   'use strict';
@@ -25,6 +38,7 @@
 
   });
 
+
   // magnific popup
   $('.gallery').each(function() { // the containers for all your galleries
       $(this).magnificPopup({
@@ -39,6 +53,7 @@
   // swiper slider
   $(document).ready(function () {
     var swiper = new Swiper(".mySwiper", {
+      modules: [Navigation, Pagination],
       slidesPerView: 1,
       spaceBetween: 30,
       pagination: {
@@ -46,8 +61,8 @@
         clickable: true,
       },
       navigation: {
-        nextEl: ".next-slide",
-        prevEl: ".prev-slide"
+        nextEl: ".swiper-button-next.next-slide",
+        prevEl: ".swiper-button-prev.prev-slide"
       },
       breakpoints: {
         0: {
@@ -61,6 +76,7 @@
         }
       }
     });
+
   });
 
   // hide navbar on click

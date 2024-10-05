@@ -6,6 +6,8 @@
         "build": "vite build"
     },
     "devDependencies": {
+        "@rollup/plugin-inject": "^5.0.5",
+        "@types/jquery": "^3.5.31",
         "axios": "^1.6.4",
         "laravel-echo": "^1.16.1",
         "laravel-vite-plugin": "^1.0",
@@ -29,10 +31,12 @@
         "filepond-plugin-image-preview": "^4.6.12",
         "filepond-plugin-pdf-preview": "^1.0.4",
         "jquery": "^3.7.1",
+        "magnific-popup": "^1.2.0",
         "moment": "^2.30.1",
         "notyf": "^3.10.0",
         "smartwizard": "^6.0.6",
         "sweetalert2": "^11.12.4",
+        "swiper": "^11.1.14",
         "tinymce": "^7.3.0"
     }
 }

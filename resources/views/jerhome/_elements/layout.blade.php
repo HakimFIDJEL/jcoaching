@@ -64,9 +64,9 @@
         {{-- Import JS --}}
         @vite('resources/js/jquery.min.js')
         @vite('resources/js/bootstrap.bundle.min.js')
-        @vite('resources/js/jquery.filterizr.min.js')
-        @vite('resources/js/magnific-popup.min.js')
-        @vite('resources/js/swiper.min.js')
+        {{-- @vite('resources/js/jquery.filterizr.min.js') --}}
+        {{-- @vite('resources/js/magnific-popup.min.js') --}}
+        {{-- @vite('resources/js/swiper.min.js') --}}
         @vite('resources/js/main.js')
         @vite('resources/js/app.js')
 
