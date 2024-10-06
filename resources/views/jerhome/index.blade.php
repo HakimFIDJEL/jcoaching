@@ -125,9 +125,7 @@
                 <div class="col-md col-md-left">
                     <div class="content-left">
                         <h2>Choisissez votre formule</h2>
-                        <p>Optez pour la formule qui correspond à vos besoins. En plus du coaching sportif à domicile, vous
-                            avez la possibilité de souscrire à un suivi nutritionnel personnalisé pour maximiser vos
-                            résultats.</p>
+                        <p>Optez pour la formule qui vous convient. En complément du coaching sportif à domicile, vous pouvez ajouter un suivi nutritionnel personnalisé pour optimiser vos résultats. Avec la certification 'Service à la personne', vous bénéficiez d'une <strong>réduction fiscale de 50%</strong> sur le coût de vos séances et formules, rendant votre programme encore plus attractif.</p>
                     </div>
                 </div>
 
@@ -137,6 +135,7 @@
                             <h4>{{ $pricing->title }}</h4>
                             <p class="fw-light">{{ $pricing->subtitle }}</p>
                             <ul>
+                                <li><i class="la la-check-circle"></i>{{ $pricing->nbr_sessions }} séances</li>
                                 @foreach ($pricing->features as $feature)
                                     <li><i class="la la-check-circle"></i> {{ $feature->label }}</li>
                                 @endforeach

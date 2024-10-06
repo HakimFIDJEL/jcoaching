@@ -123,7 +123,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-12">
+                <div class="col-12">
                     <div class="mb-3">
                         <label for="subject" class="form-label">
                             Sujet
@@ -137,7 +137,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-lg-6 col-12">
+                <div class="col-12">
                     <div class="mb-3">
                         <label for="message" class="form-label">
                             Message
