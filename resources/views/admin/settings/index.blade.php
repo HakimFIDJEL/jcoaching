@@ -109,7 +109,7 @@
                                             data-max-files="1" 
                                             @if($setting->company_logo)
                                                 data-documents="{{ json_encode([[
-                                                    'source' => asset('storage/' . str_replace('public/', '', $setting->company_logo)),
+                                                    'source' => Storage::url($setting->company_logo),
                                                 ]]) }}"
                                             @endif      
                                         >
@@ -136,7 +136,7 @@
                                             data-max-files="1" 
                                             @if($setting->company_icon)
                                                 data-documents="{{ json_encode([[
-                                                    'source' => asset('storage/' . str_replace('public/', '', $setting->company_icon)),
+                                                    'source' => Storage::url($setting->company_icon),
                                                 ]]) }}"
                                             @endif      
                                         >

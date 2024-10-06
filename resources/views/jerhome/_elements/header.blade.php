@@ -5,7 +5,7 @@
     <a class="navbar-brand" href="{{ route('main.index') }}">
         @if($company_logo)
             <img 
-                src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
+                src="{{ Storage::url($company_logo) }}"
                 alt="Logo"
                 style="max-height: 50px;"
                 title="{{ $company_name }}"

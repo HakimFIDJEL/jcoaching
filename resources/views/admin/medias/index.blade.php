@@ -82,9 +82,9 @@
                             <td>{{ $media->label }}</td>
                             <td>
                                 @if($media->type == 'image/jpeg' || $media->type == 'image/png' || $media->type == 'image/jpg')
-                                    <img src="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;">
+                                    <img src="{{ Storage::url($media->path) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;">
                                 @else
-                                    <video src="{{ asset('storage/' . str_replace('public/', '', $media->path) ) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;"></video>
+                                    <video src="{{ Storage::url($media->path) }}" alt="{{ $media->label }}" class="img-fluid" style="max-width: 75px;"></video>
                                 @endif
                             </td>
                             <td>

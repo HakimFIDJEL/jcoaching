@@ -3,7 +3,7 @@
         @if($company_logo)
             <img 
                 class="logo-abbr h-100 w-100" style="object-fit: contain"
-                src="{{ asset('storage/' . str_replace('public/', '', $company_logo)) }}"
+                src="{{ Storage::url($company_logo) }}"
                 alt="Logo"
             >
         @else

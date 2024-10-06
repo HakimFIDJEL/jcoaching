@@ -37,7 +37,7 @@
                             </div>
                             @if(Auth::user()->pfp_path)
                                 {{-- <img class="rounded-circle" style="aspect-ratio: 1/1" width="35"  alt=""> --}}
-                                <img src="{{ asset('storage/' . str_replace('public/', '', Auth::user()->pfp_path)) }}" width="20" alt="{{ Auth::user()->lastname }}" />
+                                <img src="{{ Storage::url(Auth::user()->pfp_path) }}" width="20" alt="{{ Auth::user()->lastname }}" />
                             @else 
                                 <div class="d-flex align-items-center">
                                     <div class="avatar me-3">

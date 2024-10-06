@@ -44,7 +44,7 @@
                         @if(Auth::user()->documents->count() > 0)
                             data-documents="{{ json_encode($member->documents->map(function($doc) {
                                 return [
-                                    'source' => asset('storage/' . str_replace('public/', '', $doc->path)),
+                                    'source' => Storage::url($doc->path),
                                 ];
                             })) }}"
                         @endif       

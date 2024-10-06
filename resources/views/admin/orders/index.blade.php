@@ -150,7 +150,7 @@
                                 <div class="d-flex">
                                     <a title="Lire la description de l'ordre d'achat" href="javascript:void(0);" class="btn btn-outline-primary shadow btn-xs sharp mr-1 read-description" data-description="{{ $order->description }}"><i class="fa fa-eye"></i></a>
                                     @if($order->invoice)
-                                        <a title="Visualiser la facture" href="{{ asset('storage/' . str_replace('public/', '', $order->invoice->path) ) }}" target="_blank" class="btn btn-outline-secondary shadow btn-xs sharp mr-1"><i class="fa fa-file-pdf"></i></a>
+                                        <a title="Visualiser la facture" href="{{ Storage::url($order->invoice->path) }}" target="_blank" class="btn btn-outline-secondary shadow btn-xs sharp mr-1"><i class="fa fa-file-pdf"></i></a>
                                     @endif
                                     <a title="Supprimer l'ordre d'achat" href="{{ route('admin.orders.delete', ['order' => $order]) }}" class="btn btn-outline-danger shadow btn-xs sharp delete-row"><i class="fa fa-trash"></i></a>
                                 </div>												

@@ -75,18 +75,18 @@
                 @foreach ($medias as $media)
                     @if ($media->type == 'image/jpeg' || $media->type == 'image/png' || $media->type == 'image/jpg')
                         <div class="col-md-4">
-                            <a href="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                            <a href="{{ Storage::url($media->path) }}"
                                 class="popup-image">
-                                <img src="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                                <img src="{{ Storage::url($media->path) }}"
                                     alt="{{ $media->label }}" title="{{ $media->label }}" class="h-100"
                                     style="object-fit: cover;" />
                             </a>
                         </div>
                     @elseif($media->type == 'video/mp4' || $media->type == 'video/webm')
                         <div class="col-md-4">
-                            <a href="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                            <a href="{{ Storage::url($media->path) }}"
                                 class="popup-image">
-                                <video src="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                                <video src="{{ Storage::url($media->path) }}"
                                     alt="{{ $media->label }}" title="{{ $media->label }}" class="h-100" controls></video>
                             </a>
                         </div>

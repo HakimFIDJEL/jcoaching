@@ -123,7 +123,7 @@
                             <td>
                                 <div class="d-flex">
                                     @if($order->invoice)
-                                        <a title="Visualiser la facture" href="{{ asset('storage/' . str_replace('public/', '', $order->invoice->path) ) }}" target="_blank" class="btn btn-outline-secondary shadow btn-xs sharp mr-1"><i class="fa fa-file-pdf"></i></a>
+                                        <a title="Visualiser la facture" href="{{ Storage::url($order->invoice->path) }}" target="_blank" class="btn btn-outline-secondary shadow btn-xs sharp mr-1"><i class="fa fa-file-pdf"></i></a>
                                     @endif
                                 </div>												
                             </td>

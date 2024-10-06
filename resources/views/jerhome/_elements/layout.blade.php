@@ -6,8 +6,8 @@
         <meta name="csrf-token" content="{{ csrf_token() }}">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         {{-- Favicon with company_logo --}}
-        <link rel="icon" href="{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}" type="image/x-icon" />
-        <link rel="shortcut icon" href="{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}" type="image/x-icon" />
+        <link rel="icon" href="{{ Storage::url($company_icon) }}" type="image/x-icon" />
+        <link rel="shortcut icon" href="{{ Storage::url($company_icon) }}" type="image/x-icon" />
 
         {{-- Meta title & meta description --}}
         <meta name="title" content="@yield('meta_title', $meta_title)">
@@ -80,7 +80,7 @@
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
               "name": "{{ $company_name }}",
-              "image": "{{ asset('storage/' . str_replace('public/', '', $company_icon)) }}",
+              "image": "{{ Storage::url($company_icon) }}",
               "@id": "{{ url('/') }}",
               "url": "{{ url('/') }}",
               "telephone": "{{ $company_phone }}",

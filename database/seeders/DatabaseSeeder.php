@@ -49,7 +49,13 @@ class DatabaseSeeder extends Seeder
             // Génère 10 utilisateurs membre avec des données aléatoires
             // User::factory(10)->create();
         }
-       
+
+
+        $setting = Setting::first();
+
+        if(!$setting) {
+            Setting::create();
+        }
 
     }
 }

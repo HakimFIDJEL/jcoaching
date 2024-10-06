@@ -100,7 +100,7 @@
                             accept="image/*, video/*"
                             data-max-files="1"
                             data-documents="{{ json_encode([[
-                                'source' => asset('storage/' . str_replace('public/', '', $media->path)),
+                                'source' => Storage::url($media->path),
                             ]]) }}"
                             data-media-filename="{{ $media->label }}"
                         >

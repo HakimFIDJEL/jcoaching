@@ -63,7 +63,7 @@
                         <tr>
                             <td>
                                 @if($user->pfp_path)
-                                    <img class="rounded-circle" style="aspect-ratio: 1/1" width="35" src="{{ asset('storage/' . str_replace('public/', '', $user->pfp_path)) }}" alt="">
+                                    <img class="rounded-circle" style="aspect-ratio: 1/1" width="35" src="{{ Storage::url($user->pfp_path) }}" title="Photo de profil">
                                 @else 
                                     <div class="d-flex align-items-center">
                                         <div class="avatar avatar-sm me-3">

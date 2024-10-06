@@ -24,17 +24,17 @@
             @foreach ($medias as $media)
                 @if ($media->type == 'image/jpeg' || $media->type == 'image/png' || $media->type == 'image/jpg')
                     <div class="col-sm-6 col-lg-4 mb-4">
-                        <a href="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}" class="popup-image">
-                            <img src="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                        <a href="{{ Storage::url($media->path) }}" class="popup-image">
+                            <img src="{{ Storage::url($media->path) }}"
                                 class="img-fluid rounded" alt="{{ $media->name }}" title="{{ $media->label }}"
                                 alt="{{ $media->label }}">
                         </a>
                     </div>
                 @elseif($media->type == 'video/mp4' || $media->type == 'video/webm')
                     <div class="col-sm-6 col-lg-4 mb-4">
-                        <a href="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}" class="popup-image">
+                        <a href="{{ Storage::url($media->path) }}" class="popup-image">
                             <video width="320" height="240" controls>
-                                <source src="{{ asset('storage/' . str_replace('public/', '', $media->path)) }}"
+                                <source src="{{ Storage::url($media->path) }}"
                                     type="{{ $media->type }}" title="{{ $media->label }}" alt="{{ $media->label }}">
                                 Your browser does not support the video tag.
                             </video>

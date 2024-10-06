@@ -47,7 +47,7 @@
                         data-max-files="1"
                         @if($member->pfp_path)
                             data-documents="{{ json_encode([[
-                                'source' => asset('storage/' . str_replace('public/', '', $member->pfp_path)),
+                                'source' => Storage::url($member->pfp_path),
                             ]]) }}"
                         @endif
                     >

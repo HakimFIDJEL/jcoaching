@@ -23,6 +23,6 @@ class ChatboxMessageFile extends Model
     }
 
     public function getUrl() {
-        return asset('storage/' . str_replace('public/', '', $this->path)) ?? null;
+        return Storage::url($this->path) ?? null;
     }
 }

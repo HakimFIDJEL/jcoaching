@@ -61,7 +61,7 @@
                         data-max-files="1"
                         @if($admin->pfp_path)
                             data-documents="{{ json_encode([[
-                                'source' => asset('storage/' . str_replace('public/', '', $admin->pfp_path)),
+                                'source' => Storage::url($admin->pfp_path),
                             ]]) }}"
                         @endif
                     >
