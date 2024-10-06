@@ -1,0 +1,1 @@
+$(document).ready(function(){$("#smartwizard").smartWizard({selected:0,showStepURLhash:!1,toolbarSettings:{toolbarPosition:"bottom",toolbarButtonPosition:"right",showNextButton:!0,showPreviousButton:!0,toolbarExtraButtons:[]},lang:{next:"Suivant",previous:"Précédent"},anchorSettings:{anchorClickable:!1,enableAllAnchors:!1}})});
