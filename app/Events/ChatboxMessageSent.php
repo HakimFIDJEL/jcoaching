@@ -44,7 +44,7 @@ class ChatboxMessageSent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        Log::info('1 - Broadcast channel, owner : ' . $this->user->id);
+        Log::info('1 - Broadcast channel, owner : ' . $this->user->id . ', sender : ' . $this->message->user->id);
         return [
             new PrivateChannel('chatbox'),
             new PrivateChannel('chatbox.'. $this->user->id)

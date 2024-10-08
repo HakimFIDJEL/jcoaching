@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Setting;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -16,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $user = User::where('email', 'hakimfidjel.spam@gmail.com')->first();
+        $user = User::where('email', 'hakimfidjel.pro@gmail.com')->first();
 
         // Le seed a déjà été exécuté
         if (!$user) {

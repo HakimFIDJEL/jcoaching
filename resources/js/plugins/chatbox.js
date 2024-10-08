@@ -534,8 +534,9 @@ function hideNotificationPoint(userId) {
 
 /** Fonctions de communication broadcast **/
 function configureBroadcast() {
+    
     window.Pusher = Pusher;
- 
+
     window.Echo = new Echo({
         broadcaster: 'reverb',
         key: import.meta.env.VITE_REVERB_APP_KEY,
@@ -546,6 +547,12 @@ function configureBroadcast() {
         enabledTransports: ['ws', 'wss'],
     });
 
+    // window.Echo = new Echo({
+    //     broadcaster: 'pusher',
+    //     key: import.meta.env.VITE_PUSHER_APP_KEY,
+    //     cluster: import.meta.env.VITE_PUSHER_APP_CLUSTER,
+    //     forceTLS: true  
+    // });
 
     if(chatboxIsAdminstrator) {
         window.Echo.private(`chatbox`)
@@ -554,6 +561,7 @@ function configureBroadcast() {
                 if(e.message.chatbox.user_id == chatbox.data('user-id')) {
                     appendMessage(e.message, false);
                     scrollToBottom();
+
                 }
                 addUnreadMessagesCount();
                 showNotificationPoint(e.message.chatbox.user_id);

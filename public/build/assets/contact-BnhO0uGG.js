@@ -1,1 +1,0 @@
-$(document).ready(function(){$(document).on("submit","#contactForm",function(n){let t=$(this).find('button[type="submit"]');t.prop("disabled",!0),t.find("#btnText").remove(),t.find("#btnSpinner").show()})});

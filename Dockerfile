@@ -1,40 +1,63 @@
-# Utiliser l'image officielle PHP avec Apache
-FROM php:8.2-apache
+# Image pour PHP 8.2.0 avec Apache
+FROM php:8.2.0-apache
 
-# Installation des extensions nécessaires
-RUN apt-get update && apt-get install -y \
+# Environnement de travail
+WORKDIR /var/www/html
+
+# Mod Rewrite
+RUN a2enmod rewrite
+
+# Installation des dépendances (ne pas oublier mysql)
+RUN apt-get update -y && apt-get install -y \
+    libicu-dev \
+    libmariadb-dev \
+    unzip zip \
+    zlib1g-dev \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
-    locales \
-    zip \
-    jpegoptim optipng pngquant gifsicle \
-    unzip \
-    git \
+    libjpeg62-turbo-dev \
+    libpng-dev \
     curl \
-    libonig-dev \
-    libxml2-dev \
-    && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd
+    libzip-dev \
+    zip
 
-# Installation de Composer
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+# Installation de Node.js et npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
+    && apt-get install -y nodejs
 
-# Copie des fichiers de l'application
-COPY . /var/www/html
+# Composer
+COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Définir le répertoire de travail
-WORKDIR /var/www/html
+# PHP Extensions
+RUN docker-php-ext-install gettext intl pdo_mysql gd zip
+RUN docker-php-ext-configure gd --enable-gd --with-freetype --with-jpeg \
+    && docker-php-ext-install -j$(nproc) gd
 
-# Donner les droits à Apache et définir le DocumentRoot
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html \
-    && a2enmod rewrite \
-    && sed -i 's#/var/www/html#/var/www/html/public#' /etc/apache2/sites-available/000-default.conf \
-    && sed -i 's#/var/www/#/var/www/html/public#' /etc/apache2/apache2.conf
+# Apache
+ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
+RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf
+RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf /etc/apache2/conf-available/*.conf
 
-# Installer les dépendances PHP
+# Copie des fichiers du projet
+COPY . /var/www/html/
+
+# Installer les dépendances PHP avec Composer
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
-# Exécuter les migrations et les seeders
-CMD php artisan migrate --force && php artisan db:seed --force && apache2-foreground
+# Installer les dépendances Node.js et compiler les assets
+RUN npm install
+RUN npm run build # ou npm run dev si en développement
+
+# Créer le fichier .env si nécessaire
+RUN cp .env.example .env
+
+# Générer la clé d'application Laravel
+RUN php artisan key:generate
+
+# Définir les permissions
+RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
+
+# (Optionnel) Optimisation pour la production
+RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
