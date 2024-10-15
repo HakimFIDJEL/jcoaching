@@ -7,7 +7,7 @@ WORKDIR /var/www/html
 # Mod Rewrite
 RUN a2enmod rewrite
 
-# Installation des dépendances (ne pas oublier mysql)
+# Installation des dépendances
 RUN apt-get update -y && apt-get install -y \
     libicu-dev \
     libmariadb-dev \
@@ -25,6 +25,10 @@ RUN apt-get update -y && apt-get install -y \
 # Installation de Node.js et npm
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - \
     && apt-get install -y nodejs
+
+# Installer et configurer l'extension PCNTL (nécessaire pour gérer les signaux comme SIGINT)
+RUN docker-php-ext-install pcntl
+RUN docker-php-ext-configure pcntl --enable-pcntl
 
 # Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
@@ -47,13 +51,20 @@ RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
 # Installer les dépendances Node.js et compiler les assets
 RUN npm install
-RUN npm run build # ou npm run dev si en développement
+RUN npm run build
+
+# Install reverb
+# RUN php artisan install:broadcasting
+# RUN npm install --save-dev laravel-echo pusher-js 
 
 # Créer le fichier .env si nécessaire
 RUN cp .env.example .env
 
 # Générer la clé d'application Laravel
 RUN php artisan key:generate
+
+# Lien symbolique pour le stockage des fichiers
+RUN php artisan storage:link
 
 # Définir les permissions
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache

@@ -1,14 +1,27 @@
 services:
-  
-  laravel-docker:
-    container_name: laravel-docker
-    build: .
+
+  watchtower:
+    image: containrrr/watchtower
+    command:
+      - "--label-enable"
+      - "--interval"
+      - "30"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+
+  # Laravel app container
+  laravel-app:
+    container_name: laravel-app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jcoaching.rule=Host(`jcoaching.fr`)"
+      - "traefik.http.routers.jcoaching.entrypoints=websecure"
+      - "traefik.http.routers.jcoaching.tls.certresolver=myresolver"
+      - "com.centurylinklabs.watchtower.enable=true"
     volumes:
       - .:/var/www/html
     ports:
       - 8000:80
-    env_file:
-      - .env
     environment:
       - DB_HOST=mysql_db
       - DB_DATABASE=${DB_DATABASE}
@@ -16,7 +29,29 @@ services:
     depends_on:
       mysql_db:
         condition: service_healthy
+    image: hakimfidjel/jcoaching:latest
+    restart: on-failure
+    networks:
+      - jcoaching-network
 
+  # Laravel queue worker container
+  laravel-queue:
+    container_name: laravel-queue
+    command: php artisan queue:work
+    image: hakimfidjel/jcoaching:latest
+    volumes:
+      - .:/var/www/html
+    environment:
+      - DB_HOST=mysql_db
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_USERNAME=root
+    depends_on:
+      - laravel-app
+    restart: always
+    networks:
+      - jcoaching-network
+  
+  # MySQL database container
   mysql_db:
     image: mysql:8.0
     environment:
@@ -30,9 +65,13 @@ services:
       retries: 10
     volumes:
       - mysql_data:/var/lib/mysql
+    restart: on-failure
+    networks:
+      - jcoaching-network
 
+  # PhpMyAdmin container
   phpmyadmin:
-    image: phpmyadmin:latest
+    image: phpmyadmin:5.2.1
     ports:
       - 8001:80
     environment:
@@ -40,6 +79,36 @@ services:
     depends_on:
       mysql_db:
         condition: service_healthy
+    restart: on-failure
+    networks:
+      - jcoaching-network
 
+  # Laravel reverb container - TODO LATER
+  # laravel-reverb:
+  #   container_name: laravel-reverb
+  #   command: php artisan reverb:start
+  #   image: laravel-app-image:latest
+  #   volumes:
+  #     - .:/var/www/html
+  #   ports:
+  #     - 8080:8080
+  #   environment:
+  #     - DB_HOST=mysql_db
+  #     - DB_DATABASE=${DB_DATABASE}
+  #     - DB_USERNAME=root
+  #     - REVERB_APP_ID=${REVERB_APP_ID}
+  #     - REVERB_APP_KEY=${REVERB_APP_KEY}
+  #     - REVERB_APP_SECRET=${REVERB_APP_SECRET}
+  #   depends_on:
+  #     - laravel-app
+  #     - mysql_db
+  #   restart: always
+  #   networks:
+  #     - jcoaching-network 
+  
 volumes:
   mysql_data:
+
+networks:
+  jcoaching-network:
+    driver: bridge

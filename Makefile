@@ -1,11 +1,6 @@
-setup: 
-	@make build 
-	@make start 
-	@make data
-
 # Build des containers docker
-build:
-	docker-compose build --no-cache --force-rm
+# build_containers:
+# 	docker-compose build --no-cache --force-rm 
 
 # Lancement des containers docker
 start:
@@ -17,10 +12,34 @@ stop:
 
 # Suppression des containers docker et des volumes
 remove:
-	docker-compose down --volumes
+	docker-compose down --volumes --remove-orphans
 	rm -rf docker
 
 # Migration et seeding de la base de données
-data:
-	docker-compose exec laravel-docker bash -c "php artisan migrate"
-	docker-compose exec laravel-docker bash -c "php artisan db:seed"
+database:
+	docker-compose exec laravel-app bash -c "php artisan migrate"
+	docker-compose exec laravel-app bash -c "php artisan db:seed"
+
+# Buile l'image docker
+build_image:
+	docker build -t hakimfidjel/jcoaching:latest .
+
+# Login sur docker hub
+login:
+	docker login
+
+# Push de l'image sur docker hub
+image_push:
+	docker push hakimfidjel/jcoaching:latest
+
+
+# 
+prepare_containers:
+	@make start
+	@make database
+
+# 
+prepare_image:
+	@make build_image
+	@make login
+	@make image_push

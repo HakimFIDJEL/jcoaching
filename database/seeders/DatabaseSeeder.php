@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        $user = User::where('email', 'hakimfidjel.pro@gmail.com')->first();
+        $admin = User::where('email', 'hakimfidjel.pro@gmail.com')->first();
 
         // Le seed a déjà été exécuté
-        if (!$user) {
+        if (!$admin) {
             
             // Génère un utilisateur admin
             User::factory()->create([
@@ -49,6 +49,37 @@ class DatabaseSeeder extends Seeder
 
             // Génère 10 utilisateurs membre avec des données aléatoires
             // User::factory(10)->create();
+        }
+
+        $member = User::where('email', 'hakim.fidjel@gmail.com')->first();
+
+        // Le seed a déjà été exécuté
+        if (!$member) {
+            
+            // Génère un utilisateur membre
+            User::factory()->create([
+                'role' => 'member',
+                'firstname' => 'Hakim',
+                'lastname' => 'Fidjel',
+                'email' => 'hakim.fidjel@gmail.com',
+                'password' => Hash::make('password'),
+                'password_expires_at' => now()->addYear(),
+                'phone' => '0606060606',
+                'address' => '1 rue de la paix',
+                'city' => 'Paris',
+                'postal_code' => '75000',
+                'country' => 'France',
+                'address_complement' => null,
+                'pfp_path' => null,
+                'first_session' => true,
+                'email_verified_at' => now(),
+                'user_token' => null,
+                'user_token_expires_at' => null,
+                'email_token' => null,
+                'email_token_expires_at' => null,
+                'password_token' => null,
+                'password_token_expires_at' => null,
+            ]);
         }
 
 

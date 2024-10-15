@@ -160,7 +160,7 @@
                     @error('terms') is-invalid @enderror"
                         for="terms">
                         J'ai lu et j'accepte les
-                        <a href="javascript:void(0);" target="_blank" class="text-decoration-underline">
+                        <a href="{{ route('main.legal.terms') }}" target="_blank" class="text-decoration-underline">
                             conditions générales d'utilisation
                         </a>
                     </label>
