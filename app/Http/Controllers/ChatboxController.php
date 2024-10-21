@@ -161,20 +161,13 @@ class ChatboxController extends Controller
             $message->load('user:id,lastname,firstname,pfp_path');
         }
 
-        // if(Auth::user()->isAdmin()) {
-        //     broadcast(new ChatboxMessageSent_Member($message))->toOthers();
-        // } else {
-        //     broadcast(new ChatboxMessageSent_Admin($message));
-        // }
-        
+      
         event(new ChatboxMessageSent($message));
 
         return response()->json([
             'status' => 'success',
             'message' => $message,
         ]);
-
-
     }
 
     // Delete - DONE

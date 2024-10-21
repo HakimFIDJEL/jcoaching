@@ -1,114 +1,113 @@
 services:
 
-  watchtower:
+  # Monitoring with watchtower
+  jcoatching-watchtower:
     image: containrrr/watchtower
     command:
       - "--label-enable"
       - "--interval"
       - "30"
+      - "--rolling-restart"
+      - "--cleanup"
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-
-  # Laravel app container
-  laravel-app:
-    container_name: laravel-app
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.jcoaching.rule=Host(`jcoaching.fr`)"
-      - "traefik.http.routers.jcoaching.entrypoints=websecure"
-      - "traefik.http.routers.jcoaching.tls.certresolver=myresolver"
-      - "com.centurylinklabs.watchtower.enable=true"
-    volumes:
-      - .:/var/www/html
-    ports:
-      - 8000:80
-    environment:
-      - DB_HOST=mysql_db
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=root
-    depends_on:
-      mysql_db:
-        condition: service_healthy
-    image: hakimfidjel/jcoaching:latest
-    restart: on-failure
     networks:
       - jcoaching-network
 
-  # Laravel queue worker container
-  laravel-queue:
-    container_name: laravel-queue
-    command: php artisan queue:work
+
+  # Laravel app container
+  jcoaching-app:
     image: hakimfidjel/jcoaching:latest
     volumes:
-      - .:/var/www/html
-    environment:
-      - DB_HOST=mysql_db
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_USERNAME=root
+      - .env:/var/www/html/.env 
+    entrypoint: /usr/local/bin/entrypoint-app.sh
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-network"
+      - "traefik.http.routers.app.rule=Host(`jcoaching.fr`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "com.centurylinklabs.watchtower.enable=true"
     depends_on:
-      - laravel-app
+      - jcoaching-mysql
     restart: always
     networks:
       - jcoaching-network
-  
+      - traefik-network
+    # deploy:
+    #   mode: replicated
+    #   replicas: 2
+
   # MySQL database container
-  mysql_db:
+  jcoaching-mysql:
     image: mysql:8.0
+    volumes:
+      - mysql_data:/var/lib/mysql 
+      - .env:/run/secrets/.env  
     environment:
-      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD} 
       MYSQL_DATABASE: ${DB_DATABASE}
-    ports:
-      - 3306:3306
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
-    volumes:
-      - mysql_data:/var/lib/mysql
-    restart: on-failure
+    restart: always
     networks:
       - jcoaching-network
 
   # PhpMyAdmin container
-  phpmyadmin:
+  jcoaching-phpmyadmin:
     image: phpmyadmin:5.2.1
-    ports:
-      - 8001:80
+    volumes:
+      - .env:/var/www/html/.env 
     environment:
       - PMA_ARBITRARY=1
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-network"
+      - "traefik.http.routers.phpmyadmin.rule=Host(`phpmyadmin.jcoaching.fr`)"
+      - "traefik.http.routers.phpmyadmin.entrypoints=websecure"
+      - "traefik.http.routers.phpmyadmin.tls.certresolver=myresolver"
     depends_on:
-      mysql_db:
-        condition: service_healthy
-    restart: on-failure
+      - jcoaching-mysql
+    restart: always
     networks:
       - jcoaching-network
+      - traefik-network
 
-  # Laravel reverb container - TODO LATER
-  # laravel-reverb:
-  #   container_name: laravel-reverb
-  #   command: php artisan reverb:start
-  #   image: laravel-app-image:latest
-  #   volumes:
-  #     - .:/var/www/html
-  #   ports:
-  #     - 8080:8080
-  #   environment:
-  #     - DB_HOST=mysql_db
-  #     - DB_DATABASE=${DB_DATABASE}
-  #     - DB_USERNAME=root
-  #     - REVERB_APP_ID=${REVERB_APP_ID}
-  #     - REVERB_APP_KEY=${REVERB_APP_KEY}
-  #     - REVERB_APP_SECRET=${REVERB_APP_SECRET}
-  #   depends_on:
-  #     - laravel-app
-  #     - mysql_db
-  #   restart: always
-  #   networks:
-  #     - jcoaching-network 
-  
-volumes:
-  mysql_data:
+  # Laravel Reverb container
+  jcoaching-reverb:
+    image: hakimfidjel/jcoaching:latest
+    volumes:
+      - .env:/var/www/html/.env 
+    entrypoint: /usr/local/bin/entrypoint-reverb.sh
+    # expose:
+    #   - "8080"
+    # ports:
+    #   - "8080:8080"  # Ajouter cette ligne
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=traefik-network"
+      - "traefik.http.routers.reverb.rule=Host(`websocket.jcoaching.fr`)"
+      - "traefik.http.routers.reverb.entrypoints=websecure"
+      - "traefik.http.routers.reverb.tls.certresolver=myresolver"
+      - "traefik.http.routers.reverb.tls=true"
+      - "traefik.http.services.reverb.loadbalancer.server.port=8080"
+      - "traefik.http.services.reverb.loadbalancer.server.scheme=http"
+    depends_on:
+      jcoaching-mysql:
+        condition: service_healthy
+    restart: always
+    networks:
+      - jcoaching-network
+      - traefik-network
+
 
 networks:
   jcoaching-network:
     driver: bridge
+  traefik-network:
+    external: true
+
+volumes:
+  mysql_data:

@@ -46,6 +46,9 @@ RUN sed -ri -e 's!/var/www/!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.conf
 # Copie des fichiers du projet
 COPY . /var/www/html/
 
+# Nettoyer le cache de Composer
+RUN composer clear-cache
+
 # Installer les dépendances PHP avec Composer
 RUN composer install --no-interaction --prefer-dist --optimize-autoloader
 
@@ -72,3 +75,12 @@ RUN chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
 # (Optionnel) Optimisation pour la production
 RUN php artisan config:cache && php artisan route:cache && php artisan view:cache
+
+# Copie des script entrypoint
+COPY entrypoint-app.sh /usr/local/bin/entrypoint-app.sh
+COPY entrypoint-reverb.sh /usr/local/bin/entrypoint-reverb.sh
+
+# Donner les droits d'exécution
+RUN chmod +x /usr/local/bin/entrypoint-app.sh
+RUN chmod +x /usr/local/bin/entrypoint-reverb.sh
+
