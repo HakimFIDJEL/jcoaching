@@ -15,7 +15,7 @@
                 <div class="row align-items-center">
                     <div class="col-md">
                         <div class="content-text">
-                            <span>Coaching sportif à domicile</span>
+                            <span>Coaching sportif à domicile | Updated</span>
                             <h1>Améliorez votre forme physique et votre santé</h1>
                             <div class="entry">
                                 <p class="fw-light text-light">
