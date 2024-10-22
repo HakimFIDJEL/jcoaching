@@ -7,7 +7,7 @@ on:
     branches: [ "prod" ]
 
 jobs:
-  # Job pour exécuter les tests Laravel 
+  # Job pour exécuter les tests Laravel
   laravel-tests:
     runs-on: ubuntu-latest
 
@@ -29,21 +29,35 @@ jobs:
       - name: Install Dependencies
         run: composer install -q --no-ansi --no-interaction --no-scripts --no-progress --prefer-dist
 
-      # Étape 5 : Générer la clé d'application Laravel
+      # Étape 5 : Installer Node.js et NPM (pour construire les assets front-end)
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'  # Remplace par ta version de Node.js si nécessaire
+
+      # Étape 6 : Installer les dépendances NPM
+      - name: Install NPM dependencies
+        run: npm install
+
+      # Étape 7 : Construire les assets front-end avec Vite
+      - name: Build assets
+        run: npm run build
+
+      # Étape 8 : Générer la clé d'application Laravel
       - name: Generate key
         run: php artisan key:generate
 
-      # Étape 6 : Fixer les permissions des répertoires nécessaires
+      # Étape 9 : Fixer les permissions des répertoires nécessaires
       - name: Directory Permissions
         run: chmod -R 777 storage bootstrap/cache
 
-      # Étape 7 : Créer la base de données SQLite pour les tests
+      # Étape 10 : Créer la base de données SQLite pour les tests
       - name: Create Database
         run: |
           mkdir -p database
           touch database/database.sqlite
 
-      # Étape 8 : Exécuter les tests (Unit et Feature) via PHPUnit
+      # Étape 11 : Exécuter les tests (Unit et Feature tests) via PHPUnit
       - name: Execute tests (Unit and Feature tests) via PHPUnit/Pest
         env:
           DB_CONNECTION: sqlite
