@@ -10,6 +10,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 
 use App\Models\User;
+use App\Models\Setting;
 
 class AuthTest extends TestCase
 {
@@ -35,6 +36,8 @@ class AuthTest extends TestCase
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
+        
+        $this->setting = Setting::factory()->create();
     }
 
     // LOGIN
@@ -103,6 +106,7 @@ class AuthTest extends TestCase
             'firstname' => 'John',
             'phone' => '0123456789',
             'address_complement' => null,
+            'privacy_terms' => 'on',
         ]);
 
         $user = User::where('email', 'johndoe2@example.com')->first();

@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Workout;
 use App\Models\RestPeriod;
+use App\Models\Setting;
 
 class CalendarTest extends TestCase
 {
@@ -36,6 +37,9 @@ class CalendarTest extends TestCase
             'role' => 'admin',
             'email_verified_at' => now(),
         ]);
+
+        $this->setting = Setting::factory()->create();
+        
     }
 
     // INDEX - DONE
@@ -187,7 +191,7 @@ class CalendarTest extends TestCase
         $workout = Workout::factory()->create();
         $workout->delete();
     
-        $response = $this->actingAs($this->admin)->get('/admin/calendar/workouts/restore/' . $workout->user->id . '/' . $workout->id);
+        $response = $this->actingAs($this->admin)->get('/admin/calendar/workouts/restore/' . $workout->id);
     
         $workout->refresh();
     
@@ -199,7 +203,7 @@ class CalendarTest extends TestCase
         $workout = Workout::factory()->create();
         $workout->delete();
     
-        $response = $this->actingAs($this->admin)->get('/admin/calendar/workouts/delete/' . $workout->user->id . '/' . $workout->id);
+        $response = $this->actingAs($this->admin)->get('/admin/calendar/workouts/delete/' . $workout->id);
     
         $this->assertDatabaseMissing('workouts', [
             'id' => $workout->id,
