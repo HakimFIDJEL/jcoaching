@@ -42,37 +42,38 @@
 
 1. Clone the repository:
 
-   git clone https://github.com/yourusername/jcoaching.git
-   cd jcoaching
+- git clone https://github.com/yourusername/jcoaching.git
+- cd jcoaching
 
 2. Install PHP dependencies:
 
-   composer install
+- composer install
 
 3. Install Node modules:
 
-   npm install
+- npm install
 
 4. Copy the `.env` file:
 
-   cp .env.example .env
+- cp .env.example .env
 
 5. Set up your environment variables, including:
-   - Stripe API key.
-   - Laravel Reverb WebSocket and Pusher settings.
-   - Mail log settings.
+
+- Stripe API key.
+- Laravel Reverb WebSocket and Pusher settings.
+- Mail log settings.
 
 6. Generate the application key:
 
-   php artisan key:generate
+- php artisan key:generate
 
 7. Run migrations:
 
-   php artisan migrate
+- php artisan migrate
 
 8. Seed Database:
 
-   php artisan db:seed
+- php artisan db:seed
 
 ## 🔧 Running the Application
 
@@ -80,25 +81,25 @@ To run the application, follow these steps:
 
 1. In one terminal, start the Laravel server:
 
-   php artisan serve
+- php artisan serve
 
 2. In another terminal, run Vite:
 
-   npm run dev
+- npm run dev
 
 3. Start the queue worker:
 
-   php artisan queue:work
+- php artisan queue:work
 
 4. Start the WebSocket server:
 
-   php artisan reverb:start
+- php artisan reverb:start
 
 ## 🧪 Running Tests
 
 Unit and feature tests are available for most models and features. To run tests:
 
-   php artisan test
+- php artisan test
 
 ## 🛠️ Technologies Used
 

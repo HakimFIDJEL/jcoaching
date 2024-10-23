@@ -43,8 +43,9 @@
     {{-- About --}}
     <div id="about" class="about">
         <div class="container">
-            <h2 class="text-center">Votre allié pour une meilleure santé et des entraînements adaptés à vos besoins et à
-                votre condition physique.</h2>
+            <h2 class="text-center" style="word-break: break-word; hyphens: auto;">
+                Votre allié pour une meilleure santé et des entraînements adaptés à vos besoins et à votre condition physique.
+            </h2>
             <div class="row g-5">
                 <div class="col-md-7">
                     <div class="content-left">
