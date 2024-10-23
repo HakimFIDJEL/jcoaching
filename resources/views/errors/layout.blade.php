@@ -25,7 +25,7 @@
 
     </head>
     <body class="vh-100">
-        {{-- Import Loader --}} @include('member._elements.preloader')
+        
 
         <div class="authincation h-100">
             <div class="container h-100">
@@ -37,11 +37,6 @@
             </div>
         </div>
     
-
-        {{-- Import JS --}}
-        @vite('resources/js/jquery.min.js')
-        <script src="{{ asset('backoffice/js/custom.min.js') }}" defer></script>
-        @vite('resources/js/app.js')
 
 
 
