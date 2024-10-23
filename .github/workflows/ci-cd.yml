@@ -62,7 +62,7 @@ jobs:
         env:
           DB_CONNECTION: sqlite
           DB_DATABASE: database/database.sqlite
-        run: php artisan test | exit 0
+        run: php artisan test
 
   # Job pour construire et pousser l'image Docker 
   docker-build:
