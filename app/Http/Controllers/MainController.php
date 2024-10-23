@@ -106,7 +106,7 @@ class MainController extends Controller
         $user = Auth::user();
 
         if(!$user) {
-            return redirect()->route('auth.login')->with(['error' => 'Vous n\'êtes pas connecté']);
+            return redirect()->route('main.index');
         }
 
 
