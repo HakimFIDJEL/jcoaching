@@ -23,7 +23,7 @@
 
         <div class="row align-items-center pt-4">
             <div class="col-md-6 pb-lg-0 pb-4">
-                <img src="{{ asset('media/img3.png') }}" class="img-fluid rounded" alt="Photo de Jérôme">
+                <img src="{{ asset('media/img4.png') }}" class="img-fluid rounded" alt="Photo de Jérôme">
             </div>
             <div class="col-md-6">
                 <h5 class="text-primary fw-bold mb-4">
@@ -190,7 +190,7 @@
                     </ul>
                 </div>
                 <div class="col-md-6">
-                    <img src="{{ asset('media/img7.png') }}" class="img-fluid rounded"
+                    <img src="{{ asset('media/img5.png') }}" class="img-fluid rounded"
                         alt="Coaching à domicile">
                 </div>
             </div>
