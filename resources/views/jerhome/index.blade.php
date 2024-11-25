@@ -42,8 +42,7 @@
     <div id="about" class="about">
         <div class="container">
             <h2 class="text-center" style="word-break: break-word; hyphens: auto;">
-                Votre allié pour une meilleure santé et des entraînements adaptés à vos besoins et à votre condition physique. Améliorez votre condition physique tout en restant en bonne santé.
-
+                Améliorez votre condition physique tout en restant en bonne santé.
             </h2>
             <div class="row g-5">
                 <div class="col-md-7">
@@ -103,8 +102,7 @@
                 <div class="col-md col-md-left">
                     <div class="content-left">
                         <h2>Choisissez votre formule</h2>
-                        <p>- Optez pour la formule qui vous convient. En complément du coaching sportif à domicile, vous pouvez ajouter un suivi nutritionnel personnalisé pour optimiser vos résultats. Avec la certification 'Service à la personne', vous bénéficiez d'une réduction fiscale de 50% sur le coût de vos séances et formules, rendant votre programme encore plus attractif.</p>
-                        <p>- Je vous propose ici 2 formules, en plus des séances à l'unité que vous pouvez acheter à n'importe quel moment pour 45 euros. Prenez bien en compte le fait que grâce à ma certification "service à la personne", 50% de ce que vous payez sera déductible de vos impôts (je vous fournis une facture globale en fin d'année).</p>
+                        <p>Je vous propose ici 2 formules, en plus des séances à l'unité que vous pouvez acheter à n'importe quel moment pour 45 euros. Prenez bien en compte le fait que grâce à ma certification "service à la personne", 50% de ce que vous payez sera déductible de vos impôts (je vous fournis une facture globale en fin d'année).</p>    
                     </div>
                 </div>
 
