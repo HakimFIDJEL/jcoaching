@@ -128,6 +128,8 @@
                 <div id="experience" class="collapse" aria-labelledby="headingTwo" data-parent="#parcoursAccordion">
                     <div class="card-body">
                         <p>
+                            J'ai acquis de l'expérience depuis 2 ans en suivant une quarantaine de personnes en coaching à domicile. Avec la fac durant mon master, j'ai réalisé des stages dans des structures prestigieuses comme le Pôle Espoir Judo de Tourcoing, des clubs d'escalade, et auprès de publics variés, y compris des personnes en situation de handicap.
+                            <br>
                             J'ai réalisé des stages dans des structures prestigieuses comme le Pôle Espoir Judo de
                             Tourcoing, des clubs d'escalade, et auprès de publics variés, y compris des personnes en
                             situation de handicap.
