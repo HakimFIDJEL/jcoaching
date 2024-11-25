@@ -19,9 +19,7 @@
                             <h1>Améliorez votre forme physique et votre santé</h1>
                             <div class="entry">
                                 <p class="fw-light text-light">
-                                    Profitez d'un coaching personnalisé à domicile, adapté à vos objectifs. Que ce soit pour
-                                    perdre du poids, gagner en muscle ou améliorer votre bien-être global, JerHomeCoaching
-                                    est là pour vous accompagner.
+                                    Profitez d'un coaching personnalisé à domicile, adapté à vos objectifs : que ce soit pour une prise de masse musculaire, une perte de poids ou une amélioration de votre bien être et/ou de vos performances, JCoaching est là pour vous accompagner.
                                 </p>
 
                                 <a href="{{ route('auth.register') }}" class="btn button">Je m'inscris !</a>
@@ -44,7 +42,8 @@
     <div id="about" class="about">
         <div class="container">
             <h2 class="text-center" style="word-break: break-word; hyphens: auto;">
-                Votre allié pour une meilleure santé et des entraînements adaptés à vos besoins et à votre condition physique.
+                Votre allié pour une meilleure santé et des entraînements adaptés à vos besoins et à votre condition physique. Améliorez votre condition physique tout en restant en bonne santé.
+
             </h2>
             <div class="row g-5">
                 <div class="col-md-7">
@@ -55,10 +54,7 @@
                 <div class="col-md">
                     <div class="content-right">
                         <img src="{{ asset('media/img3.png') }}" alt="Photo 2">
-                        <p class="fw-light">Que vous soyez débutant ou confirmé, je vous propose des séances sur-mesure à domicile, pour vous
-                            permettre de progresser à votre rythme. Grâce à une expertise en fitness et en nutrition,
-                            bénéficiez d'un accompagnement global pour atteindre vos objectifs de santé et de forme
-                            physique.</p>
+                        <p class="fw-light">Que vous soyez débutant ou confirmé, je vous propose des séances sur-mesure à domicile, pour vous permettre de progresser à votre rythme. Grâce à mon expertise en préparation physique, bénéficiez d'un accompagnement qui s'adapte parfaitement à votre niveau, vos besoins et votre forme du jour.</p>
                         <a href="{{ route('main.contact') }}" class="btn button">Contactez-moi</a>
                     </div>
                 </div>
@@ -95,25 +91,6 @@
                     @endif
                 @endforeach
 
-                {{-- 
-				<div class="col-md-4">
-					<a href="img/gallery1.png" class="popup-image"><img src="img/gallery1.png"></a>
-				</div>
-				<div class="col-md-4">
-					<a href="img/gallery2.png" class="popup-image"><img src="img/gallery2.png"></a>
-				</div>
-				<div class="col-md-4">
-					<a href="img/gallery3.png" class="popup-image"><img src="img/gallery3.png"></a>
-				</div>
-				<div class="col-md-4">
-					<a href="img/gallery4.png" class="popup-image"><img src="img/gallery4.png"></a>
-				</div>
-				<div class="col-md-4">
-					<a href="img/gallery6.png" class="popup-image"><img src="img/gallery6.png"></a>
-				</div>
-				<div class="col-md-4">
-					<a href="img/gallery5.png" class="popup-image"><img src="img/gallery5.png"></a>
-				</div> --}}
             </div>
         </div>
     </div>
@@ -126,7 +103,8 @@
                 <div class="col-md col-md-left">
                     <div class="content-left">
                         <h2>Choisissez votre formule</h2>
-                        <p>Optez pour la formule qui vous convient. En complément du coaching sportif à domicile, vous pouvez ajouter un suivi nutritionnel personnalisé pour optimiser vos résultats. Avec la certification 'Service à la personne', vous bénéficiez d'une <strong>réduction fiscale de 50%</strong> sur le coût de vos séances et formules, rendant votre programme encore plus attractif.</p>
+                        <p>- Optez pour la formule qui vous convient. En complément du coaching sportif à domicile, vous pouvez ajouter un suivi nutritionnel personnalisé pour optimiser vos résultats. Avec la certification 'Service à la personne', vous bénéficiez d'une réduction fiscale de 50% sur le coût de vos séances et formules, rendant votre programme encore plus attractif.</p>
+                        <p>- Je vous propose ici 2 formules, en plus des séances à l'unité que vous pouvez acheter à n'importe quel moment pour 45 euros. Prenez bien en compte le fait que grâce à ma certification "service à la personne", 50% de ce que vous payez sera déductible de vos impôts (je vous fournis une facture globale en fin d'année).</p>
                     </div>
                 </div>
 
@@ -152,20 +130,6 @@
                     </div>
                 @endforeach
 
-                {{-- <div class="col-md">
-					<div class="content">
-						<h4>Annual</h4>
-						<p>Lorem ipsum dolor sit amet consectetur adipisicing</p>
-						<ul>
-							<li><i class="la la-check-circle"></i> Instructor</li>
-							<li><i class="la la-check-circle"></i> Free Drink</li>
-							<li><i class="la la-check-circle"></i> Get Supplement</li>
-							<li><i class="la la-check-circle"></i> Free Support</li>
-						</ul>
-						<h2>$350</h2>
-						<button class="button">Choose Now</button>
-					</div>
-				</div> --}}
             </div>
         </div>
     </div>
@@ -235,9 +199,9 @@
                 </div>
                 <div class="col-md col-sm-12">
                     <div class="open">
-                        <h3>Lundi - Dimanche</h3>
-                        <span>10:00 - 19:00</span>
-                        <h3 class="mb-5">Sauf jours fériés !</h3>
+                        <h3>Lundi - Samedi</h3>
+                        <span>08:00 - 20:00</span>
+                        <h3 class="mb-5">Jours fériés compris !</h3>
                         {{-- <span>Sauf jours fériés !</span> --}}
                     </div>
                 </div>

@@ -80,7 +80,7 @@
                     <div class="card-body">
                         <i class="fas fa-clock fa-2x mb-3 text-primary bg-dark rounded-circle p-2"></i>
                         <h6 class="card-title fw-bold">Gain de Temps</h6>
-                        <p class="card-text">Coaching à domicile ou programmes complets selon vos disponibilités.</p>
+                        <p class="card-text">Ne perdez plus de temps dans les déplacements, enfilez simplement votre tenue !</p>
                     </div>
                 </div>
             </div>
