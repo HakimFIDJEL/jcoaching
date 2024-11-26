@@ -4,7 +4,7 @@
 
 
 @section('meta_title', "Tarifs & Offres - JerHomeCoaching")
-@section('meta_description', "Des séances adaptées à ton budget ! Séances à l'unité ou abonnements avantageux. Première séance offerte. Option suivi nutritionnel dispo. Check nos tarifs !")
+@section('meta_description', "Des séances adaptées à votre budget ! Séances à l'unité ou abonnements avantageux. Première séance offerte. Option suivi nutritionnel dispo. Check nos tarifs !")
 
 @section('content')
 
@@ -89,8 +89,8 @@
             </h5>
             <hr>
             <p class="mt-4">
-                Pour optimiser tes résultats, ajoute l'option de suivi nutritionnel pour seulement {{ $nutrition_price }}
-                &euro; sur ton abonnement. Vous bénéficierez d'idées de repas chaque semaine et d'un suivi nutritionnel global.
+                Pour optimiser vos résultats, ajoutez l'option de suivi nutritionnel pour seulement {{ $nutrition_price }}
+                &euro; sur votre abonnement. Vous bénéficierez d'idées de repas chaque semaine et d'un suivi nutritionnel global.
             </p>
         </div>
 
@@ -105,7 +105,7 @@
                 l'option nutritionnelle. Améliorez votre condition physique en combinant entraînement et nutrition adaptée.
             </p>
             <p class="mt-4 text-primary">
-                Vous pouvez aussi acheter des séances à l'unité depuis ton espace membre si vous préfèrez plus de flexibilité pour seulement {{ $workout_price }} &euro; la séance.
+                Vous pouvez aussi acheter des séances à l'unité depuis votre espace membre si vous préfèrez plus de flexibilité pour seulement {{ $workout_price }} &euro; la séance.
             </p>
         </div>
 
@@ -116,7 +116,7 @@
             </h5>
             <hr>
             <p class="mt-4">
-                Grâce à la certification "Service à la personne", vous pouvez déduire 50% des frais d'abonnement de tes impôts. Pour plus d'informations, n'hésitez pas à me contacter.
+                Grâce à la certification "Service à la personne", vous pouvez déduire 50% des frais d'abonnement de vos impôts. Pour plus d'informations, n'hésitez pas à me contacter.
             </p>
         </div>
 
